@@ -28,6 +28,8 @@ Este arquivo define as instrucoes do projeto para o Codex CLI.
 - Skills/commands por IDE: `.claude/`, `.codex/`, `.gemini/`, `.cursor/`, `.kimi/`, `.antigravity/`
 - Projecto web: `acervo-formacoes/` (deploy Vercel)
 - Memory persistente: `C:\Users\mario\.claude\projects\C--Users-mario-dev-boss-ai\memory\`
+
+`docs/`, `docs/stories/`, `docs/prd/`, `docs/architecture/`, `docs/qa/` são criados **on-demand** pelos agentes (`@sm *draft`, `@pm *create-prd`, `@qa *qa-gate`). Não existem no repo até serem necessários.
 <!-- AIOX-MANAGED-END: codebase -->
 
 <!-- AIOX-MANAGED-START: commands -->

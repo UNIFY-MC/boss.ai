@@ -2,7 +2,8 @@ markdownExploder: true
 project:
   type: EXISTING_AIOX
   installedAt: '2025-01-14T00:00:00Z'
-  version: 2.1.0
+  upgradedAt: '2026-05-22T22:46:23Z'
+  version: 5.2.9
 user_profile: advanced
 qa:
   qaLocation: docs/qa
