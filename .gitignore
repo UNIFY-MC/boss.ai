@@ -1,0 +1,40 @@
+
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Dependencies
+node_modules/
+node_modules
+
+# Build & Logs
+dist/
+build/
+*.log
+logs/
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+
+# AIOX runtime / local
+.aiox-core/local/
+.claude/settings.local.json
+.aiox/install-log.txt
+.aiox/handoffs/
+.ai/
+outputs/
+
+# Vercel
+.vercel/
+
+# Materiais de cursos privados (acervo-formacoes)
+acervo-formacoes/formacoes/aulao-claude-code/materiais/
+acervo-formacoes/formacoes/claude-code-build-day/assets/checklist-seguranca.md

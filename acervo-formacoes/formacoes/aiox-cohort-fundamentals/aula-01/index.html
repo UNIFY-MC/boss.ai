@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 1 · Cockpit do Desenvolvedor — AIOX T5 · Acervo</title>
+  <meta name="description" content="Aula 1 do Cohort Fundamentals T5 — resumo, recursos e notas pessoais.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../_shared/sidebar.css">
+
+  <style>
+    :root {
+      --bg: #070709;
+      --bg-deep: #000;
+      --bg-elev: #111115;
+      --text: #edebe6;
+      --text-mid: #edebe6ad;
+      --text-dim: #edebe66b;
+      --gold: #c9b298;
+      --gold-bright: #e4d8ca;
+      --gold-dark: #8d7556;
+      --cream: #f3eee6;
+      --border: rgba(255,255,255,0.12);
+      --surface: rgba(255,255,255,0.03);
+      --glass-bg: rgba(255,255,255,0.08);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* AIOX brand override (Kinetic Limon + Geist) */
+      --gold: #d1ff00;
+      --gold-bright: #d1ff00;
+      --gold-dark: rgba(209,255,0,0.45);
+      --cream: #f4f4f4;
+      --bg: #09090a;
+      --bg-deep: #000;
+      --bg-elev: #121213;
+      --text: #f4f4f4;
+      --text-mid: rgba(244,244,244,0.65);
+      --text-dim: rgba(245,244,231,0.4);
+      --border: rgba(255,255,255,0.09);
+      --border-strong: rgba(255,255,255,0.15);
+      --font-display: 'Geist', system-ui, sans-serif;
+      --font-body: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* Sidebar variables (dark theme) */
+      --sb-bg: #121213;
+      --sb-fg: rgba(244,244,244,0.7);
+      --sb-fg-strong: #f4f4f4;
+      --sb-fg-muted: #919191;
+      --sb-border: rgba(255,255,255,0.09);
+      --sb-border-soft: rgba(255,255,255,0.05);
+      --sb-input-bg: #09090a;
+      --sb-input-border: rgba(255,255,255,0.15);
+      --sb-hover-bg: rgba(209,255,0,0.08);
+      --sb-active-bg: rgba(209,255,0,0.15);
+      --sb-accent: #d1ff00;
+      --sb-accent-dim: rgba(209,255,0,0.4);
+      --sb-badge-bg: rgba(255,255,255,0.08);
+      --sb-badge-fg: rgba(244,244,244,0.55);
+      --sb-toggle-bg: #121213;
+      --sb-font-body: 'Geist', sans-serif;
+      --sb-font-display: 'Geist', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,7,9,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; }
+    .nav-brand { font-family: var(--font-display); font-weight: 400; font-size: 20px; color: var(--gold-bright); }
+    .nav-brand span { color: var(--text-dim); font-size: 12px; margin-left: 8px; font-family: var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 24px; list-style: none; font-size: 13px; }
+    .nav-links a { color: var(--text-mid); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-bright); }
+
+    .hero { padding: 80px 0 56px; border-bottom: 1px solid var(--border); }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 6px 14px; border-radius: 2px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 400; font-size: clamp(36px, 6vw, 60px);
+      line-height: 1.05; letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      color: var(--cream);
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-bright); }
+    .hero-subtitle { font-size: 16px; color: var(--text-mid); margin-bottom: 28px; }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; font-size: 13px; color: var(--text-mid); }
+    .hero-meta strong { color: var(--cream); font-weight: 500; }
+
+    section { padding: 56px 0; }
+    .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 4vw, 36px); line-height: 1.15; color: var(--cream); margin-bottom: 36px; letter-spacing: -0.01em; }
+    .section-title em { font-style: italic; color: var(--gold-bright); }
+
+    .prose p { margin-bottom: 18px; font-size: 16px; line-height: 1.75; color: var(--text); }
+    .prose code {
+      background: var(--bg-elev);
+      color: var(--gold-bright);
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 0.9em;
+      border: 1px solid var(--border);
+      font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    }
+    .prose strong { color: var(--cream); font-weight: 600; }
+
+    .placeholder {
+      background: var(--bg-elev);
+      border: 1px dashed var(--gold-dark);
+      border-radius: 12px;
+      padding: 36px 32px;
+      text-align: center;
+      color: var(--text-mid);
+    }
+    .placeholder h3 {
+      font-family: var(--font-display);
+      font-weight: 500; font-size: 22px;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+    }
+    .placeholder p { font-size: 14px; line-height: 1.6; }
+
+    .recursos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .recurso-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .recurso-card:hover { border-color: var(--gold-dark); transform: translateY(-2px); }
+    .recurso-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); font-weight: 500; margin-bottom: 10px; }
+    .recurso-title { font-family: var(--font-display); font-weight: 500; font-size: 18px; color: var(--cream); margin-bottom: 6px; line-height: 1.25; }
+    .recurso-desc { font-size: 13px; line-height: 1.5; color: var(--text-mid); margin-bottom: 14px; flex-grow: 1; }
+    .recurso-link {
+      font-size: 12px; font-weight: 500;
+      color: var(--gold-bright);
+      border-bottom: 1px solid var(--gold-dark);
+      padding-bottom: 1px;
+      align-self: flex-start;
+    }
+    .recurso-link:hover { opacity: 0.7; }
+
+    .proxima {
+      background: linear-gradient(135deg, rgba(201,178,152,0.12) 0%, transparent 70%);
+      border: 1px solid var(--gold-dark);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-top: 32px;
+    }
+    .proxima-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 8px; }
+    .proxima-title { font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--cream); margin-bottom: 8px; }
+    .proxima-meta { font-size: 13px; color: var(--text-mid); margin-bottom: 16px; }
+    .btn { display: inline-block; padding: 8px 14px; border-radius: 2px; font-size: 12px; font-weight: 500; border: 1px solid var(--gold-dark); transition: all 0.2s; margin-right: 8px; }
+    .btn-primary { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
+    .btn-primary:hover { background: var(--gold-bright); }
+    .btn-ghost { background: transparent; color: var(--gold); }
+    .btn-ghost:hover { background: var(--glass-bg); color: var(--gold-bright); }
+
+    footer { background: var(--bg-deep); border-top: 1px solid var(--border); padding: 40px 0; font-size: 13px; color: var(--text-dim); }
+    footer .container { max-width: 1100px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-brand { font-family: var(--font-display); font-weight: 500; color: var(--gold-bright); font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+  <nav>
+    <div class="container">
+      <div class="nav-brand">Academia Lendária <span>T5 · Aula 1</span></div>
+      <ul class="nav-links">
+        <li><a href="../../../index.html">← Acervo</a></li>
+        <li><a href="../index.html">← Cohort T5</a></li>
+        <li><a href="#resumo">Resumo</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Aula 1 · 18/05/2026</div>
+      <h1>Cockpit do <em>Desenvolvedor</em></h1>
+      <p class="hero-subtitle">
+        Hierarquia CLI First e Instalação do Ambiente — base de todo o cohort.
+      </p>
+      <div class="hero-meta">
+        <span><strong>Quando:</strong> Segunda · 18h30</span>
+        <span><strong>Tipo:</strong> Aula ao vivo</span>
+        <span><strong>Estado:</strong> ✓ Concluída</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="resumo">
+    <div class="container">
+      <p class="section-label">Notas da aula</p>
+      <h2 class="section-title">Resumo · <em>aprendizagens</em></h2>
+
+      <div class="placeholder">
+        <h3>À espera do resumo</h3>
+        <p>
+          Quando me enviares o resumo desta aula (formato livre, como fizeste para a Aula 2), substituo este placeholder pelo texto formatado.<br>
+          Na pasta Drive da aula 1 já existe um ficheiro <code>resumo.jpeg</code> — se preferires, transcreve o que está lá e envia, ou conta-me por palavras tuas.
+        </p>
+      </div>
+
+      <div class="proxima">
+        <div class="proxima-label">Próxima aula · Quarta 20/05 às 18h30</div>
+        <div class="proxima-title">Vibe Coding Export</div>
+        <div class="proxima-meta">AIOX por projecto, os 12 agentes, sintaxe de comandos com <code>/agente</code> e <code>*comando</code>, chaves em <code>.env</code>.</div>
+        <a class="btn btn-primary" href="../aula-02/index.html">Abrir Aula 2 (já tem resumo)</a>
+        <a class="btn btn-ghost" href="https://fundamentals-t5.vercel.app/aula-02-seu-primeiro-agente.html" target="_blank" rel="noopener">Página oficial</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos" style="background: var(--bg-deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <p class="section-label">Onde encontrar tudo</p>
+      <h2 class="section-title">Recursos da <em>aula</em></h2>
+
+      <div class="recursos-grid">
+
+        <a class="recurso-card" href="https://fundamentals-t5.vercel.app/aula-01-cockpit-configurado.html" target="_blank" rel="noopener">
+          <span class="recurso-tag">Hub T5 · público</span>
+          <span class="recurso-title">Página da aula</span>
+          <span class="recurso-desc">Texto, comandos e checklist oficial da aula 1 publicados no hub da turma.</span>
+          <span class="recurso-link">fundamentals-t5.vercel.app →</span>
+        </a>
+
+        <a class="recurso-card" href="https://membros.academialendaria.ai/m/lessons/cohort-fundamentals-t5" target="_blank" rel="noopener">
+          <span class="recurso-tag">Membros · login</span>
+          <span class="recurso-title">Vídeo &amp; transcripts</span>
+          <span class="recurso-desc">Gravação da aula e transcrição completa na área de membros (requer login com a conta do cohort).</span>
+          <span class="recurso-link">membros.academialendaria.ai →</span>
+        </a>
+
+        <a class="recurso-card" href="https://drive.google.com/drive/folders/1yWsSPI98wDNubhLVGjLZyjssTAwyA-CG" target="_blank" rel="noopener">
+          <span class="recurso-tag">Drive · pessoal</span>
+          <span class="recurso-title">Pasta Aula 1</span>
+          <span class="recurso-desc">Ficheiros recolhidos: <code>resumo.jpeg</code> (170 KB).</span>
+          <span class="recurso-link">Drive · mazzo.ecomm →</span>
+        </a>
+
+        <a class="recurso-card" href="https://drive.google.com/file/d/1qIY_NXFiX-8Vwp8zQiUxICMmRjzsncoh/view" target="_blank" rel="noopener">
+          <span class="recurso-tag">Imagem · 170 KB</span>
+          <span class="recurso-title">resumo.jpeg</span>
+          <span class="recurso-desc">Captura do resumo desta aula — abrir directamente no Drive.</span>
+          <span class="recurso-link">Abrir imagem →</span>
+        </a>
+
+        <a class="recurso-card" href="https://github.com/SynkraAI/aiox-core" target="_blank" rel="noopener">
+          <span class="recurso-tag">Framework</span>
+          <span class="recurso-title">aiox-core (GitHub)</span>
+          <span class="recurso-desc">Repositório oficial. Comando de instalação por projecto: <code>npx aiox-core install</code>.</span>
+          <span class="recurso-link">github.com →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div>
+        <div class="footer-brand">Acervo pessoal · Mário Carvalho</div>
+        <p style="margin-top: 6px; font-size: 12px;">Notas pessoais. Conteúdo original do cohort © Academia Lendária.</p>
+      </div>
+      <div>© 2026 · Property 007, Lda.</div>
+    </div>
+  </footer>
+
+    </main>
+  </div>
+  <script src="../../../_shared/sidebar.js" defer></script>
+</body>
+</html>

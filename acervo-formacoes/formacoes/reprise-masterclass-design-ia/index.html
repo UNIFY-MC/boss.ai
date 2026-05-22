@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reprise · Masterclass Design com IA — Acervo</title>
+  <meta name="description" content="Acervo da Masterclass de Design com IA (Reprise) da Academia Lendária.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../_shared/sidebar.css">
+  <link rel="stylesheet" href="../../_shared/page-toc.css">
+
+  <style>
+    :root {
+      --bg: #070709;
+      --bg-deep: #000;
+      --bg-elev: #111115;
+      --text: #edebe6;
+      --text-mid: #edebe6ad;
+      --text-dim: #edebe66b;
+      --gold: #c9b298;
+      --gold-bright: #e4d8ca;
+      --gold-dark: #8d7556;
+      --cream: #f3eee6;
+      --border: rgba(255,255,255,0.12);
+      --surface: rgba(255,255,255,0.03);
+      --glass-bg: rgba(255,255,255,0.08);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* AIOX brand override (Kinetic Limon + Geist) */
+      --gold: #d1ff00;
+      --gold-bright: #d1ff00;
+      --gold-dark: rgba(209,255,0,0.45);
+      --cream: #f4f4f4;
+      --bg: #09090a;
+      --bg-deep: #000;
+      --bg-elev: #121213;
+      --text: #f4f4f4;
+      --text-mid: rgba(244,244,244,0.65);
+      --text-dim: rgba(245,244,231,0.4);
+      --border: rgba(255,255,255,0.09);
+      --border-strong: rgba(255,255,255,0.15);
+      --font-display: 'Geist', system-ui, sans-serif;
+      --font-body: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* Sidebar variables (dark theme) */
+      --sb-bg: #121213;
+      --sb-fg: rgba(244,244,244,0.7);
+      --sb-fg-strong: #f4f4f4;
+      --sb-fg-muted: #919191;
+      --sb-border: rgba(255,255,255,0.09);
+      --sb-border-soft: rgba(255,255,255,0.05);
+      --sb-input-bg: #09090a;
+      --sb-input-border: rgba(255,255,255,0.15);
+      --sb-hover-bg: rgba(209,255,0,0.08);
+      --sb-active-bg: rgba(209,255,0,0.15);
+      --sb-accent: #d1ff00;
+      --sb-accent-dim: rgba(209,255,0,0.4);
+      --sb-badge-bg: rgba(255,255,255,0.08);
+      --sb-badge-fg: rgba(244,244,244,0.55);
+      --sb-toggle-bg: #121213;
+      --sb-font-body: 'Geist', sans-serif;
+      --sb-font-display: 'Geist', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,7,9,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 400; font-size: 20px;
+      color: var(--gold-bright);
+    }
+    .nav-brand span {
+      color: var(--text-dim);
+      font-size: 12px; margin-left: 8px;
+      font-family: var(--font-body);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; font-size: 13px; }
+    .nav-links a { color: var(--text-mid); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-bright); }
+
+    .hero { padding: 100px 0 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .hero::before {
+      content: '';
+      position: absolute; top: -30%; right: -10%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,178,152,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 6px 14px; border-radius: 2px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 400; font-size: clamp(40px, 7vw, 76px);
+      line-height: 1.0; letter-spacing: -0.01em;
+      margin-bottom: 24px; max-width: 880px;
+      color: var(--cream);
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-bright); }
+    .hero-subtitle { font-size: 18px; line-height: 1.55; color: var(--text-mid); max-width: 640px; margin-bottom: 44px; }
+    .hero-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; max-width: 760px; }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+    .hero-meta-value { font-size: 15px; font-weight: 500; color: var(--cream); }
+
+    section { padding: 80px 0; }
+    .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 16px; max-width: 720px; }
+    .section-title em { font-style: italic; color: var(--gold-bright); }
+    .section-desc { font-size: 16px; line-height: 1.65; color: var(--text-mid); max-width: 640px; margin-bottom: 48px; }
+
+    /* Comandos */
+    .cmd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .cmd-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .cmd-num {
+      font-family: var(--font-display);
+      font-weight: 400; font-size: 36px;
+      color: var(--gold-dark);
+      line-height: 1; margin-bottom: 14px;
+    }
+    .cmd-title {
+      font-family: var(--font-display);
+      font-weight: 500; font-size: 22px;
+      color: var(--gold-bright);
+      margin-bottom: 8px;
+    }
+    .cmd-desc { font-size: 13px; line-height: 1.5; color: var(--text-mid); }
+
+    /* Plano semanas */
+    .plan-list { list-style: none; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .plan-item { display: grid; grid-template-columns: 100px 1fr; gap: 24px; padding: 20px 24px; border-bottom: 1px solid var(--border); align-items: center; }
+    .plan-item:last-child { border-bottom: none; }
+    .plan-week { font-family: var(--font-display); font-weight: 500; font-size: 18px; color: var(--cream); }
+    .plan-week small { display: block; font-size: 11px; font-family: var(--font-body); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+    .plan-tema { font-size: 15px; color: var(--text); font-weight: 500; }
+
+    /* Materiais */
+    .mat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .mat-card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; padding: 28px; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
+    .mat-card:hover { border-color: var(--gold-dark); transform: translateY(-2px); }
+    .mat-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); font-weight: 500; margin-bottom: 14px; }
+    .mat-title { font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--cream); margin-bottom: 10px; line-height: 1.25; }
+    .mat-desc { font-size: 14px; line-height: 1.55; color: var(--text-mid); margin-bottom: 20px; flex-grow: 1; }
+    .mat-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .mat-btn { font-size: 12px; font-weight: 500; padding: 8px 14px; border-radius: 2px; transition: all 0.2s; border: 1px solid var(--gold-dark); }
+    .mat-btn-primary { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
+    .mat-btn-primary:hover { background: var(--gold-bright); }
+    .mat-btn-ghost { background: transparent; color: var(--gold); }
+    .mat-btn-ghost:hover { background: var(--glass-bg); color: var(--gold-bright); }
+
+    /* Links rápidos */
+    .quick-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 24px; }
+    .quick-link { font-size: 14px; font-weight: 500; color: var(--gold-bright); border-bottom: 1px solid var(--gold-dark); padding-bottom: 2px; transition: opacity 0.2s; }
+    .quick-link:hover { opacity: 0.7; }
+
+    footer { background: var(--bg-deep); border-top: 1px solid var(--border); padding: 48px 0; font-size: 13px; color: var(--text-dim); }
+    footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-brand { font-family: var(--font-display); font-weight: 500; color: var(--gold-bright); font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+  <button class="page-toc-trigger" id="page-toc-trigger" aria-label="Abrir índice da página">☰</button>
+  <aside class="page-toc" id="page-toc">
+    <div class="page-toc-section">
+      <div class="page-toc-title">Nesta página</div>
+      <a href="#comandos"><span class="toc-num">▸</span><span class="toc-text">Os 4 comandos</span></a>
+      <a href="#plano"><span class="toc-num">▸</span><span class="toc-text">Plano · 4 semanas</span></a>
+      <a href="#materiais"><span class="toc-num">▸</span><span class="toc-text">Materiais &amp; recursos</span></a>
+      <a href="#links"><span class="toc-num">▸</span><span class="toc-text">Links rápidos</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Drive</div>
+      <a href="https://drive.google.com/drive/folders/1VmFYqsRMGMf0Wt9AtIxepLejMs96Qzvs" target="_blank" rel="noopener"><span class="toc-num">▤</span><span class="toc-text">Pasta Reprise</span></a>
+      <a href="https://drive.google.com/file/d/1YFYvvAbOlYgby9tSOh7sOadXoj_F4eZi/view" target="_blank" rel="noopener"><span class="toc-num">▤</span><span class="toc-text">design-md.zip</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Recursos</div>
+      <a href="https://github.com/SynkraAI/aiox-core" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">aiox-core (GitHub)</span></a>
+      <a href="https://brand.aioxsquad.ai/brandbook/" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">AIOX Brandbook</span></a>
+      <a href="https://chatgpt.com/g/g-67c0b3b6f5a48191a58ea60b84e35129-pesquisa-lendaria" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">Pesquisa Lendária GPT</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Relacionado</div>
+      <a href="../aiox-cohort-fundamentals/"><span class="toc-num">●</span><span class="toc-text">AIOX Cohort T5</span></a>
+    </div>
+  </aside>
+  <script>
+    document.getElementById('page-toc-trigger').addEventListener('click', () => {
+      document.getElementById('page-toc').classList.toggle('open');
+    });
+  </script>
+
+  <nav>
+    <div class="container">
+      <div class="nav-brand">Academia Lendária <span>Reprise · Acervo</span></div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">← Acervo</a></li>
+        <li><a href="#comandos">Comandos</a></li>
+        <li><a href="#plano">Plano</a></li>
+        <li><a href="#materiais">Materiais</a></li>
+        <li><a href="#links">Links</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Masterclass · Reprise</div>
+      <h1>Design <em>com IA</em></h1>
+      <p class="hero-subtitle">
+        Replay da masterclass que apresenta o sistema de comandos para criar designs, automatizar operações e orquestrar agentes — base conceptual do Cohort Fundamentals da Academia Lendária.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Data</span>
+          <span class="hero-meta-value">11/05/2026 · Domingo</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Horário</span>
+          <span class="hero-meta-value">20h00</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Formato</span>
+          <span class="hero-meta-value">Online · ao vivo</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Origem</span>
+          <span class="hero-meta-value">Academia Lendária</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Ligação</span>
+          <span class="hero-meta-value">Cohort T5</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Adicionado</span>
+          <span class="hero-meta-value">20/05/2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comandos">
+    <div class="container">
+      <p class="section-label">Os 4 comandos</p>
+      <h2 class="section-title">Sistema <em>operacional</em></h2>
+      <p class="section-desc">
+        A masterclass apresenta o framework dos quatro comandos que estruturam o processo da Academia Lendária — do contexto à execução determinística.
+      </p>
+      <div class="cmd-grid">
+        <div class="cmd-card">
+          <div class="cmd-num">01</div>
+          <h3 class="cmd-title">Tech Research</h3>
+          <p class="cmd-desc">Recolha estruturada de contexto técnico antes de qualquer decisão de produto.</p>
+        </div>
+        <div class="cmd-card">
+          <div class="cmd-num">02</div>
+          <h3 class="cmd-title">Design MD</h3>
+          <p class="cmd-desc">Decisões de design codificadas em markdown — versionáveis e consumíveis por agentes.</p>
+        </div>
+        <div class="cmd-card">
+          <div class="cmd-num">03</div>
+          <h3 class="cmd-title">Workflows</h3>
+          <p class="cmd-desc">Fluxos de trabalho repetíveis e auditáveis, sem dependência humana em cada passo.</p>
+        </div>
+        <div class="cmd-card">
+          <div class="cmd-num">04</div>
+          <h3 class="cmd-title">Scripts determinísticos</h3>
+          <p class="cmd-desc">Execução previsível: outputs reproduzíveis a partir das mesmas entradas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plano" style="background: var(--bg-deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <p class="section-label">Plano · 4 semanas</p>
+      <h2 class="section-title">Estrutura do <em>Fundamentals</em></h2>
+      <p class="section-desc">
+        A reprise enquadra como os 4 comandos se distribuem pelas 4 semanas do cohort.
+      </p>
+
+      <ul class="plan-list">
+        <li class="plan-item">
+          <div class="plan-week">Semana 1<small>Maio · 18–22</small></div>
+          <div class="plan-tema">Pesquisa &amp; Contexto</div>
+        </li>
+        <li class="plan-item">
+          <div class="plan-week">Semana 2<small>Maio · 25–29</small></div>
+          <div class="plan-tema">Design System</div>
+        </li>
+        <li class="plan-item">
+          <div class="plan-week">Semana 3<small>Junho · 01–05</small></div>
+          <div class="plan-tema">Workflows &amp; Automações</div>
+        </li>
+        <li class="plan-item">
+          <div class="plan-week">Semana 4<small>Junho · 08–12</small></div>
+          <div class="plan-tema">Agente funcional · entrega final</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="materiais">
+    <div class="container">
+      <p class="section-label">Acervo Pessoal · Drive</p>
+      <h2 class="section-title">Materiais &amp; <em>recursos</em></h2>
+      <p class="section-desc">
+        Pasta no Drive (mazzo.ecomm) com os recursos partilhados na reprise. Vai sendo enriquecida ao longo do cohort.
+      </p>
+
+      <div class="mat-grid">
+
+        <div class="mat-card">
+          <div class="mat-tag">Drive · principal</div>
+          <h3 class="mat-title">Pasta da reprise</h3>
+          <p class="mat-desc">Pasta de arquivo. Inicia com o pacote <code>design-md.zip</code> partilhado na masterclass.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://drive.google.com/drive/folders/1VmFYqsRMGMf0Wt9AtIxepLejMs96Qzvs" target="_blank" rel="noopener">Abrir Drive</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">ZIP · 200 KB</div>
+          <h3 class="mat-title">design-md.zip</h3>
+          <p class="mat-desc">Pacote do "Design MD" — skills e templates referidos na masterclass. Cópia arquivada na Drive pessoal.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://drive.google.com/file/d/1YFYvvAbOlYgby9tSOh7sOadXoj_F4eZi/view" target="_blank" rel="noopener">Drive (cópia)</a>
+            <a class="mat-btn mat-btn-ghost" href="https://drive.google.com/file/d/1VeKB800WpcfoeIMPfE_sZlmIq_qpH3Lg/view" target="_blank" rel="noopener">Original</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">GitHub</div>
+          <h3 class="mat-title">AIOX Core</h3>
+          <p class="mat-desc">Repositório oficial do framework AIOX. Comando referido: <code>npx aiox-core install</code>.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://github.com/SynkraAI/aiox-core" target="_blank" rel="noopener">GitHub</a>
+            <a class="mat-btn mat-btn-ghost" href="https://www.npmjs.com/package/aiox-core" target="_blank" rel="noopener">npm</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Brand · sub-domínio</div>
+          <h3 class="mat-title">AIOX Brandbook</h3>
+          <p class="mat-desc">Brand book oficial do ecossistema AIOX Squad — fundação do "Design MD".</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://brand.aioxsquad.ai/brandbook/" target="_blank" rel="noopener">Abrir</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">ChatGPT · GPT</div>
+          <h3 class="mat-title">Pesquisa Lendária</h3>
+          <p class="mat-desc">GPT personalizado para fazer Tech Research segundo o método da Academia Lendária.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://chatgpt.com/g/g-67c0b3b6f5a48191a58ea60b84e35129-pesquisa-lendaria" target="_blank" rel="noopener">Abrir GPT</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Página original</div>
+          <h3 class="mat-title">Reprise — Academia Lendária</h3>
+          <p class="mat-desc">Página pública da reprise no site oficial. Fonte deste arquivo.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-ghost" href="https://www.academialendaria.ai/reprise-masterclass" target="_blank" rel="noopener">Abrir página</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="links">
+    <div class="container">
+      <p class="section-label">Atalhos</p>
+      <h2 class="section-title">Links <em>rápidos</em></h2>
+      <p class="section-desc">
+        Tudo o que a reprise referencia, num só sítio.
+      </p>
+
+      <div class="quick-links">
+        <a class="quick-link" href="https://www.academialendaria.ai/reprise-masterclass" target="_blank" rel="noopener">Página da reprise</a>
+        <a class="quick-link" href="https://www.academialendaria.ai/fundamentals" target="_blank" rel="noopener">Página Fundamentals</a>
+        <a class="quick-link" href="../aiox-cohort-fundamentals/index.html">Cohort T5 (local)</a>
+        <a class="quick-link" href="https://chatgpt.com/g/g-67c0b3b6f5a48191a58ea60b84e35129-pesquisa-lendaria" target="_blank" rel="noopener">Pesquisa Lendária (GPT)</a>
+        <a class="quick-link" href="https://brand.aioxsquad.ai/brandbook/" target="_blank" rel="noopener">AIOX Brandbook</a>
+        <a class="quick-link" href="https://github.com/SynkraAI/aiox-core" target="_blank" rel="noopener">AIOX Core (GitHub)</a>
+        <a class="quick-link" href="https://drive.google.com/drive/folders/1VmFYqsRMGMf0Wt9AtIxepLejMs96Qzvs" target="_blank" rel="noopener">Drive · pasta</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div>
+        <div class="footer-brand">Acervo pessoal · Mário Carvalho</div>
+        <p style="margin-top: 6px; font-size: 12px;">Cópia local de referência. Conteúdo original © Academia Lendária.</p>
+      </div>
+      <div>© 2026 · Property 007, Lda.</div>
+    </div>
+  </footer>
+
+    </main>
+  </div>
+  <script src="../../_shared/sidebar.js" defer></script>
+</body>
+</html>

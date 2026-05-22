@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIOX Cohort Fundamentals — Turma 5 · Acervo</title>
+  <meta name="description" content="Acervo pessoal do Cohort Fundamentals da Academia Lendária — Turma 5. Calendário, materiais e progresso.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../_shared/sidebar.css">
+  <link rel="stylesheet" href="../../_shared/page-toc.css">
+
+  <style>
+    :root {
+      --bg: #070709;
+      --bg-deep: #000;
+      --bg-elev: #111115;
+      --text: #edebe6;
+      --text-mid: #edebe6ad;
+      --text-dim: #edebe66b;
+      --text-faint: #edebe638;
+      --gold: #c9b298;
+      --gold-bright: #e4d8ca;
+      --gold-dark: #8d7556;
+      --cream: #f3eee6;
+      --border: rgba(255,255,255,0.12);
+      --border-strong: rgba(255,255,255,0.24);
+      --surface: rgba(255,255,255,0.03);
+      --glass-bg: rgba(255,255,255,0.08);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* AIOX brand override (Kinetic Limon + Geist) */
+      --gold: #d1ff00;
+      --gold-bright: #d1ff00;
+      --gold-dark: rgba(209,255,0,0.45);
+      --cream: #f4f4f4;
+      --bg: #09090a;
+      --bg-deep: #000;
+      --bg-elev: #121213;
+      --text: #f4f4f4;
+      --text-mid: rgba(244,244,244,0.65);
+      --text-dim: rgba(245,244,231,0.4);
+      --border: rgba(255,255,255,0.09);
+      --border-strong: rgba(255,255,255,0.15);
+      --font-display: 'Geist', system-ui, sans-serif;
+      --font-body: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* Sidebar variables (dark theme) */
+      --sb-bg: #121213;
+      --sb-fg: rgba(244,244,244,0.7);
+      --sb-fg-strong: #f4f4f4;
+      --sb-fg-muted: #919191;
+      --sb-border: rgba(255,255,255,0.09);
+      --sb-border-soft: rgba(255,255,255,0.05);
+      --sb-input-bg: #09090a;
+      --sb-input-border: rgba(255,255,255,0.15);
+      --sb-hover-bg: rgba(209,255,0,0.08);
+      --sb-active-bg: rgba(209,255,0,0.15);
+      --sb-accent: #d1ff00;
+      --sb-accent-dim: rgba(209,255,0,0.4);
+      --sb-badge-bg: rgba(255,255,255,0.08);
+      --sb-badge-fg: rgba(244,244,244,0.55);
+      --sb-toggle-bg: #121213;
+      --sb-font-body: 'Geist', sans-serif;
+      --sb-font-display: 'Geist', sans-serif;
+    }
+
+    /* ===== TOC PANEL (right rail) ===== */
+    .page-toc {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      width: 240px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding: 18px 20px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 12px;
+      z-index: 40;
+    }
+    .page-toc-section { margin-bottom: 16px; }
+    .page-toc-section:last-child { margin-bottom: 0; }
+    .page-toc-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .page-toc a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 6px;
+      margin-left: -6px;
+      color: var(--text-mid);
+      font-size: 12px;
+      border-radius: 3px;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+    .page-toc a:hover { background: rgba(209,255,0,0.08); color: var(--gold-bright); }
+    .page-toc a .toc-num {
+      flex-shrink: 0;
+      width: 16px;
+      text-align: center;
+      color: var(--gold-dark);
+      font-weight: 600;
+    }
+    .page-toc a .toc-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .page-toc a .toc-date { flex-shrink: 0; color: var(--text-dim); font-size: 10px; }
+
+    @media (max-width: 1400px) {
+      .page-toc { display: none; }
+      .page-toc.open { display: block; }
+      .page-toc-trigger {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 50;
+        background: var(--bg-elev);
+        color: var(--gold-bright);
+        border: 1px solid var(--border);
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    }
+    @media (min-width: 1401px) {
+      .page-toc-trigger { display: none; }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { max-width: 100%; display: block; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,7,9,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: 0.01em;
+      color: var(--gold-bright);
+    }
+    .nav-brand span {
+      color: var(--text-dim);
+      font-weight: 400;
+      font-size: 12px;
+      margin-left: 8px;
+      font-family: var(--font-body);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      font-size: 13px;
+    }
+    .nav-links a { color: var(--text-mid); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-bright); }
+
+    .hero {
+      padding: 100px 0 80px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(201,178,152,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      max-width: 880px;
+      color: var(--cream);
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-bright); }
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--text-mid);
+      max-width: 620px;
+      margin-bottom: 44px;
+    }
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 24px;
+      max-width: 760px;
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+    .hero-meta-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    .stats { padding: 32px 0; background: var(--bg-elev); border-bottom: 1px solid var(--border); }
+    .stats .container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .stat-item { text-align: left; }
+    .stat-value {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1;
+      color: var(--gold-bright);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    section { padding: 80px 0; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--cream);
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+    .section-title em { font-style: italic; color: var(--gold-bright); }
+    .section-desc {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-mid);
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* ===== CALENDÁRIO ===== */
+    .calendario-week {
+      margin-bottom: 48px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .week-header {
+      padding: 16px 24px;
+      background: var(--bg-elev);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .week-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 20px;
+      color: var(--gold-bright);
+    }
+    .week-range {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    .aula-list { list-style: none; }
+    .aula {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 24px;
+      padding: 20px 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .aula:last-child { border-bottom: none; }
+    .aula:hover { background: var(--surface); }
+    .aula-date {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 22px;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+    .aula-date small {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .aula-body { display: flex; flex-direction: column; gap: 4px; }
+    .aula-tema {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .aula-meta {
+      font-size: 12px;
+      color: var(--text-mid);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .aula-tipo {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .aula-tipo.aula { background: rgba(201,178,152,0.15); color: var(--gold-bright); }
+    .aula-tipo.ps { background: rgba(255,255,255,0.06); color: var(--text-mid); }
+
+    .aula-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .aula-status {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 12px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .status-done { background: rgba(196,178,152,0.1); color: var(--gold); border: 1px solid var(--gold-dark); }
+    .status-today { background: var(--gold); color: var(--bg-deep); }
+    .status-next { color: var(--text-dim); border: 1px solid var(--border); }
+
+    .aula-link {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gold-bright);
+      border-bottom: 1px solid var(--gold-dark);
+      padding-bottom: 1px;
+      transition: opacity 0.2s;
+    }
+    .aula-link:hover { opacity: 0.7; }
+
+    @media (max-width: 640px) {
+      .aula { grid-template-columns: 60px 1fr; gap: 16px; padding: 16px; }
+      .aula-status { grid-column: 1 / -1; justify-self: flex-start; }
+      .stats .container { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===== MATERIAIS ===== */
+    .mat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .mat-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .mat-card:hover { border-color: var(--gold-dark); transform: translateY(-2px); }
+    .mat-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .mat-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 22px;
+      color: var(--cream);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .mat-desc {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-mid);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .mat-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .mat-btn {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      border: 1px solid var(--gold-dark);
+    }
+    .mat-btn-primary { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
+    .mat-btn-primary:hover { background: var(--gold-bright); }
+    .mat-btn-ghost { background: transparent; color: var(--gold); }
+    .mat-btn-ghost:hover { background: var(--glass-bg); color: var(--gold-bright); }
+
+    /* ===== LINKS RÁPIDOS ===== */
+    .quick-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-top: 24px;
+    }
+    .quick-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold-bright);
+      border-bottom: 1px solid var(--gold-dark);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .quick-link:hover { opacity: 0.7; }
+
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--gold-bright);
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+  <button class="page-toc-trigger" id="page-toc-trigger" aria-label="Abrir índice da página">☰</button>
+  <aside class="page-toc" id="page-toc">
+    <div class="page-toc-section">
+      <div class="page-toc-title">Nesta página</div>
+      <a href="#next-aula"><span class="toc-num">▸</span><span class="toc-text">Próxima aula</span></a>
+      <a href="#calendario"><span class="toc-num">▸</span><span class="toc-text">Calendário</span></a>
+      <a href="#bonus"><span class="toc-num">▸</span><span class="toc-text">Bónus T5 (8)</span></a>
+      <a href="#materiais"><span class="toc-num">▸</span><span class="toc-text">Materiais</span></a>
+      <a href="#links"><span class="toc-num">▸</span><span class="toc-text">Links rápidos</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Aulas T5</div>
+      <a href="aula-01/"><span class="toc-num">1</span><span class="toc-text">Cockpit Desenv.</span><span class="toc-date">18/05</span></a>
+      <a href="aula-02/"><span class="toc-num">2</span><span class="toc-text">Vibe Coding Export</span><span class="toc-date">20/05</span></a>
+      <a href="#calendario"><span class="toc-num">3</span><span class="toc-text">Mentalidade CEO</span><span class="toc-date">25/05</span></a>
+      <a href="#calendario"><span class="toc-num">4</span><span class="toc-text">Agentes Obedecem</span><span class="toc-date">27/05</span></a>
+      <a href="#calendario"><span class="toc-num">5</span><span class="toc-text">Blueprint Projeto</span><span class="toc-date">01/06</span></a>
+      <a href="#calendario"><span class="toc-num">6</span><span class="toc-text">Memória Permanente</span><span class="toc-date">03/06</span></a>
+      <a href="#calendario"><span class="toc-num">7</span><span class="toc-text">Múltiplos Agentes</span><span class="toc-date">08/06</span></a>
+      <a href="#calendario"><span class="toc-num">8</span><span class="toc-text">Showcase Final</span><span class="toc-date">10/06</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Drive</div>
+      <a href="https://drive.google.com/drive/folders/12AAJL8St0dy-_bzUwm8E7A21etwYn6vi" target="_blank" rel="noopener"><span class="toc-num">▤</span><span class="toc-text">Pasta T5</span></a>
+      <a href="https://drive.google.com/drive/folders/1UAAW9Kuou2YzPYgUv-Al64gxAp8tQOLA" target="_blank" rel="noopener"><span class="toc-num">▤</span><span class="toc-text">Bónus T5</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Repositórios</div>
+      <a href="https://github.com/SynkraAI/aiox-core" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">aiox-core (GitHub)</span></a>
+      <a href="https://fundamentals-t5.vercel.app/" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">Hub T5 público</span></a>
+      <a href="https://membros.academialendaria.ai/m/lessons/cohort-fundamentals-t5" target="_blank" rel="noopener"><span class="toc-num">▢</span><span class="toc-text">Membros Lendária</span></a>
+    </div>
+  </aside>
+  <script>
+    document.getElementById('page-toc-trigger').addEventListener('click', () => {
+      document.getElementById('page-toc').classList.toggle('open');
+    });
+  </script>
+
+  <nav>
+    <div class="container">
+      <div class="nav-brand">Academia Lendária <span>Acervo</span></div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">← Acervo</a></li>
+        <li><a href="#calendario">Calendário</a></li>
+        <li><a href="#bonus">Bónus</a></li>
+        <li><a href="#materiais">Materiais</a></li>
+        <li><a href="#links">Links</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">AIOX Fundamentals · Turma 5</div>
+      <h1>Cohort <em>Fundamentals</em></h1>
+      <p class="hero-subtitle">
+        Em 4 semanas, sair de utilizador de chat para ter o primeiro time de agentes funcionais, documentado e demonstrável. Sem saber programar.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Início</span>
+          <span class="hero-meta-value">18/05/2026</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Conclusão</span>
+          <span class="hero-meta-value">15/06/2026</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Duração</span>
+          <span class="hero-meta-value">4 semanas · 25h+</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Horário</span>
+          <span class="hero-meta-value">18h30</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Instrutor</span>
+          <span class="hero-meta-value">Adavio Tittoni</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Bónus</span>
+          <span class="hero-meta-value">Masterclass · Alan Nicolas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="next-aula" style="background: linear-gradient(135deg, rgba(201,178,152,0.12) 0%, rgba(201,178,152,0.04) 60%, transparent 100%); border-bottom: 1px solid var(--border); padding: 32px 0;">
+    <div class="container">
+      <div id="next-aula-content" style="display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 0 16px;">
+          <div id="next-aula-day" style="font-family: var(--font-display); font-size: 48px; font-weight: 500; color: var(--gold-bright); line-height: 1;">—</div>
+          <div id="next-aula-month" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-top: 4px;">—</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 6px;">
+            <span id="next-aula-label">Próxima sessão</span> · <span id="next-aula-countdown">—</span>
+          </div>
+          <div id="next-aula-tema" style="font-family: var(--font-display); font-weight: 500; font-size: clamp(22px, 3vw, 32px); color: var(--cream); line-height: 1.15; margin-bottom: 6px;">A carregar…</div>
+          <div id="next-aula-meta" style="font-size: 13px; color: var(--text-mid);">—</div>
+        </div>
+        <div id="next-aula-cta" style="display: flex; flex-direction: column; gap: 8px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container">
+      <div class="stat-item">
+        <div class="stat-value" id="stat-done">—</div>
+        <div class="stat-label">Aulas concluídas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">17</div>
+        <div class="stat-label">Sessões totais (8 + 9)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-week">—</div>
+        <div class="stat-label">Semana actual</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-next">—</div>
+        <div class="stat-label">Próxima sessão</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="calendario">
+    <div class="container">
+      <p class="section-label">Diário de Bordo</p>
+      <h2 class="section-title">Calendário das <em>aulas</em></h2>
+      <p class="section-desc">
+        17 sessões ao longo de 4 semanas. 8 aulas ao vivo (Seg/Qua/Dom 18h30) + 9 Pronto Socorro (Ter/Sex). Estado actualizado automaticamente pela data corrente. Pastas Drive ligadas em cada linha quando há materiais.
+      </p>
+      <div style="padding: 14px 18px; background: rgba(201,178,152,0.06); border-left: 3px solid var(--gold-dark); border-radius: 4px; margin-bottom: 32px; font-size: 13px; color: var(--text-mid); line-height: 1.55;">
+        <strong style="color: var(--gold);">Fluxo:</strong> sempre que adicionares ficheiros à pasta de uma aula no Drive, dizes <em>"actualiza aula N"</em> e eu refresco a contagem/links aqui.
+      </div>
+
+      <!-- ===== SEMANA 1 ===== -->
+      <div class="calendario-week">
+        <div class="week-header">
+          <span class="week-title">Semana 1</span>
+          <span class="week-range">18 — 22 de Maio · Setup &amp; Onboarding</span>
+        </div>
+        <ul class="aula-list">
+          <li class="aula" data-date="2026-05-18">
+            <div class="aula-date">18/05<small>Segunda</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Cockpit do Desenvolvedor <span style="color: var(--text-dim); font-weight: 400; font-size: 13px;">· Hierarquia CLI First e Instalação do Ambiente</span></div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 1</span>
+                <span>18h30</span>
+                <a class="aula-link" href="aula-01/index.html"><strong>📖 Resumo &amp; recursos →</strong></a>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-01-cockpit-configurado.html" target="_blank" rel="noopener">Hub público</a>
+                <a class="aula-link" href="https://membros.academialendaria.ai/m/lessons/cohort-fundamentals-t5" target="_blank" rel="noopener">Membros (vídeo)</a>
+                <a class="aula-link" href="https://drive.google.com/drive/folders/1yWsSPI98wDNubhLVGjLZyjssTAwyA-CG" target="_blank" rel="noopener">📁 Drive</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-05-19">
+            <div class="aula-date">19/05<small>Terça</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS0 — Onboarding Técnico</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+          <li class="aula" data-date="2026-05-20">
+            <div class="aula-date">20/05<small>Quarta</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Vibe Coding Export</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 2</span>
+                <span>18h30</span>
+                <a class="aula-link" href="aula-02/index.html"><strong>📖 Resumo &amp; recursos →</strong></a>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-02-seu-primeiro-agente.html" target="_blank" rel="noopener">Hub público</a>
+                <a class="aula-link" href="https://membros.academialendaria.ai/m/lessons/cohort-fundamentals-t5" target="_blank" rel="noopener">Membros (vídeo)</a>
+                <a class="aula-link" href="https://drive.google.com/drive/folders/1qAVbsWADKBikripRbNc_ntyF6TnGg_yH" target="_blank" rel="noopener">📁 Drive (2 ficheiros)</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ===== SEMANA 2 ===== -->
+      <div class="calendario-week">
+        <div class="week-header">
+          <span class="week-title">Semana 2</span>
+          <span class="week-range">25 — 29 de Maio · Estrutura AIOX</span>
+        </div>
+        <ul class="aula-list">
+          <li class="aula" data-date="2026-05-25">
+            <div class="aula-date">25/05<small>Segunda</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Mentalidade CEO</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 3</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-03-mentalidade-ceo.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-05-26">
+            <div class="aula-date">26/05<small>Terça</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS1</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+          <li class="aula" data-date="2026-05-27">
+            <div class="aula-date">27/05<small>Quarta</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Agentes Que Obedecem</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 4</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-04-agentes-que-obedecem.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-05-29">
+            <div class="aula-date">29/05<small>Sexta</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS2</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ===== SEMANA 3 ===== -->
+      <div class="calendario-week">
+        <div class="week-header">
+          <span class="week-title">Semana 3</span>
+          <span class="week-range">01 — 05 de Junho · PRD</span>
+        </div>
+        <ul class="aula-list">
+          <li class="aula" data-date="2026-06-01">
+            <div class="aula-date">01/06<small>Domingo</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Blueprint do Projeto</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 5</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-05-blueprint-do-projeto.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-06-02">
+            <div class="aula-date">02/06<small>Segunda</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS3</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+          <li class="aula" data-date="2026-06-03">
+            <div class="aula-date">03/06<small>Terça</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Memória Permanente</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 6</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-06-memoria-permanente.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-06-05">
+            <div class="aula-date">05/06<small>Sexta</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS4</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ===== SEMANA 4 ===== -->
+      <div class="calendario-week">
+        <div class="week-header">
+          <span class="week-title">Semana 4</span>
+          <span class="week-range">08 — 12 de Junho · Capstone &amp; Subagentes</span>
+        </div>
+        <ul class="aula-list">
+          <li class="aula" data-date="2026-06-08">
+            <div class="aula-date">08/06<small>Domingo</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Múltiplos Agentes · Squads</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 7</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-07-multiplos-agentes-squads.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-06-09">
+            <div class="aula-date">09/06<small>Segunda</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS5</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+          <li class="aula" data-date="2026-06-10">
+            <div class="aula-date">10/06<small>Terça</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Showcase Final</div>
+              <div class="aula-meta">
+                <span class="aula-tipo aula">Aula 8</span>
+                <span>18h30</span>
+                <a class="aula-link" href="https://fundamentals-t5.vercel.app/aula-08-showcase-final.html" target="_blank" rel="noopener">Página da aula →</a>
+              </div>
+            </div>
+            <div class="aula-actions">
+              <div class="aula-status"></div>
+            </div>
+          </li>
+          <li class="aula" data-date="2026-06-12">
+            <div class="aula-date">12/06<small>Sexta</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS6</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ===== EXTRAS ===== -->
+      <div class="calendario-week">
+        <div class="week-header">
+          <span class="week-title">Encerramento &amp; Bónus</span>
+          <span class="week-range">até 15 de Junho</span>
+        </div>
+        <ul class="aula-list">
+          <li class="aula" data-date="2026-06-15">
+            <div class="aula-date">—<small>até 15/06</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">PS7 &amp; PS8 — Sessões finais</div>
+              <div class="aula-meta"><span class="aula-tipo ps">Pronto Socorro</span><span>18h30</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+          <li class="aula" data-date="2026-06-30">
+            <div class="aula-date">—<small>A anunciar</small></div>
+            <div class="aula-body">
+              <div class="aula-tema">Masterclass de Design — Alan Nicolas</div>
+              <div class="aula-meta"><span class="aula-tipo aula">Bónus T5</span><span>Ao vivo · sem gravação prévia</span></div>
+            </div>
+            <div class="aula-status"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="bonus">
+    <div class="container">
+      <p class="section-label">Pacote Turma 5</p>
+      <h2 class="section-title">Bónus <em>exclusivos</em></h2>
+      <p class="section-desc">
+        Lista factual dos 8 bónus anunciados na página oficial. Estado actualizado conforme entregas e datas confirmadas.
+      </p>
+
+      <style>
+        .bonus-list { list-style: none; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        .bonus-item { display: grid; grid-template-columns: 32px 1fr auto; gap: 20px; padding: 18px 24px; border-bottom: 1px solid var(--border); align-items: center; }
+        .bonus-item:last-child { border-bottom: none; }
+        .bonus-num { font-family: var(--font-display); font-size: 22px; color: var(--gold-dark); font-weight: 500; }
+        .bonus-name { font-size: 15px; font-weight: 500; color: var(--cream); margin-bottom: 2px; }
+        .bonus-sub { font-size: 12px; color: var(--text-dim); }
+        .bonus-state {
+          font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+          padding: 5px 10px; border-radius: 2px; white-space: nowrap;
+        }
+        .state-on-drive { background: rgba(126,234,234,0.1); color: var(--gold-bright); border: 1px solid var(--gold-dark); }
+        .state-pending { color: var(--text-dim); border: 1px solid var(--border); }
+        .state-credit { color: var(--gold); border: 1px solid var(--gold-dark); }
+        .state-event { background: var(--gold); color: var(--bg-deep); }
+        .bonus-link { font-size: 11px; font-weight: 500; color: var(--gold-bright); border-bottom: 1px solid var(--gold-dark); padding-bottom: 1px; margin-top: 4px; display: inline-block; }
+        @media (max-width: 640px) {
+          .bonus-item { grid-template-columns: 28px 1fr; }
+          .bonus-state { grid-column: 1 / -1; justify-self: flex-start; margin-top: 4px; }
+        }
+      </style>
+
+      <ul class="bonus-list">
+        <li class="bonus-item">
+          <span class="bonus-num">01</span>
+          <div>
+            <div class="bonus-name">Cupom 100% Cashback no AIOX Advanced</div>
+            <div class="bonus-sub">Crédito integral para a próxima turma do Advanced (validade 1 ano).</div>
+          </div>
+          <span class="bonus-state state-credit">Crédito · não-ficheiro</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">02</span>
+          <div>
+            <div class="bonus-name">Biblioteca de Agentes AIOX</div>
+            <div class="bonus-sub">Colecção de agentes pré-configurados para reutilização em projectos.</div>
+          </div>
+          <span class="bonus-state state-pending">Aguarda partilha</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">03</span>
+          <div>
+            <div class="bonus-name">Acesso Antecipado ao Advanced</div>
+            <div class="bonus-sub">Prioridade na fila da próxima turma para quem completa 100% do Fundamentals.</div>
+          </div>
+          <span class="bonus-state state-credit">Direito · não-ficheiro</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">04</span>
+          <div>
+            <div class="bonus-name">Squad Design</div>
+            <div class="bonus-sub">Design system: tokens, atomic design e governança.</div>
+          </div>
+          <span class="bonus-state state-pending">Aguarda partilha</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">05</span>
+          <div>
+            <div class="bonus-name">Squad Tech-Research</div>
+            <div class="bonus-sub">10 agentes especializados para decisões de stack e validação de hipóteses.<br><a class="bonus-link" href="https://drive.google.com/drive/folders/1UAAW9Kuou2YzPYgUv-Al64gxAp8tQOLA" target="_blank" rel="noopener">marketing-deepdive.md já na Drive →</a></div>
+          </div>
+          <span class="bonus-state state-on-drive">✓ Parcial · Drive</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">06</span>
+          <div>
+            <div class="bonus-name">Squad Spy</div>
+            <div class="bonus-sub">Análise de concorrência, DNA viral, battle card e gap analysis.</div>
+          </div>
+          <span class="bonus-state state-pending">Aguarda partilha</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">07</span>
+          <div>
+            <div class="bonus-name">Squad Copy — Hormozi + Russell Brunson</div>
+            <div class="bonus-sub">Agentes especializados em oferta e funil de vendas.</div>
+          </div>
+          <span class="bonus-state state-pending">Aguarda partilha</span>
+        </li>
+        <li class="bonus-item">
+          <span class="bonus-num">08</span>
+          <div>
+            <div class="bonus-name">Masterclass ao Vivo de Design — Alan Nicolas</div>
+            <div class="bonus-sub">Aula exclusiva sem gravação prévia. Data a anunciar durante a turma.</div>
+          </div>
+          <span class="bonus-state state-event">Evento futuro</span>
+        </li>
+      </ul>
+
+      <div style="margin-top: 32px; padding: 20px 24px; background: rgba(201,178,152,0.06); border-left: 3px solid var(--gold-dark); border-radius: 6px;">
+        <p style="font-size: 13px; color: var(--text-mid); line-height: 1.55; margin-bottom: 14px;">
+          <strong style="color: var(--gold);">Nota:</strong> os bónus marcados como <em>"Aguarda partilha"</em> serão entregues via WhatsApp, área de membros ou novas pastas Drive ao longo das 4 semanas. Sempre que receberes links novos, dizes e eu actualizo o estado + copio para a Drive pessoal.
+        </p>
+        <a class="mat-btn mat-btn-primary" style="display: inline-block;" href="https://wa.me/5547988583959?text=Ol%C3%A1%20Alana%2C%20tudo%20bem%3F%20Sou%20aluno%20da%20Turma%205%20do%20Fundamentals.%20Estou%20%C3%A0%20espera%20dos%20b%C3%B3nus%3A%20Biblioteca%20de%20Agentes%20AIOX%2C%20Squad%20Design%2C%20Squad%20Spy%20e%20Squad%20Copy.%20Podes%20confirmar%20quando%20s%C3%A3o%20partilhados%3F%20Obrigado!" target="_blank" rel="noopener">Pedir bónus pendentes · WhatsApp Alana</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="materiais" style="background: var(--bg-deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <p class="section-label">Acervo Pessoal · Drive</p>
+      <h2 class="section-title">Materiais da <em>formação</em></h2>
+      <p class="section-desc">
+        Pasta organizada na Drive (mazzo.ecomm). Será actualizada ao longo das 4 semanas com gravações, slides, exercícios e entregáveis (PRD, código, demos).
+      </p>
+
+      <div class="mat-grid">
+
+        <div class="mat-card">
+          <div class="mat-tag">Drive · mazzo.ecomm</div>
+          <h3 class="mat-title">Pasta principal · T5</h3>
+          <p class="mat-desc">Estrutura por pastas: <strong>Aula 1</strong>, <strong>Aula 2</strong>, <strong>Bónus T5 PRESENTES</strong>, <strong>Vários</strong>. Vai crescendo a cada sessão.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://drive.google.com/drive/folders/12AAJL8St0dy-_bzUwm8E7A21etwYn6vi" target="_blank" rel="noopener">Abrir Drive</a>
+            <a class="mat-btn mat-btn-ghost" href="https://drive.google.com/drive/folders/1wRoCw1-D7DA2drqApqfoKaR0MrhG7exg" target="_blank" rel="noopener">Vários</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Bónus T5 · presentes</div>
+          <h3 class="mat-title">Bónus T5 PRESENTES</h3>
+          <p class="mat-desc">Pasta de bónus partilhada pelo Diogo (squads · research · agents · docs). Cópia arquivada na Drive pessoal — começa com <code>marketing-deepdive.md</code> e cresce ao longo do cohort.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://drive.google.com/drive/folders/1UAAW9Kuou2YzPYgUv-Al64gxAp8tQOLA" target="_blank" rel="noopener">Drive (cópia)</a>
+            <a class="mat-btn mat-btn-ghost" href="https://drive.google.com/drive/folders/1gHG3GDib8JwSJGvmaE5xDzD49AAPh580" target="_blank" rel="noopener">Original</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Hub T5 · alunos</div>
+          <h3 class="mat-title">Hub de aulas — fundamentals-t5</h3>
+          <p class="mat-desc">Página própria da turma, com uma sub-página por aula publicada (texto, comandos, checklists). Vai sendo actualizada à medida que as aulas decorrem.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-primary" href="https://fundamentals-t5.vercel.app/" target="_blank" rel="noopener">Abrir hub</a>
+            <a class="mat-btn mat-btn-ghost" href="https://fundamentals-t5.vercel.app/aula-01-cockpit-configurado.html" target="_blank" rel="noopener">Aula 1</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Página oficial</div>
+          <h3 class="mat-title">Academia Lendária — Fundamentals</h3>
+          <p class="mat-desc">Página da turma (pública), com programa, depoimentos, FAQ. Fonte original deste acervo.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-ghost" href="https://www.academialendaria.ai/fundamentals" target="_blank" rel="noopener">Abrir página</a>
+            <a class="mat-btn mat-btn-ghost" href="https://cohort.lendario.ai/" target="_blank" rel="noopener">Lista de espera</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-tag">Entregáveis · meta</div>
+          <h3 class="mat-title">Portfolio final</h3>
+          <p class="mat-desc">Saídas previstas: Cockpit configurado · Projecto no GitHub com primeiro commit · PRD documentado · 1 agente funcional com demo pública.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-ghost" href="https://drive.google.com/drive/folders/12AAJL8St0dy-_bzUwm8E7A21etwYn6vi" target="_blank" rel="noopener">Guardar em Drive</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="links">
+    <div class="container">
+      <p class="section-label">Ecossistema Lendário</p>
+      <h2 class="section-title">Links <em>rápidos</em></h2>
+      <p class="section-desc">
+        Ferramentas, redes e ecosystem da Academia Lendária. Mantidos aqui para acesso rápido durante o cohort.
+      </p>
+
+      <div class="quick-links">
+        <a class="quick-link" href="https://fundamentals-t5.vercel.app/" target="_blank" rel="noopener">Hub T5 (alunos)</a>
+        <a class="quick-link" href="https://www.academialendaria.ai/fundamentals" target="_blank" rel="noopener">Página Fundamentals</a>
+        <a class="quick-link" href="https://cohort.lendario.ai/" target="_blank" rel="noopener">cohort.lendario.ai</a>
+        <a class="quick-link" href="https://lendario.ai/chat" target="_blank" rel="noopener">Chat Lendário</a>
+        <a class="quick-link" href="https://agencialendaria.ai" target="_blank" rel="noopener">Agência Lendária</a>
+        <a class="quick-link" href="https://superagentes.ai" target="_blank" rel="noopener">Super Agentes</a>
+        <a class="quick-link" href="https://www.youtube.com/@Academia.Lendaria" target="_blank" rel="noopener">YouTube</a>
+        <a class="quick-link" href="https://www.instagram.com/academialendaria" target="_blank" rel="noopener">Instagram</a>
+        <a class="quick-link" href="https://www.linkedin.com/company/academia-lend-r-ia/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="quick-link" href="https://wa.me/5547988583959" target="_blank" rel="noopener">WhatsApp Alana</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div>
+        <div class="footer-brand">Acervo pessoal · Mário Carvalho</div>
+        <p style="margin-top: 6px; font-size: 12px;">Cópia local de referência. Conteúdo original © Academia Lendária · Adavio Tittoni</p>
+      </div>
+      <div>© 2026 · Property 007, Lda.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const monthsShort = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      const today = new Date(); today.setHours(0,0,0,0);
+      const aulas = document.querySelectorAll('.aula');
+      let done = 0;
+      let nextLi = null;
+      let nextDate = null;
+      let todayLi = null;
+
+      aulas.forEach(li => {
+        const date = li.dataset.date;
+        const status = li.querySelector('.aula-status');
+        if (!date) return;
+        const d = new Date(date + 'T00:00:00'); d.setHours(0,0,0,0);
+        if (d < today) {
+          status.className = 'aula-status status-done';
+          status.textContent = '✓ Concluída';
+          done++;
+        } else if (d.getTime() === today.getTime()) {
+          status.className = 'aula-status status-today';
+          status.textContent = '● Hoje';
+          if (!todayLi) todayLi = li;
+        } else {
+          status.className = 'aula-status status-next';
+          status.textContent = 'Próxima';
+          if (!nextLi) { nextLi = li; nextDate = d; }
+        }
+      });
+
+      // Stats
+      document.getElementById('stat-done').textContent = done + ' / 17';
+      const start = new Date('2026-05-18T00:00:00');
+      const diffWeeks = Math.floor((today - start) / (7 * 24 * 60 * 60 * 1000)) + 1;
+      document.getElementById('stat-week').textContent =
+        (diffWeeks >= 1 && diffWeeks <= 4) ? diffWeeks + ' / 4'
+        : (diffWeeks < 1 ? 'Pré-início' : 'Concluído');
+
+      // Próxima aula banner — prioriza aula de hoje, senão próxima
+      const target = todayLi || nextLi;
+      const tdate = todayLi ? today : nextDate;
+      const banner = document.getElementById('next-aula-content');
+      if (!target) {
+        document.getElementById('next-aula-tema').textContent = 'Cohort concluído';
+        document.getElementById('next-aula-meta').textContent = '17 / 17 sessões realizadas';
+        document.getElementById('next-aula-countdown').textContent = 'Concluído';
+        document.getElementById('stat-next').textContent = '—';
+      } else {
+        const tema = target.querySelector('.aula-tema').textContent.trim();
+        const tipoEl = target.querySelector('.aula-tipo');
+        const tipo = tipoEl ? tipoEl.textContent.trim() : '';
+        const horarioEl = target.querySelector('.aula-meta span:nth-of-type(2)');
+        const horario = horarioEl ? horarioEl.textContent.trim() : '';
+        const pageLink = target.querySelector('a.aula-link[href*="fundamentals-t5"]');
+        const driveLink = target.querySelector('a.aula-link[href*="drive.google"]');
+
+        document.getElementById('next-aula-day').textContent = String(tdate.getDate()).padStart(2,'0');
+        document.getElementById('next-aula-month').textContent = monthsShort[tdate.getMonth()];
+
+        const isToday = todayLi !== null;
+        const diffDays = Math.round((tdate - today) / (1000 * 60 * 60 * 24));
+        let countdown;
+        if (isToday) countdown = 'Hoje';
+        else if (diffDays === 1) countdown = 'Amanhã';
+        else countdown = 'em ' + diffDays + ' dias';
+        document.getElementById('next-aula-countdown').textContent = countdown;
+        document.getElementById('next-aula-label').textContent = isToday ? 'A acontecer' : 'Próxima sessão';
+
+        document.getElementById('next-aula-tema').textContent = tema;
+        document.getElementById('next-aula-meta').textContent = [tipo, horario].filter(Boolean).join(' · ');
+
+        document.getElementById('stat-next').textContent =
+          String(tdate.getDate()).padStart(2,'0') + '/' + String(tdate.getMonth()+1).padStart(2,'0');
+
+        // CTAs
+        const cta = document.getElementById('next-aula-cta');
+        if (pageLink) {
+          const a = document.createElement('a');
+          a.href = pageLink.href; a.target = '_blank'; a.rel = 'noopener';
+          a.className = 'mat-btn mat-btn-primary';
+          a.textContent = 'Abrir página';
+          cta.appendChild(a);
+        }
+        if (driveLink) {
+          const a = document.createElement('a');
+          a.href = driveLink.href; a.target = '_blank'; a.rel = 'noopener';
+          a.className = 'mat-btn mat-btn-ghost';
+          a.textContent = '📁 Drive';
+          cta.appendChild(a);
+        }
+        if (isToday) banner.style.background = 'rgba(201,178,152,0.18)';
+      }
+    })();
+  </script>
+
+    </main>
+  </div>
+  <script src="../../_shared/sidebar.js" defer></script>
+</body>
+</html>

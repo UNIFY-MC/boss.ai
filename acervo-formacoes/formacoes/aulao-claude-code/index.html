@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aulão Claude Code na Prática — LegalCode</title>
+  <meta name="description" content="Aulão Claude Code na Prática com Lígia Covre. Comunidade LegalCode. 12/05 às 20h.">
+
+  <!-- Google Fonts (substitutes for Legora tokens) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@300;400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../_shared/sidebar.css">
+  <style>
+    /* ========================================
+       LEGORA DESIGN SYSTEM — Tokens
+       ======================================== */
+    :root {
+      /* Colors */
+      --color-inkwell-black: #000000;
+      --color-canvas-white: #fefefc;
+      --color-text-gray: #0a0a0a;
+      --color-pale-ash: #ebf5ed;
+      --color-shadowstone-gray: #6b6b6b;
+      --color-whisper-gray: #444444;
+      --color-parchment-tan: #e1d5b6;
+      --color-sky-tint: #bdd4f0;
+      --color-steel-blue: #98a7aa;
+
+      /* Typography */
+      --font-display: 'Playfair Display', 'Lora', Georgia, serif;
+      --font-heading: 'Lora', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      /* Spacing */
+      --section-gap: 80px;
+      --card-padding: 16px;
+      --element-gap: 10px;
+
+      /* Radius */
+      --radius-cards: 8px;
+      --radius-inputs: 8px;
+      --radius-buttons: 2px;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text-gray);
+      background-color: var(--color-canvas-white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 254, 252, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 16px 0;
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      color: var(--color-inkwell-black);
+    }
+
+    .nav-brand span {
+      color: var(--color-shadowstone-gray);
+      font-weight: 400;
+      font-size: 13px;
+      margin-left: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .nav-links a {
+      color: var(--color-whisper-gray);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-inkwell-black);
+    }
+
+    .nav-cta {
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white) !important;
+      padding: 8px 20px;
+      border-radius: var(--radius-buttons);
+      font-size: 13px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      padding: 120px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(225, 213, 182, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-parchment-tan);
+      border: 1px solid rgba(225, 213, 182, 0.3);
+      padding: 6px 16px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(40px, 7vw, 80px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--color-parchment-tan);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.5;
+      color: var(--color-steel-blue);
+      max-width: 560px;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-meta-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-shadowstone-gray);
+    }
+
+    .hero-meta-value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-canvas-white);
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--color-parchment-tan);
+      color: var(--color-inkwell-black);
+      padding: 14px 36px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: var(--radius-buttons);
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-cta:hover {
+      background: #d4c8a8;
+    }
+
+    /* ========================================
+       SECTION COMMON
+       ======================================== */
+    section {
+      padding: var(--section-gap) 0;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-shadowstone-gray);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: clamp(28px, 4vw, 36px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--color-inkwell-black);
+      margin-bottom: 24px;
+      max-width: 640px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-whisper-gray);
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+
+    /* ========================================
+       FILOSOFIA — Por que construir isso
+       ======================================== */
+    .filosofia {
+      background: var(--color-pale-ash);
+    }
+
+    .filosofia-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 48px;
+    }
+
+    .filosofia-card {
+      background: var(--color-canvas-white);
+      border-radius: var(--radius-cards);
+      padding: 32px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .filosofia-card-number {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 32px;
+      color: var(--color-parchment-tan);
+      margin-bottom: 16px;
+    }
+
+    .filosofia-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.3;
+      color: var(--color-inkwell-black);
+      margin-bottom: 12px;
+    }
+
+    .filosofia-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-whisper-gray);
+    }
+
+    /* ========================================
+       CITAÇÕES (blockquotes filosóficos)
+       ======================================== */
+    .reflexoes {
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      padding: 100px 0;
+    }
+
+    .reflexoes .section-label {
+      color: var(--color-parchment-tan);
+    }
+
+    .reflexoes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .reflexao-item {
+      border-left: 2px solid var(--color-parchment-tan);
+      padding-left: 24px;
+    }
+
+    .reflexao-item blockquote {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.5;
+      color: rgba(254, 254, 252, 0.85);
+      font-style: italic;
+    }
+
+    .reflexao-item cite {
+      display: block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-style: normal;
+      color: var(--color-shadowstone-gray);
+      letter-spacing: 0.02em;
+    }
+
+    /* ========================================
+       O QUE VOCÊ VAI APRENDER
+       ======================================== */
+    .aprender-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .aprender-card {
+      background: var(--color-pale-ash);
+      border-radius: var(--radius-cards);
+      padding: 28px;
+      transition: transform 0.2s;
+    }
+
+    .aprender-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .aprender-icon {
+      font-size: 24px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .aprender-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--color-inkwell-black);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .aprender-card p {
+      font-size: 14px;
+      color: var(--color-whisper-gray);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       CONCEITOS — IDE, Node, Git, GitHub
+       ======================================== */
+    .conceitos {
+      background: var(--color-pale-ash);
+    }
+
+    .conceitos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .conceito-card {
+      background: var(--color-canvas-white);
+      border-radius: var(--radius-cards);
+      padding: 32px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conceito-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--color-inkwell-black);
+      margin-bottom: 8px;
+    }
+
+    .conceito-card .analogia {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-parchment-tan);
+      margin-bottom: 12px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .conceito-card p {
+      font-size: 14px;
+      color: var(--color-whisper-gray);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .conceito-card a.conceito-link {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-inkwell-black);
+      border-bottom: 1px solid var(--color-inkwell-black);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+
+    .conceito-card a.conceito-link:hover { opacity: 0.6; }
+
+    /* ========================================
+       PRÉ-REQUISITOS — Instalação
+       ======================================== */
+    .prereqs {
+      background: var(--color-canvas-white);
+    }
+
+    .prereqs-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 48px;
+      max-width: 720px;
+    }
+
+    .prereq-step {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .prereq-number {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 18px;
+    }
+
+    .prereq-content h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--color-inkwell-black);
+      margin-bottom: 6px;
+    }
+
+    .prereq-content p {
+      font-size: 14px;
+      color: var(--color-whisper-gray);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .prereq-content code {
+      display: block;
+      background: var(--color-inkwell-black);
+      color: var(--color-pale-ash);
+      padding: 12px 16px;
+      border-radius: var(--radius-cards);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      overflow-x: auto;
+    }
+
+    .prereq-content .download-link {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-inkwell-black);
+      border-bottom: 1px solid var(--color-inkwell-black);
+      padding-bottom: 2px;
+      margin-top: 4px;
+    }
+
+    /* ========================================
+       COMPARATIVO — Ferramentas de IA
+       ======================================== */
+    .comparativo {
+      background: var(--color-parchment-tan);
+    }
+
+    .comparativo .section-title { color: var(--color-inkwell-black); }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 48px;
+      background: var(--color-canvas-white);
+      border-radius: var(--radius-cards);
+      overflow: hidden;
+    }
+
+    .compare-table th {
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 14px 20px;
+      text-align: left;
+    }
+
+    .compare-table td {
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--color-text-gray);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .compare-table .tool-name {
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .compare-table .doc-link {
+      font-size: 12px;
+      color: var(--color-shadowstone-gray);
+      border-bottom: 1px solid var(--color-shadowstone-gray);
+      padding-bottom: 1px;
+    }
+
+    .compare-table .doc-link:hover {
+      color: var(--color-inkwell-black);
+      border-color: var(--color-inkwell-black);
+    }
+
+    /* ========================================
+       IDEs — Download
+       ======================================== */
+    .ides-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .ide-card {
+      background: var(--color-pale-ash);
+      border-radius: var(--radius-cards);
+      padding: 28px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .ide-card:hover { transform: translateY(-2px); }
+
+    .ide-card h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--color-inkwell-black);
+      margin-bottom: 8px;
+    }
+
+    .ide-card p {
+      font-size: 13px;
+      color: var(--color-whisper-gray);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .ide-card .ide-link {
+      display: inline-block;
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      padding: 10px 24px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-buttons);
+      transition: opacity 0.2s;
+    }
+
+    .ide-card .ide-link:hover { opacity: 0.85; }
+
+    /* ========================================
+       INSCRIÇÃO — Regras e Pagamento
+       ======================================== */
+    .inscricao {
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+    }
+
+    .inscricao .section-label { color: var(--color-parchment-tan); }
+
+    .inscricao-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 48px;
+    }
+
+    .inscricao-info h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .inscricao-info p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(254,254,252,0.75);
+      margin-bottom: 16px;
+    }
+
+    .preco {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--color-parchment-tan);
+      margin-bottom: 8px;
+    }
+
+    .preco-nota {
+      font-size: 13px;
+      color: var(--color-shadowstone-gray);
+      margin-bottom: 24px;
+    }
+
+    .pix-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-cards);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .pix-box-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-shadowstone-gray);
+      margin-bottom: 8px;
+    }
+
+    .pix-key {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      color: var(--color-parchment-tan);
+      word-break: break-all;
+    }
+
+    .pix-titular {
+      font-size: 13px;
+      color: rgba(254,254,252,0.6);
+      margin-top: 8px;
+    }
+
+    .regras-list {
+      list-style: none;
+    }
+
+    .regras-list li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(254,254,252,0.75);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      gap: 12px;
+    }
+
+    .regras-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      background: var(--color-parchment-tan);
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+
+    .regras-list li strong {
+      color: var(--color-canvas-white);
+    }
+
+    /* ========================================
+       SOBRE — Instrutora e Apoio
+       ======================================== */
+    .sobre {
+      background: var(--color-parchment-tan);
+    }
+
+    .sobre .section-title { color: var(--color-inkwell-black); }
+
+    .sobre-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 48px;
+      margin-top: 48px;
+    }
+
+    .sobre-instrutora h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 24px;
+      color: var(--color-inkwell-black);
+      margin-bottom: 12px;
+    }
+
+    .sobre-instrutora p {
+      font-size: 15px;
+      color: var(--color-whisper-gray);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .sobre-apoio h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-shadowstone-gray);
+      margin-bottom: 12px;
+    }
+
+    .sobre-apoio p {
+      font-size: 15px;
+      color: var(--color-whisper-gray);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       COMUNIDADE
+       ======================================== */
+    .comunidade {
+      background: var(--color-canvas-white);
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .comunidade .section-title {
+      margin: 0 auto 16px;
+    }
+
+    .comunidade p {
+      font-size: 16px;
+      color: var(--color-whisper-gray);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: var(--color-inkwell-black);
+      color: var(--color-canvas-white);
+      padding: 14px 36px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: var(--radius-buttons);
+      transition: opacity 0.2s;
+    }
+
+    .whatsapp-btn:hover { opacity: 0.85; }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    footer {
+      background: var(--color-inkwell-black);
+      color: var(--color-shadowstone-gray);
+      padding: 40px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer .footer-brand {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--color-canvas-white);
+      margin-bottom: 8px;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .hero { padding: 80px 0 60px; }
+      .hero-meta { gap: 24px; }
+
+      .filosofia-grid,
+      .reflexoes-grid,
+      .conceitos-grid,
+      .inscricao-grid,
+      .sobre-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .aprender-grid,
+      .ides-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .preco { font-size: 36px; }
+    }
+
+    /* ========================================
+       UTILITIES
+       ======================================== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+
+    .alert-box {
+      background: rgba(225, 213, 182, 0.15);
+      border: 1px solid rgba(225, 213, 182, 0.3);
+      border-radius: var(--radius-cards);
+      padding: 16px 20px;
+      font-size: 14px;
+      color: rgba(254,254,252,0.9);
+      margin-top: 24px;
+      line-height: 1.5;
+    }
+
+    .alert-box strong {
+      color: var(--color-parchment-tan);
+    }
+
+    .material-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-cards);
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .material-box h4 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-canvas-white);
+      margin-bottom: 8px;
+    }
+
+    .material-box p {
+      font-size: 13px;
+      color: rgba(254,254,252,0.6);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+  <!-- ==========================================
+       NAVIGATION
+       ========================================== -->
+  <nav>
+    <div class="container">
+      <div class="nav-brand">LegalCode <span>Comunidade</span></div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">&larr; Acervo</a></li>
+        <li><a href="#filosofia">Por quê</a></li>
+        <li><a href="#aprender">Conteúdo</a></li>
+        <li><a href="#conceitos">Conceitos</a></li>
+        <li><a href="#prereqs">Instalação</a></li>
+        <li><a href="#comparativo">Ferramentas</a></li>
+        <li><a href="#materiais"><strong>Materiais</strong></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Aulão LegalCode &middot; Turma 01</div>
+      <h1>Claude Code <em>na Prática</em></h1>
+      <p class="hero-subtitle">
+        Da instalação ao framework jurídico próprio. Construa sua base de conhecimento e governe sua própria IA.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Data</span>
+          <span class="hero-meta-value">Terça, 12/05 às 20h</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Duração</span>
+          <span class="hero-meta-value">2 horas</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Plataforma</span>
+          <span class="hero-meta-value">Zoom</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Instrutora</span>
+          <span class="hero-meta-value">Lígia Covre</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FILOSOFIA — Por que construir isso
+       ========================================== -->
+  <section class="filosofia" id="filosofia">
+    <div class="container">
+      <p class="section-label">Antes do como, o porquê</p>
+      <h2 class="section-title">Pensar em tempos de Inteligência Artificial</h2>
+      <p class="section-desc">
+        A escrita reorganizou a memória (Platão já alertava sobre isso no Fedro), a imprensa reorganizou a autoridade do conhecimento, a internet reorganizou a busca. A IA reorganiza a síntese, que era, até então, a operação cognitiva considerada mais propriamente humana. A IA modifica o que entra no campo do pensável. Não apenas como pensamos, mas o material sobre o qual pensamos.
+      </p>
+
+      <div class="filosofia-grid">
+        <div class="filosofia-card">
+          <div class="filosofia-card-number">01</div>
+          <h3>Hermenêutica em ambientes computacionais</h3>
+          <p>
+            Interpretar texto produzido por IA é ato hermenêutico novo. Exige habilidade própria: distinguir voz humana de saída sintética, identificar pegadas estilísticas de modelo. O texto da máquina é construído para <em>soar</em> correto, não para <em>ser</em> correto. A hermenêutica clássica supõe que o texto quer dizer algo; o texto da máquina simula querer dizer algo. O intérprete que aplica método hermenêutico clássico a saída de IA está interpretando uma <strong>superfície sem profundidade</strong>.
+          </p>
+        </div>
+
+        <div class="filosofia-card">
+          <div class="filosofia-card-number">02</div>
+          <h3>O que significa interpretar</h3>
+          <p>
+            Interpretar é um ato cognitivo de primeira ordem. O intérprete defronta-se com o texto bruto, mobiliza tradição interna — formação, leituras, experiência —, mobiliza método (gramatical, sistemático, teleológico, histórico) e constrói sentido em direção ao caso concreto. Ao final, assume autoria do sentido construído. O intérprete produz sentido. É um ato autoral no sentido forte do termo. Não por acaso a tradição jurídica sempre tratou o operador do Direito como figura quase-criativa: ele não aplica regra pronta, ele <strong>diz o direito</strong>. Jurisdição é, etimologicamente, <em>juris-dictio</em> — o ato de dizer o direito.
+          </p>
+        </div>
+
+        <div class="filosofia-card">
+          <div class="filosofia-card-number">03</div>
+          <h3>O que significa orquestrar</h3>
+          <p>
+            Orquestrar é um ato cognitivo de segunda ordem. O orquestrador não produz a matéria-prima — ele recebe outputs já processados de fontes diversas (IAs, bases de jurisprudência, agentes automatizados, assessores). Sua tarefa é avaliar, comparar, validar, integrar. Decidir o que entra, o que sai, o que se ajusta. Dar coerência ao conjunto. E, ao final, assumir responsabilidade pelo resultado. O orquestrador não é autor da matéria. É <strong>autor da composição</strong>. Compõe sentidos já produzidos, em vez de produzir sentido a partir do texto bruto.
+          </p>
+        </div>
+
+        <div class="filosofia-card">
+          <div class="filosofia-card-number">04</div>
+          <h3>A diferença é ontológica, não apenas operacional</h3>
+          <p>
+            Interpretar é trabalho vertical: do texto à mente do intérprete, da mente do intérprete ao caso. Orquestrar é trabalho horizontal: entre fontes que já entregam material pré-processado, exigindo seleção e integração. Aqui mora a tensão dogmática severa que praticamente ninguém está nomeando: a jurisdição, na tradição brasileira e ocidental, foi construída como ato interpretativo, não como ato orquestrador. Toda a teoria da motivação das decisões, da legitimidade democrática, da independência funcional, supõe um ato cognitivo vertical — o operador do Direito que se debruça sobre os autos e diz o direito, em primeira pessoa, com autoria. <strong>Se o operador do Direito vira orquestrador, ele não deixa de sê-lo. Mas a teoria do que é ser operador do Direito precisa ser refeita.</strong>
+          </p>
+        </div>
+
+        <div class="filosofia-card" style="grid-column: 1 / -1;">
+          <div class="filosofia-card-number">05</div>
+          <h3>Dupla responsabilidade: governar sua própria IA</h3>
+          <p>
+            Se o operador do Direito é orquestrador-hermeneuta de segunda ordem, e se a sociedade decide algoritmicamente em escala crescente (crédito, contratação, justiça preditiva, vigilância, saúde), então ele tem dupla nova responsabilidade. <strong>Internamente:</strong> governar seu próprio uso de IA — não ser refém. <strong>Externamente:</strong> governar o uso de IA pela sociedade — julgar e atuar em casos onde algoritmos decidiram. Existem soluções no mercado que empacotam IA para o jurídico — e são ótimas, especialmente por serem acessíveis. Mas entendemos que existe um novo profissional em formação, um novo Direito em andamento, uma nova hermenêutica. Por isso faz sentido construir <strong>seus próprios frameworks</strong> e bases de conhecimento. Não existe almoço grátis.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       REFLEXÕES — Citações filosóficas
+       ========================================== -->
+  <section class="reflexoes" id="reflexoes">
+    <div class="container">
+      <p class="section-label">Reflexões para a aula</p>
+
+      <div class="reflexoes-grid">
+        <div class="reflexao-item">
+          <blockquote>
+            "A escrita reorganizou a memória. A imprensa reorganizou a autoridade do conhecimento. A internet reorganizou a busca. A IA reorganiza a síntese — até então, a operação cognitiva considerada mais propriamente humana."
+          </blockquote>
+          <cite>Sobre a história das tecnologias do pensamento</cite>
+        </div>
+
+        <div class="reflexao-item">
+          <blockquote>
+            "O advogado que entrega peça gerada por máquina sem supervisão crítica não cumpriu sua obrigação contratual — porque o que o cliente contratou foi julgamento técnico, não geração de texto."
+          </blockquote>
+          <cite>Sobre a responsabilidade profissional</cite>
+        </div>
+
+        <div class="reflexao-item">
+          <blockquote>
+            "Surge um vocabulário jurídico estatisticamente preferido pela máquina. Há um 'tom Claude', um 'tom GPT'. Em escala, o discurso jurídico pode adquirir um sotaque comum que não corresponde a nenhuma tradição doutrinária real. É um dialeto sintético."
+          </blockquote>
+          <cite>Sobre a padronização involuntária</cite>
+        </div>
+
+        <div class="reflexao-item">
+          <blockquote>
+            "Nasce uma geração que edita pensamento sem nunca tê-lo gerado. Mas a edição força consciência crítica permanente. O operador do Direito-editor pode desenvolver lucidez crítica que o operador do Direito-escritor solitário raramente atinge."
+          </blockquote>
+          <cite>Sobre a nova competência do profissional</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       O QUE VOCÊ VAI APRENDER
+       ========================================== -->
+  <section id="aprender">
+    <div class="container">
+      <p class="section-label">Conteúdo do aulão</p>
+      <h2 class="section-title">O que você vai aprender</h2>
+      <p class="section-desc">
+        2 horas de conteúdo prático e direto. Do zero à construção do seu primeiro framework jurídico com Claude Code.
+      </p>
+
+      <div class="aprender-grid">
+        <div class="aprender-card">
+          <span class="aprender-icon">&gt;_</span>
+          <h3>Instalação correta do Claude Code</h3>
+          <p>Passo a passo completo: Node.js, Git, GitHub CLI e Claude Code. Sem pular etapas, sem erros.</p>
+        </div>
+
+        <div class="aprender-card">
+          <span class="aprender-icon">&harr;</span>
+          <h3>Terminal vs Desktop vs Navegador vs IDE</h3>
+          <p>Quando usar cada interface. Qual dá mais controle. Qual economiza mais tokens. Qual combina com o quê.</p>
+        </div>
+
+        <div class="aprender-card">
+          <span class="aprender-icon">&equiv;</span>
+          <h3>Comparativo de ferramentas de IA</h3>
+          <p>Claude Code vs Gemini CLI vs Codex vs GitHub Copilot. Diferenças reais, possibilidades de orquestração entre eles.</p>
+        </div>
+
+        <div class="aprender-card">
+          <span class="aprender-icon">$</span>
+          <h3>Estratégias para economizar tokens</h3>
+          <p>Tokens custam dinheiro. Aprenda a gastar menos obtendo mais resultado com técnicas práticas.</p>
+        </div>
+
+        <div class="aprender-card">
+          <span class="aprender-icon">&sect;</span>
+          <h3>Frameworks e bases de conhecimento jurídico</h3>
+          <p>Dicas práticas para construir seu próprio CLAUDE.md jurídico. Bases de conhecimento que a IA consulta antes de responder.</p>
+        </div>
+
+        <div class="aprender-card">
+          <span class="aprender-icon">&loz;</span>
+          <h3>Lógica agêntica</h3>
+          <p>O que são agentes, como funcionam, por que importam. A arquitetura por trás do Claude Code que muda tudo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CONCEITOS — O que é IDE, Node, Git, GitHub
+       ========================================== -->
+  <section class="conceitos" id="conceitos">
+    <div class="container">
+      <p class="section-label">Glossário essencial</p>
+      <h2 class="section-title">Antes de instalar, entenda</h2>
+      <p class="section-desc">
+        Você não precisa ser programador. Mas precisa entender o terreno onde está pisando. São 4 conceitos que descomplicam tudo.
+      </p>
+
+      <div class="conceitos-grid">
+        <div class="conceito-card">
+          <h3>IDE (Ambiente de Desenvolvimento)</h3>
+          <span class="analogia">O terreno de construção</span>
+          <p>
+            IDE é onde o código é escrito, editado e organizado. Pense como o terreno de uma obra — com todas as ferramentas à mão. VS Code e Cursor são IDEs. O Claude Code é o <strong>rádio comunicador</strong> que você usa dentro desse terreno para conversar com a IA.
+          </p>
+          <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener" class="conceito-link">Baixar VS Code &rarr;</a>
+        </div>
+
+        <div class="conceito-card">
+          <h3>Node.js</h3>
+          <span class="analogia">O motor da máquina</span>
+          <p>
+            Node.js é o que permite rodar JavaScript fora do navegador. O Claude Code é construído com Node.js — sem ele, não funciona. É como o motor de um carro: você não precisa saber mecânica, mas precisa que esteja instalado.
+          </p>
+          <a href="https://nodejs.org/" target="_blank" rel="noopener" class="conceito-link">Baixar Node.js &rarr;</a>
+        </div>
+
+        <div class="conceito-card">
+          <h3>Git</h3>
+          <span class="analogia">O Ctrl+Z profissional</span>
+          <p>
+            Git salva todo o histórico do seu projeto. Cada mudança, cada versão, cada decisão. Se algo der errado, você volta no tempo. É controle de versão — funciona como uma linha do tempo do seu trabalho.
+          </p>
+          <a href="https://git-scm.com/downloads" target="_blank" rel="noopener" class="conceito-link">Baixar Git &rarr;</a>
+        </div>
+
+        <div class="conceito-card">
+          <h3>GitHub</h3>
+          <span class="analogia">Seu portfólio vivo</span>
+          <p>
+            GitHub é onde seus projetos ficam publicados na nuvem. É o portfólio que empresas e colegas veem. Onde seu trabalho com IA fica registrado — a prova verificável das suas habilidades. Git é local, GitHub é na nuvem.
+          </p>
+          <a href="https://github.com" target="_blank" rel="noopener" class="conceito-link">Criar conta no GitHub &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRÉ-REQUISITOS — Instalação
+       ========================================== -->
+  <section class="prereqs" id="prereqs">
+    <div class="container">
+      <p class="section-label">Mãos à obra</p>
+      <h2 class="section-title">Pré-requisitos: o que instalar</h2>
+      <p class="section-desc">
+        Siga na ordem. Cada etapa depende da anterior. Se travar, a aula cobre tudo em detalhe.
+      </p>
+
+      <div class="prereqs-steps">
+
+        <div class="prereq-step">
+          <div class="prereq-number">1</div>
+          <div class="prereq-content">
+            <h3>Node.js (versão LTS)</h3>
+            <p>Acesse <a href="https://nodejs.org/" target="_blank" rel="noopener" class="download-link">nodejs.org</a> e baixe a versão LTS (v20+ recomendado). Depois de instalar, verifique:</p>
+            <code>node --version<br># Esperado: v18.x.x ou superior<br><br>npm --version<br># Esperado: 9.x.x ou superior</code>
+          </div>
+        </div>
+
+        <div class="prereq-step">
+          <div class="prereq-number">2</div>
+          <div class="prereq-content">
+            <h3>Git</h3>
+            <p>Acesse <a href="https://git-scm.com/downloads" target="_blank" rel="noopener" class="download-link">git-scm.com</a> e instale. Depois configure (apenas uma vez):</p>
+            <code>git --version<br># Esperado: git version 2.x.x<br><br>git config --global user.name "Seu Nome"<br>git config --global user.email "seu@email.com"</code>
+          </div>
+        </div>
+
+        <div class="prereq-step">
+          <div class="prereq-number">3</div>
+          <div class="prereq-content">
+            <h3>GitHub CLI</h3>
+            <p>Acesse <a href="https://cli.github.com" target="_blank" rel="noopener" class="download-link">cli.github.com</a> e instale. Depois autentique:</p>
+            <code>gh --version<br># Esperado: gh version 2.x.x<br><br>gh auth login<br># Siga as instruções na tela</code>
+          </div>
+        </div>
+
+        <div class="prereq-step">
+          <div class="prereq-number">4</div>
+          <div class="prereq-content">
+            <h3>Claude Code</h3>
+            <p>Pré-requisito: assinatura Claude Pro (~US$20/mês). Instale e autentique:</p>
+            <code>npm install -g @anthropic-ai/claude-code<br><br>claude --version<br><br>claude<br># Siga as instruções para autenticar</code>
+            <p style="margin-top:8px; font-size:13px; color:var(--color-shadowstone-gray);">
+              Documentação oficial: <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="download-link">docs.anthropic.com/claude-code</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       COMPARATIVO — Ferramentas de IA para código
+       ========================================== -->
+  <section class="comparativo" id="comparativo">
+    <div class="container">
+      <p class="section-label">Panorama</p>
+      <h2 class="section-title">Claude Code vs Gemini CLI vs Codex vs Copilot</h2>
+      <p class="section-desc">
+        Não existe ferramenta perfeita. Existe a ferramenta certa para o contexto certo — e a possibilidade de orquestrá-las juntas.
+      </p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Ferramenta</th>
+            <th>Tipo</th>
+            <th>Modelo base</th>
+            <th>Destaque</th>
+            <th>Docs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tool-name">Claude Code</td>
+            <td>CLI agêntico</td>
+            <td>Claude (Anthropic)</td>
+            <td>Agentes, CLAUDE.md, contexto de projeto, autonomia total via terminal</td>
+            <td><a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="doc-link">Docs oficiais</a></td>
+          </tr>
+          <tr>
+            <td class="tool-name">Gemini CLI</td>
+            <td>CLI</td>
+            <td>Gemini (Google)</td>
+            <td>Janela de contexto enorme, integração com ecossistema Google, gratuito com limites</td>
+            <td><a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener" class="doc-link">Docs oficiais</a></td>
+          </tr>
+          <tr>
+            <td class="tool-name">Codex (OpenAI)</td>
+            <td>CLI agêntico</td>
+            <td>GPT / o3, o4-mini (OpenAI)</td>
+            <td>Execução em sandbox, foco em segurança, integração com ecossistema OpenAI</td>
+            <td><a href="https://github.com/openai/codex" target="_blank" rel="noopener" class="doc-link">Docs oficiais</a></td>
+          </tr>
+          <tr>
+            <td class="tool-name">GitHub Copilot</td>
+            <td>IDE extension + CLI</td>
+            <td>Multi-modelo (GPT, Claude)</td>
+            <td>Autocomplete, chat na IDE, integração nativa com GitHub, agent mode</td>
+            <td><a href="https://github.com/features/copilot" target="_blank" rel="noopener" class="doc-link">Docs oficiais</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       IDEs — Download
+       ========================================== -->
+  <section id="ides">
+    <div class="container">
+      <p class="section-label">Seu terreno de construção</p>
+      <h2 class="section-title">IDEs recomendadas</h2>
+      <p class="section-desc">
+        A IDE é onde você vai trabalhar. O Claude Code é o rádio comunicador que funciona <em>dentro</em> dela (ou direto no terminal, sem IDE nenhuma).
+      </p>
+
+      <div class="ides-grid">
+        <div class="ide-card">
+          <h3>VS Code</h3>
+          <p>Gratuito, extensível, o mais popular do mundo. Ideal para começar.</p>
+          <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener" class="ide-link">Download gratuito</a>
+        </div>
+
+        <div class="ide-card">
+          <h3>Cursor</h3>
+          <p>Fork do VS Code com IA nativa integrada. Pago, mas poderoso.</p>
+          <a href="https://cursor.com" target="_blank" rel="noopener" class="ide-link">Conhecer Cursor</a>
+        </div>
+
+        <div class="ide-card">
+          <h3>Claude Code na IDE</h3>
+          <p>Claude Code integrado diretamente na IDE. Controle total com o contexto visual do projeto ao lado.</p>
+          <span class="ide-link" style="background: var(--color-parchment-tan); color: var(--color-inkwell-black);">Foco do Aulão</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ACERVO DE MATERIAL
+       ========================================== -->
+  <section class="inscricao" id="inscricao">
+    <div class="container">
+      <p class="section-label">Material de apoio</p>
+      <h2 class="section-title" style="color: var(--color-canvas-white);">Acervo do Aulão</h2>
+
+      <div class="inscricao-grid">
+        <div class="inscricao-info">
+          <h3>Acesse o material pelo Drive</h3>
+          <p>
+            Todo o material de apoio, referências, guias de instalação e recursos complementares estão disponíveis na pasta compartilhada do Google Drive.
+          </p>
+
+          <div class="pix-box" style="text-align: center;">
+            <a href="https://drive.google.com/drive/folders/1rUaBUzWlyniII_0tc66e6vG2368xyY3y?usp=drive_link" target="_blank" rel="noopener" style="display: inline-block; background: var(--color-parchment-tan); color: var(--color-inkwell-black); padding: 14px 36px; font-size: 14px; font-weight: 500; border-radius: 2px; transition: all 0.2s; text-decoration: none;">Abrir pasta no Google Drive &rarr;</a>
+            <p style="margin-top: 12px; font-size: 13px; color: var(--color-shadowstone-gray);">AULÃO CLAUDE CODE - ALUNOS - MATERIAL</p>
+          </div>
+
+          <div class="alert-box">
+            <strong>Aulão único</strong> — sem gravação, sem reprodução. Aproveite o material disponível para revisão posterior.
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-family: var(--font-heading); font-weight: 400; font-size: 20px; margin-bottom: 20px;">O que você encontra no acervo</h3>
+          <ul class="regras-list">
+            <li>
+              <span><strong>Guias de instalação:</strong> Passo a passo detalhado para configurar Node.js, Git, GitHub CLI e Claude Code.</span>
+            </li>
+            <li>
+              <span><strong>Material de referência:</strong> Documentação curada, links oficiais e recursos complementares para aprofundamento.</span>
+            </li>
+            <li>
+              <span><strong>Bases de conhecimento:</strong> Exemplos práticos de CLAUDE.md e estruturação de frameworks jurídicos.</span>
+            </li>
+            <li>
+              <span><strong>Comparativos:</strong> Tabelas e análises sobre Claude Code, Gemini CLI, Codex e GitHub Copilot.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SOBRE
+       ========================================== -->
+  <section class="sobre" id="sobre">
+    <div class="container">
+      <p class="section-label">Quem somos</p>
+      <h2 class="section-title">Comunidade LegalCode</h2>
+
+      <div class="sobre-grid">
+        <div class="sobre-instrutora">
+          <h3>Lígia Covre</h3>
+          <p>
+            Instrutora do aulão. Conectando Direito e tecnologia na prática. Fundadora da comunidade LegalCode, dedicada a capacitar profissionais do Direito para dominarem ferramentas de IA com autonomia, pensamento crítico e responsabilidade.
+          </p>
+          <p>
+            A proposta não é substituir o profissional, é potencializá-lo. Cada operador do Direito que entende profundamente como a IA funciona — e constrói seus próprios frameworks — se torna insubstituível.
+          </p>
+        </div>
+
+        <div class="sobre-apoio">
+          <h4>Apoio</h4>
+          <p><strong>Camila Rocha</strong> — <a href="https://www.instagram.com/rochacaamila" target="_blank" rel="noopener" style="font-size:13px; color: var(--color-shadowstone-gray); border-bottom: 1px solid var(--color-shadowstone-gray);">@rochacaamila</a></p>
+          <p><strong>Jaya Roberta</strong> — <a href="https://www.instagram.com/jayaroberta" target="_blank" rel="noopener" style="font-size:13px; color: var(--color-shadowstone-gray); border-bottom: 1px solid var(--color-shadowstone-gray);">@jayaroberta</a></p>
+          <br>
+          <h4>Siga nas redes</h4>
+          <p><a href="https://www.instagram.com/legalcode.community" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black);">@legalcode.community</a></p>
+          <p style="margin-top:8px;"><a href="https://www.instagram.com/ligiacovres" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black);">@ligiacovres</a></p>
+          <br>
+          <h4>75 inscritos confirmados</h4>
+          <p style="font-size:13px;">Turma fechada — profissionais do TJSP, TJMG, advogados, magistrados, analistas judiciários, escreventes e assessores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       GRUPO DO AULÃO — WHATSAPP
+       ========================================== -->
+  <section class="comunidade">
+    <div class="container">
+      <h2 class="section-title">Entre no grupo do Aulão</h2>
+      <p>Grupo exclusivo no WhatsApp para dúvidas posteriores, compartilhamento de material e troca entre participantes do aulão.</p>
+      <a href="https://chat.whatsapp.com/LUpq5iJF8rp6JvoEErwptU" target="_blank" rel="noopener" class="whatsapp-btn">Entrar no grupo do WhatsApp &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       DOCUMENTAÇÃO OFICIAL — Links
+       ========================================== -->
+  <section style="background: var(--color-pale-ash); padding: 48px 0;">
+    <div class="container" style="text-align: center;">
+      <p class="section-label">Links rápidos — Documentação oficial</p>
+      <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 20px;">
+        <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">Claude Code Docs</a>
+        <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">Gemini CLI Docs</a>
+        <a href="https://github.com/openai/codex" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">OpenAI Codex Docs</a>
+        <a href="https://github.com/features/copilot" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">GitHub Copilot Docs</a>
+        <a href="https://nodejs.org/" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">Node.js</a>
+        <a href="https://git-scm.com/downloads" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">Git</a>
+        <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">VS Code</a>
+        <a href="https://cursor.com" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 500; color: var(--color-inkwell-black); border-bottom: 1px solid var(--color-inkwell-black); padding-bottom: 2px;">Cursor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MATERIAIS DO ACERVO — Adicionado por Mário (arquivo local + Drive)
+       ========================================== -->
+  <section id="materiais" style="background: var(--color-pale-ash);">
+    <div class="container">
+      <p class="section-label">Acervo Pessoal · Materiais arquivados</p>
+      <h2 class="section-title">Materiais da formação</h2>
+      <p class="section-desc">
+        Pacote oficial da Lígia Covre arquivado em duas vertentes: cópia local extraída + Google Drive (mazzo.ecomm) com estrutura original navegável. Cada card abre na origem que preferires.
+      </p>
+
+      <style>
+        .mat-card { background: var(--color-canvas-white); border-radius: var(--radius-cards); padding: 24px; border: 1px solid rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+        .mat-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-parchment-tan); font-weight: 500; margin-bottom: 12px; }
+        .mat-title { font-family: var(--font-heading); font-weight: 400; font-size: 18px; color: var(--color-inkwell-black); margin-bottom: 8px; line-height: 1.3; }
+        .mat-desc { font-size: 13px; line-height: 1.5; color: var(--color-whisper-gray); margin-bottom: 16px; flex-grow: 1; }
+        .mat-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+        .mat-btn { font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: var(--radius-buttons); transition: all 0.2s; border: 1px solid var(--color-inkwell-black); }
+        .mat-btn-local { background: var(--color-inkwell-black); color: var(--color-canvas-white); }
+        .mat-btn-local:hover { opacity: 0.85; }
+        .mat-btn-drive { background: transparent; color: var(--color-inkwell-black); }
+        .mat-btn-drive:hover { background: var(--color-inkwell-black); color: var(--color-canvas-white); }
+      </style>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-top: 32px;">
+
+        <!-- Pasta raiz -->
+        <div class="mat-card">
+          <div class="mat-tag">Acesso completo</div>
+          <h3 class="mat-title">Pasta de materiais</h3>
+          <p class="mat-desc">Todos os 73 ficheiros + e-book PDF, organizados em 3 subpastas com a estrutura original.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-local" href="materiais/">Local</a>
+            <a class="mat-btn mat-btn-drive" href="https://drive.google.com/drive/folders/1wJgSY3OrSt0NhVwfKRckddP8GzsuVcPh" target="_blank" rel="noopener">Drive</a>
+          </div>
+        </div>
+
+        <!-- E-book PDF -->
+        <div class="mat-card">
+          <div class="mat-tag">E-book · PDF · 944 KB</div>
+          <h3 class="mat-title">Claude Code para Profissionais do Direito</h3>
+          <p class="mat-desc">E-book completo da formação. Disponível como PDF nas duas origens.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-local" href="materiais/AUL%C3%83O%20CLAUDE%20CODE%20-%20ALUNOS%20-%20MATERIAL/E-book%20%E2%80%94%20Claude%20Code%20para%20Profissionais%20do%20Direito.pdf" target="_blank">Local</a>
+            <a class="mat-btn mat-btn-drive" href="https://drive.google.com/file/d/1RDurE1zSQW7SlFxUaHa--cSQId4I52Mx/view" target="_blank" rel="noopener">Drive</a>
+          </div>
+        </div>
+
+        <!-- Dossier Template Alunos -->
+        <div class="mat-card">
+          <div class="mat-tag">17 ficheiros · 96 KB</div>
+          <h3 class="mat-title">Dossier Template Alunos</h3>
+          <p class="mat-desc">Guia de início rápido, templates em branco, 4 exemplos preenchidos, prompts para IA, dicas avançadas.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-local" href="materiais/AUL%C3%83O%20CLAUDE%20CODE%20-%20ALUNOS%20-%20MATERIAL/Dossier_Template_Alunos/">Local</a>
+            <a class="mat-btn mat-btn-drive" href="https://drive.google.com/drive/folders/199qENqiG5-JXwT2_Qu1K5MGTsa7au2W1" target="_blank" rel="noopener">Drive</a>
+          </div>
+        </div>
+
+        <!-- FRAMEWORK BASE DE AGENTES JURÍDICOS -->
+        <div class="mat-card">
+          <div class="mat-tag">30 ficheiros · 124 KB</div>
+          <h3 class="mat-title">Framework Base de Agentes Jurídicos</h3>
+          <p class="mat-desc">Contexto, conhecimento (8 áreas do direito), uso rápido (Claude / ChatGPT / Gemini), personalização.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-local" href="materiais/AUL%C3%83O%20CLAUDE%20CODE%20-%20ALUNOS%20-%20MATERIAL/FRAMEWORK%20BASE%20DE%20AGENTES%20JUR%C3%8DDICOS/">Local</a>
+            <a class="mat-btn mat-btn-drive" href="https://drive.google.com/drive/folders/1gE7WXiiF5vPCt4-EKKITJKESTabTXn0z" target="_blank" rel="noopener">Drive</a>
+          </div>
+        </div>
+
+        <!-- SUGESTÃO DE ORGANIZAÇÃO DE PASTAS -->
+        <div class="mat-card">
+          <div class="mat-tag">26 ficheiros · 105 KB</div>
+          <h3 class="mat-title">Sugestão de Organização de Pastas</h3>
+          <p class="mat-desc">Estruturas-modelo para Magistrado, Cartório, Equipa Técnica e Oficial de Justiça.</p>
+          <div class="mat-btns">
+            <a class="mat-btn mat-btn-local" href="materiais/AUL%C3%83O%20CLAUDE%20CODE%20-%20ALUNOS%20-%20MATERIAL/SUGEST%C3%83O%20DE%20ORGANIZA%C3%87%C3%83O%20DE%20PASTAS/">Local</a>
+            <a class="mat-btn mat-btn-drive" href="https://drive.google.com/drive/folders/1ExdfxtAGYGKQ9TQkvyp8j8d_AMFznFo7" target="_blank" rel="noopener">Drive</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">LegalCode</div>
+      <p>Comunidade de profissionais do Direito construindo com IA.</p>
+      <p style="margin-top: 16px; font-size: 12px; color: var(--color-shadowstone-gray);">&copy; 2026 LegalCode &middot; Lígia Covre &middot; Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+    </main>
+  </div>
+  <script src="../../_shared/sidebar.js" defer></script>
+</body>
+</html>
