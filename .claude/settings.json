@@ -1,3 +1,21 @@
 {
-  "language": "english"
+  "language": "english",
+  "permissions": {
+    "deny": [
+      "Edit(.aiox-core/core/**)",
+      "Write(.aiox-core/core/**)",
+      "Edit(.aiox-core/development/tasks/**)",
+      "Write(.aiox-core/development/tasks/**)",
+      "Edit(.aiox-core/development/templates/**)",
+      "Write(.aiox-core/development/templates/**)",
+      "Edit(.aiox-core/development/checklists/**)",
+      "Write(.aiox-core/development/checklists/**)",
+      "Edit(.aiox-core/development/workflows/**)",
+      "Write(.aiox-core/development/workflows/**)",
+      "Edit(.aiox-core/infrastructure/**)",
+      "Write(.aiox-core/infrastructure/**)",
+      "Edit(.aiox-core/constitution.md)",
+      "Write(.aiox-core/constitution.md)"
+    ]
+  }
 }
