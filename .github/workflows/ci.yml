@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  aiox-validate:
+    name: Validate AIOX framework
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate YAML syntax across AIOX
+        run: |
+          npm install --no-save js-yaml
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const yaml = require('js-yaml');
+            let errors = 0;
+            const walk = (dir) => {
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                if (entry.name === 'node_modules') continue;
+                const p = path.join(dir, entry.name);
+                if (entry.isDirectory()) { walk(p); continue; }
+                if (!/\.(ya?ml)$/.test(entry.name)) continue;
+                try { yaml.loadAll(fs.readFileSync(p, 'utf8')); }
+                catch (e) { console.error('::error file=' + p + '::' + e.message); errors++; }
+              }
+            };
+            walk('.aiox-core');
+            if (errors) { console.error('YAML errors: ' + errors); process.exit(1); }
+            console.log('All YAML files parsed successfully.');
+          "
+
+      - name: Verify agent count
+        run: |
+          AGENTS=$(find .aiox-core/development/agents -maxdepth 1 -name '*.md' -type f | wc -l)
+          echo "AIOX agents found: $AGENTS"
+          if [ "$AGENTS" -lt 10 ]; then
+            echo "::error::Expected at least 10 agents, found $AGENTS"
+            exit 1
+          fi
+
+  html-lint:
+    name: HTML lint (acervo-formacoes)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run HTMLHint
+        run: |
+          npm install --no-save htmlhint
+          npx htmlhint "acervo-formacoes/**/*.html" \
+            --rules "tagname-lowercase=true,attr-lowercase=true,doctype-first=true,id-unique=true,src-not-empty=true,alt-require=warn"
