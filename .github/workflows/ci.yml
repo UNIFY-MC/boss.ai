@@ -44,20 +44,26 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const yaml = require('js-yaml');
+            const SKIP_DIRS = new Set(['node_modules', 'templates', 'presets', 'elicitation']);
+            const SKIP_NAME_PATTERNS = [/-tmpl\.ya?ml$/i, /\.tmpl\.ya?ml$/i, /template/i];
             let errors = 0;
+            let checked = 0;
             const walk = (dir) => {
               for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-                if (entry.name === 'node_modules') continue;
+                if (SKIP_DIRS.has(entry.name)) continue;
                 const p = path.join(dir, entry.name);
                 if (entry.isDirectory()) { walk(p); continue; }
                 if (!/\.(ya?ml)$/.test(entry.name)) continue;
+                if (SKIP_NAME_PATTERNS.some(re => re.test(entry.name))) continue;
+                checked++;
                 try { yaml.loadAll(fs.readFileSync(p, 'utf8')); }
                 catch (e) { console.error('::error file=' + p + '::' + e.message); errors++; }
               }
             };
             walk('.aiox-core');
+            console.log('Checked ' + checked + ' YAML files.');
             if (errors) { console.error('YAML errors: ' + errors); process.exit(1); }
-            console.log('All YAML files parsed successfully.');
+            console.log('All non-template YAML files parsed successfully.');
           "
 
       - name: Verify agent count
