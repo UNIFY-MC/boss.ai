@@ -55,6 +55,32 @@
         </div>
 
         <div class="sb-group">
+          <div class="sb-group-title">Projetos · Hackathons</div>
+          <a class="sb-link" href="${ROOT}projetos/">
+            <span class="sb-link-icon">◇</span>
+            <span class="sb-link-text">Todos os projetos</span>
+          </a>
+          <a class="sb-link" href="${ROOT}projetos/hackathons/milan-ai-week/">
+            <span class="sb-link-icon">🇮🇹</span>
+            <span class="sb-link-text">Milan AI Week</span>
+            <span class="sb-link-badge">1</span>
+          </a>
+          <a class="sb-link" href="${ROOT}projetos/hackathons/milan-ai-week/deals-machine/">
+            <span class="sb-link-icon">▶</span>
+            <span class="sb-link-text">Deals Machine</span>
+            <span class="sb-link-badge next">AI</span>
+          </a>
+          <a class="sb-link" href="${ROOT}projetos/hackathons/milan-ai-week/deals-machine/how-to-replicate/" style="padding-left:42px;font-size:12px;">
+            <span class="sb-link-icon">↳</span>
+            <span class="sb-link-text">Como replicar</span>
+          </a>
+          <a class="sb-link" href="${ROOT}projetos/hackathons/milan-ai-week/deals-machine/github-snapshot/" style="padding-left:42px;font-size:12px;">
+            <span class="sb-link-icon">↳</span>
+            <span class="sb-link-text">Repo (snapshot)</span>
+          </a>
+        </div>
+
+        <div class="sb-group">
           <div class="sb-group-title">Referências</div>
           <a class="sb-link" href="${ROOT}#ref-design-system">
             <span class="sb-link-icon">◌</span>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milan AI Week Hackathon — AI Agent Olympics 2026</title>
+  <meta name="description" content="Projectos do Milan AI Week Hackathon / AI Agent Olympics 2026 arquivados no acervo.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../_shared/sidebar.css">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #161616;
+      --bg-card-hover: #1c1c1c;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8e8e8;
+      --text-mid: #a8a8a8;
+      --text-dim: #6a6a6a;
+      --accent: #d1ff00;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    .hero {
+      padding: 80px 0 50px;
+      background: radial-gradient(ellipse at top right, rgba(209,255,0,0.06), transparent 60%);
+      border-bottom: 1px solid var(--border);
+    }
+    .crumbs {
+      display: flex; gap: 8px; font-size: 12px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 32px;
+    }
+    .crumbs a:hover { color: var(--accent); }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(209,255,0,0.08);
+      border: 1px solid rgba(209,255,0,0.3);
+      border-radius: 100px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+
+    .lead {
+      font-size: 18px;
+      color: var(--text-mid);
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+
+    .meta {
+      display: flex; gap: 32px; flex-wrap: wrap;
+      font-size: 13px; color: var(--text-dim);
+    }
+    .meta strong { display: block; color: var(--text); font-weight: 500; margin-bottom: 2px; }
+
+    section.block { padding: 60px 0; }
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .title {
+      font-size: clamp(26px, 3.5vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 0.2s;
+    }
+    .project-card:hover {
+      border-color: rgba(209,255,0,0.3);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .project-card .tag {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .project-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .project-card .desc {
+      color: var(--text-mid);
+      font-size: 14px;
+      flex-grow: 1;
+      margin-bottom: 16px;
+    }
+    .project-card .meta-row {
+      display: flex; gap: 14px;
+      font-size: 12px; color: var(--text-dim);
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .project-card .meta-row span { display: flex; align-items: center; gap: 4px; }
+
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+      <section class="hero">
+        <div class="container">
+          <nav class="crumbs">
+            <a href="../../../">Acervo</a> <span>/</span>
+            <a href="../../">Projetos</a> <span>/</span>
+            <a href="../">Hackathons</a> <span>/</span>
+            <span style="color: var(--text);">Milan AI Week</span>
+          </nav>
+
+          <div class="badge">🇮🇹 Milan AI Week · 2026</div>
+          <h1>AI Agent <em>Olympics</em></h1>
+          <p class="lead">
+            Hackathon organizado pela LabLab.ai durante a Milan AI Week. Foco em agentes autónomos com integrações reais — Anthropic Claude, Speechmatics, Veea Lobster Trap, Vultr.
+          </p>
+
+          <div class="meta">
+            <div><strong>Organizador</strong>LabLab.ai</div>
+            <div><strong>Local</strong>Milão · Itália</div>
+            <div><strong>Submissões</strong>19/05/2026</div>
+            <div><strong>Tracks</strong>Anthropic · Speechmatics · Veea · Vultr</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="container">
+          <p class="label">Projetos arquivados</p>
+          <h2 class="title">Submissões guardadas</h2>
+
+          <div class="grid">
+            <a class="project-card" href="deals-machine/">
+              <span class="tag">View 1 Studio · solo</span>
+              <h3>Deals Machine</h3>
+              <p class="desc">Autonomous sales agent que corre todo o pipeline B2B — de prospecting a follow-up — enquanto o humano só fala. Coach em tempo real durante a call.</p>
+              <div class="meta-row">
+                <span>Kyle Dow</span>
+                <span>·</span>
+                <span>Next.js + Supabase</span>
+                <span>·</span>
+                <span>Claude · Speechmatics · Vultr · Veea</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div><a href="../../../">← Voltar ao Acervo</a></div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="../../../_shared/sidebar.js" defer></script>
+</body>
+</html>

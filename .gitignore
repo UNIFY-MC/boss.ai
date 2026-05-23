@@ -38,3 +38,7 @@ outputs/
 # Materiais de cursos privados (acervo-formacoes)
 acervo-formacoes/formacoes/aulao-claude-code/materiais/
 acervo-formacoes/formacoes/claude-code-build-day/assets/checklist-seguranca.md
+
+# Videos grandes (>100MB) — guardados localmente, servidos via GCS/CDN externo
+acervo-formacoes/projetos/**/demo-video.mp4
+acervo-formacoes/projetos/**/*.mp4

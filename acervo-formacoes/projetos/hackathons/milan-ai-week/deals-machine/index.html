@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deals Machine — Autonomous Sales Agent · Milan AI Week 2026</title>
+  <meta name="description" content="Snapshot do projecto Deals Machine de Kyle Dow (View 1 Studio), submetido no Milan AI Week Hackathon — AI Agent Olympics 2026.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../../_shared/sidebar.css">
+  <link rel="stylesheet" href="../../../../_shared/page-toc.css">
+
+  <style>
+    :root {
+      /* Deals Machine brand — warm editorial cream */
+      --bg: #fdf8ef;
+      --surface: #fffaf2;
+      --surface-2: #f7eedb;
+      --surface-3: #f1e7d2;
+      --surface-dim: #ebe0c8;
+
+      --primary: #1f1612;
+      --primary-container: #3a2c22;
+      --on-primary: #fdf8ef;
+
+      --gold: #d4b475;
+      --gold-dim: #b89968;
+      --gold-soft: rgba(212,180,117,0.16);
+
+      --text: #1a140e;
+      --text-mid: #5a4f3d;
+      --text-dim: #8a7f6c;
+      --outline: #d6c9b1;
+      --outline-soft: rgba(138,127,108,0.18);
+
+      --emerald: #1b5e3c;
+      --emerald-soft: #cdebd9;
+
+      --inverse-bg: #2a221b;
+      --inverse-text: #faefdf;
+
+      --danger: #b3261e;
+
+      --font-display: 'Manrope', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.005em;
+    }
+    a { color: inherit; text-decoration: none; }
+    code, pre { font-family: var(--font-mono); }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ========= HERO ========= */
+    .hero {
+      padding: 80px 0 56px;
+      background:
+        radial-gradient(ellipse at top right, rgba(212,180,117,0.18), transparent 55%),
+        var(--bg);
+      border-bottom: 1px solid var(--outline);
+    }
+    .crumbs {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+    }
+    .crumbs a { color: var(--text-mid); transition: color 0.15s; }
+    .crumbs a:hover { color: var(--primary); }
+    .crumbs span { color: var(--text-dim); }
+
+    .hero-header {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .hero-logo {
+      flex-shrink: 0;
+      width: 96px;
+      height: 96px;
+      border-radius: 20px;
+      background: var(--surface);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(31,22,18,0.08);
+      border: 1px solid var(--outline);
+    }
+    .hero-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .hero-body { flex: 1; min-width: 280px; }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      color: var(--text-mid);
+    }
+    .badge.gold {
+      background: var(--gold-soft);
+      border-color: var(--gold);
+      color: var(--primary);
+    }
+    .badge.emerald {
+      background: var(--emerald-soft);
+      border-color: var(--emerald);
+      color: var(--emerald);
+    }
+    .badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 56px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold-dim);
+    }
+    .hero-tagline {
+      font-size: 18px;
+      color: var(--text-mid);
+      max-width: 720px;
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+    .hero-meta-item strong {
+      display: block;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 2px;
+      font-size: 13px;
+      font-family: var(--font-display);
+    }
+
+    /* ========= ACTIONS ========= */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 100px;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      font-weight: 600;
+    }
+    .btn-primary:hover { background: #2a1f18; transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--surface);
+      border-color: var(--outline);
+      color: var(--primary);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-2);
+      border-color: var(--gold);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .btn-gold:hover { background: var(--gold-dim); color: var(--on-primary); }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ========= SECTIONS ========= */
+    section.block {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--outline-soft);
+    }
+    section.block.surface { background: var(--surface); }
+    section.block.dark {
+      background: var(--inverse-bg);
+      color: var(--inverse-text);
+      border-bottom-color: transparent;
+    }
+    section.block.dark .section-label { color: var(--gold); }
+    section.block.dark .section-title { color: var(--inverse-text); }
+    section.block.dark .section-title em { color: var(--gold); }
+    section.block.dark .section-lead { color: rgba(250,239,223,0.7); }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--primary);
+      margin-bottom: 32px;
+    }
+    .section-title em { font-style: italic; color: var(--gold-dim); font-weight: 800; }
+    .section-lead {
+      font-size: 17px;
+      color: var(--text-mid);
+      max-width: 760px;
+      margin-bottom: 32px;
+      line-height: 1.55;
+    }
+
+    /* ========= PROBLEM/SOLUTION COLS ========= */
+    .twocol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 800px) { .twocol { grid-template-columns: 1fr; } }
+    .col-card {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .col-card.problem { background: #faf2e8; }
+    .col-card.solution { background: var(--emerald-soft); border-color: var(--emerald); }
+    .col-card h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--primary);
+    }
+    .col-card h3 .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .col-card.problem h3 .tag {
+      background: rgba(179,38,30,0.12);
+      color: var(--danger);
+    }
+    .col-card.solution h3 .tag {
+      background: rgba(27,94,60,0.14);
+      color: var(--emerald);
+    }
+    .col-card p { color: var(--text-mid); font-size: 15px; line-height: 1.6; }
+    .col-card p + p { margin-top: 12px; }
+    .col-card.solution p { color: #0f3923; }
+
+    /* ========= PIPELINE STEPS ========= */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 14px;
+      padding: 22px;
+      transition: all 0.18s;
+    }
+    .step:hover {
+      border-color: var(--gold);
+      background: var(--surface-2);
+      transform: translateY(-2px);
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gold-dim);
+      margin-bottom: 8px;
+    }
+    .step h4 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .step p {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+    .step code {
+      font-size: 11px;
+      background: var(--surface-3);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--primary);
+    }
+
+    /* ========= TECH STACK ========= */
+    .stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .stack-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 10px;
+    }
+    .stack-item .name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+    }
+    .stack-item .role {
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.4;
+    }
+
+    /* ========= SPONSORS (dark inversion) ========= */
+    .sponsor-card {
+      background: rgba(250,239,223,0.05);
+      border: 1px solid rgba(212,180,117,0.2);
+      border-radius: 14px;
+      padding: 26px;
+      margin-bottom: 14px;
+    }
+    .sponsor-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .sponsor-head h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .sponsor-head .role {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(250,239,223,0.65);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .sponsor-card p {
+      font-size: 14px;
+      color: rgba(250,239,223,0.78);
+      line-height: 1.65;
+    }
+    .sponsor-card p + p { margin-top: 10px; }
+    .sponsor-card strong { color: var(--inverse-text); }
+    .sponsor-card code {
+      font-size: 12px;
+      background: rgba(212,180,117,0.1);
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: var(--gold);
+    }
+
+    /* ========= ASSETS ========= */
+    .assets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .asset-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      transition: all 0.15s;
+    }
+    .asset-card:hover {
+      border-color: var(--gold);
+      background: var(--surface-2);
+      transform: translateY(-1px);
+    }
+    .asset-card .ico {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gold-soft);
+      border-radius: 8px;
+      color: var(--gold-dim);
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .asset-card .name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .asset-card .desc {
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* ========= VIDEO ========= */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--outline);
+      background: var(--inverse-bg);
+      box-shadow: 0 12px 40px rgba(31,22,18,0.12);
+    }
+    .video-wrap video { width: 100%; display: block; }
+
+    /* ========= FOOTER ========= */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--outline);
+      font-size: 13px;
+      color: var(--text-dim);
+      background: var(--surface);
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    footer a:hover { color: var(--gold-dim); }
+    footer strong { color: var(--primary); }
+
+    /* ========= TOC tweaks ========= */
+    .page-toc {
+      background: var(--surface);
+      border-color: var(--outline);
+    }
+    .page-toc-title { color: var(--gold-dim); }
+    .page-toc a { color: var(--text-mid); }
+    .page-toc a:hover { background: var(--gold-soft); color: var(--primary); }
+    .page-toc a .toc-num { color: var(--gold-dim); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+      <section class="hero">
+        <div class="container">
+          <nav class="crumbs">
+            <a href="../../../../">Acervo</a>
+            <span>/</span>
+            <a href="../../">Projetos</a>
+            <span>/</span>
+            <a href="../">Milan AI Week</a>
+            <span>/</span>
+            <span style="color: var(--primary);">Deals Machine</span>
+          </nav>
+
+          <div class="hero-header">
+            <div class="hero-logo">
+              <img src="assets/brand-logo.png" alt="Deals Machine logo">
+            </div>
+            <div class="hero-body">
+              <div class="hero-badges">
+                <span class="badge gold"><span class="dot"></span> AI Agent Olympics · 2026</span>
+                <span class="badge">Milan AI Week Hackathon</span>
+                <span class="badge">View 1 Studio · solo</span>
+                <span class="badge emerald">Submetido 19/05/2026</span>
+              </div>
+              <h1>Deals Machine — <em>The Autonomous Sales Agent</em></h1>
+              <p class="hero-tagline">
+                Agente de IA autónomo que corre todo o pipeline de vendas — desde o primeiro toque até ao follow-up de fecho — enquanto o humano só fala. Construído para founders solo e equipas pequenas que perdem deals por dívida de follow-up, não por qualidade de produto.
+              </p>
+
+              <div class="hero-meta">
+                <div class="hero-meta-item">
+                  <strong>Autor</strong>
+                  Kyle Dow
+                </div>
+                <div class="hero-meta-item">
+                  <strong>Equipa</strong>
+                  View 1 Studio / MAIKER
+                </div>
+                <div class="hero-meta-item">
+                  <strong>Origem</strong>
+                  Battipaglia, Itália
+                </div>
+                <div class="hero-meta-item">
+                  <strong>Categorias</strong>
+                  Business · Assistant · Voice · Productivity
+                </div>
+              </div>
+
+              <div class="actions">
+                <a class="btn btn-gold" href="how-to-replicate/">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  Como replicar
+                </a>
+                <a class="btn btn-primary" href="https://deals-machine.vercel.app/" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  Live demo
+                </a>
+                <a class="btn btn-secondary" href="https://github.com/kyletdow47/deals-machine" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  GitHub
+                </a>
+                <a class="btn btn-secondary" href="assets/deals-machine-presentation.pdf" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  Apresentação (PDF)
+                </a>
+                <a class="btn btn-secondary" href="#video">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Demo (vídeo)
+                </a>
+                <a class="btn btn-secondary" href="https://lablab.ai/ai-hackathons/milan-ai-week-hackathon/view-1-studio/deals-machine-the-autonomous-sales-agent" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Submissão LabLab
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PROBLEMA / SOLUÇÃO ========= -->
+      <section class="block surface" id="problema">
+        <div class="container">
+          <p class="section-label">Problema · Solução</p>
+          <h2 class="section-title">Inverte o rácio entre <em>operação</em> e <em>conversa</em>.</h2>
+
+          <div class="twocol">
+            <div class="col-card problem">
+              <h3><span class="tag">Problema</span></h3>
+              <p>As equipas de vendas gastam a maior parte do tempo em trabalho operacional: registar chamadas, escrever follow-ups, actualizar campos de CRM, priorizar leads.</p>
+              <p>A venda efectiva — a conversa 1:1 humana — fica espremida entre tarefas. <strong style="color: var(--primary);">Deals Machine inverte esse rácio.</strong></p>
+            </div>
+            <div class="col-card solution">
+              <h3><span class="tag">Solução</span></h3>
+              <p>Ingere áudio das chamadas via Speechmatics, transcreve e analisa, sintetiza memória por lead que o agente relê antes de cada acção.</p>
+              <p>Planeia autonomamente o próximo passo: agenda follow-ups, redige emails personalizados, pontua o lead, mete call-backs em fila, actualiza o log de actividade. <strong>O humano só aparece e fala.</strong></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PIPELINE 10 PASSOS ========= -->
+      <section class="block" id="pipeline">
+        <div class="container">
+          <p class="section-label">Pipeline autónomo</p>
+          <h2 class="section-title">10 passos, do <em>parágrafo</em> ao <em>email enviado</em>.</h2>
+          <p class="section-lead">
+            Dá-se um parágrafo ao agente — <em>"vendo SaaS de optimização de custos cloud a VPs de Engenharia de startups Series B/C com alto burn"</em> — e ele corre o loop autónomo completo.
+          </p>
+
+          <div class="pipeline">
+            <div class="step">
+              <div class="step-num">01 · ~60s</div>
+              <h4>Constrói vertical</h4>
+              <p>Claude redige o ICP, escolhe 4-5 fontes de sinal (RSS / Reddit / HN), define persona e voz do operador.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">02</div>
+              <h4>Raciocina sobre sinais</h4>
+              <p>Scrape das fontes + web search com queries que o agente escolhe. Cada evento é pontuado por urgência via prompt vertical-specific.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">03</div>
+              <h4>Cadeias de consequência</h4>
+              <p>Liga cada evento de alto sinal a um perfil de comprador com urgência nos próximos 30 dias. Sempre com citação.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">04</div>
+              <h4>Sourcing via Apollo.io</h4>
+              <p>Filtragem server-side em títulos, indústrias, tamanho, departamentos, exclusões de concorrentes. Um contacto por empresa, senioridade mais alta.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">05</div>
+              <h4>Playbook executável</h4>
+              <p>5 variantes de abertura, ângulos ordenados por recency-decay, cheat-sheet de objecções, pedidos, script de voicemail, brief pré-call.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">06 · live</div>
+              <h4>Coach em tempo real</h4>
+              <p>Twilio Media Streams → Speechmatics RT → Haiku observa janela rolante de 30s e emite cards de coaching para o cockpit via Supabase Realtime.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">07</div>
+              <h4>Scoring pós-call</h4>
+              <p>Speechmatics batch transcreve. Claude Sonnet produz scorecard estruturado: o que correu bem, o que melhorar, confirmações para o lead, sinal de outcome.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">08</div>
+              <h4>Loop de aprendizagem</h4>
+              <p>Outcome tag ajusta pesos no cérebro (±0.5 closed_won → −0.2 killed). Playbook regenera com debounce de 30s. Próxima call usa script melhorado.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">09</div>
+              <h4>Follow-up auto</h4>
+              <p>Drafted vertical-aware, com referência ao que aconteceu na call. Aparece em <code>email_drafts.status='ready'</code>.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">10</div>
+              <h4>Envio via Gmail real</h4>
+              <p>One-click "Send now" na página de leads. OAuth garante endereço real do operador, respostas voltam à inbox correcta.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= ARQUITECTURA ========= -->
+      <section class="block surface" id="arquitectura">
+        <div class="container">
+          <p class="section-label">Arquitectura</p>
+          <h2 class="section-title">Cockpit <em>Next.js</em> + worker <em>Fastify</em> em Vultr.</h2>
+
+          <div class="stack">
+            <div class="stack-item"><span class="name">Next.js cockpit</span><span class="role">UI (Vercel) — verticals, pipeline, intelligence, leads, knowledge, analytics, settings</span></div>
+            <div class="stack-item"><span class="name">Fastify worker</span><span class="role">Vultr Ubuntu 24.04 · Caddy · systemd — corre pipeline e playbook</span></div>
+            <div class="stack-item"><span class="name">Supabase</span><span class="role">Postgres + Realtime — estado, brain, drafts, eventos live</span></div>
+            <div class="stack-item"><span class="name">Twilio Media Streams</span><span class="role">Pipe áudio em tempo real para o worker</span></div>
+            <div class="stack-item"><span class="name">Speechmatics RT + Batch</span><span class="role">Live partials (1-2s) + transcrição batch enhanced com diarização</span></div>
+            <div class="stack-item"><span class="name">Claude Sonnet 4.6</span><span class="role">Geração de vertical, raciocínio, playbook, enrichment pós-call</span></div>
+            <div class="stack-item"><span class="name">Claude Haiku 4.5</span><span class="role">Coach loop (latência crítica) + classificador Lobster Trap</span></div>
+            <div class="stack-item"><span class="name">Apollo.io</span><span class="role">Sourcing de leads B2B com filtros server-side</span></div>
+            <div class="stack-item"><span class="name">Gmail OAuth</span><span class="role">Envio do email a partir do endereço real do operador</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= SPONSORS / TRACKS (dark) ========= -->
+      <section class="block dark" id="tracks">
+        <div class="container">
+          <p class="section-label">Sponsor Tracks</p>
+          <h2 class="section-title">Cada parceiro tem uma <em>função real</em>, não apenas selo.</h2>
+
+          <div class="sponsor-card">
+            <div class="sponsor-head">
+              <h3>Vultr</h3>
+              <span class="role">Cloud Compute</span>
+            </div>
+            <p>O worker Fastify corre numa instância Ubuntu 24.04 com systemd + Caddy reverse proxy (auto-WSS upgrades para Twilio Media Streams). Todo o reasoning, chamadas Apollo, bridge Twilio, jobs Speechmatics e classificações Lobster Trap fluem por Vultr.</p>
+          </div>
+
+          <div class="sponsor-card">
+            <div class="sponsor-head">
+              <h3>Speechmatics</h3>
+              <span class="role">Call Transcription · Dual mode</span>
+            </div>
+            <p><strong>Async batch</strong> (<code>/jobs/</code>) com diarização e <code>operating_point: enhanced</code> produz o transcript pós-call de alta fidelidade que alimenta scorecard e extracção de brain.</p>
+            <p><strong>Real-time</strong> (WSS <code>eu2.rt.speechmatics.com/v2</code>, mulaw 8 kHz) faz pipe do áudio durante a chamada, com partials a chegar ao coach loop em 1-2 segundos. Auth via JWT cunhado on-demand.</p>
+          </div>
+
+          <div class="sponsor-card">
+            <div class="sponsor-head">
+              <h3>Veea — Lobster Trap</h3>
+              <span class="role">Edge Security · Prompt-injection shield</span>
+            </div>
+            <p>Todo o input gerado por utilizador (chat, transcripts, documentos) passa por uma shield em camadas antes de chegar ao agente.</p>
+            <p><strong>Lobster Trap container</strong> — serviço Fastify standalone com <code>POST /check</code>. Detecção em dois andares: 11 regex patterns (instantâneo, determinístico), depois classificador Claude Haiku 4.5. Inclui Dockerfile + systemd unit + guia de deploy.</p>
+            <p><strong>Fallback in-process</strong> — se o container estiver inacessível, o worker faz fallback para o próprio regex + classifier. A shield nunca bloqueia o cockpit.</p>
+          </div>
+
+          <div class="sponsor-card">
+            <div class="sponsor-head">
+              <h3>Anthropic — Claude</h3>
+              <span class="role">Modelos across the stack</span>
+            </div>
+            <p><strong>Sonnet 4.6</strong> — geração de vertical, chain reasoning, composição de script/playbook, enrichment pós-call.</p>
+            <p><strong>Haiku 4.5</strong> — classifier Lobster Trap, live coach loop (latency-critical, cadência de 5 segundos sobre janelas rolantes de transcript).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= VÍDEO ========= -->
+      <section class="block" id="video">
+        <div class="container">
+          <p class="section-label">Demo</p>
+          <h2 class="section-title">Vídeo de submissão.</h2>
+          <p class="section-lead">Demonstração apresentada ao LabLab para a submissão final.</p>
+
+          <div class="video-wrap">
+            <video controls preload="metadata" poster="assets/cover.jpg">
+              <source src="https://storage.googleapis.com/lablab-video-submissions/dk0pq00fw88uufuvi1p1u928/raw/submission-video-x-dk0pq00fw88uufuvi1p1u928-h177kix3rvsh3cw3exhl9h00_iw9pnnfbl6m7i5rlhjrfoeo1.mp4" type="video/mp4">
+              O teu browser não suporta vídeo HTML5.
+            </video>
+          </div>
+          <p style="text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-dim);">
+            Vídeo servido a partir do Google Cloud Storage do LabLab · cópia local arquivada em <code>assets/demo-video.mp4</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- ========= REPLICAR (destaque) ========= -->
+      <section class="block surface" id="replicar">
+        <div class="container">
+          <p class="section-label">Replicar localmente</p>
+          <h2 class="section-title">Clona, configura, <em>corre offline</em>.</h2>
+          <p class="section-lead">
+            Guia passo-a-passo (~30-45 min) para teres uma cópia funcional do Deals Machine — incluindo cockpit, worker, lobster trap e migrações Supabase. Permite-te modificar os agentes e ver como se interligam com a app, mesmo que o repo original saia do ar.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 20px;">
+            <a class="asset-card" href="how-to-replicate/" style="background: var(--primary); color: var(--bg); border-color: var(--primary);">
+              <div class="ico" style="background: var(--gold-soft); color: var(--gold);">🚀</div>
+              <div class="name" style="color: var(--bg);">Guia "Como replicar"</div>
+              <div class="desc" style="color: rgba(250,239,223,0.7);">6 passos · clone → Supabase → cockpit → worker → lobster trap → primeira utilização</div>
+            </a>
+            <a class="asset-card" href="github-snapshot/">
+              <div class="ico">🌳</div>
+              <div class="name">Árvore do repositório</div>
+              <div class="desc">Browser navegável de todos os ficheiros + variáveis de ambiente</div>
+            </a>
+            <a class="asset-card" href="github-snapshot/README.md" target="_blank">
+              <div class="ico">📖</div>
+              <div class="name">README oficial</div>
+              <div class="desc">230 linhas · descrição técnica completa do Kyle</div>
+            </a>
+          </div>
+
+          <div style="background: var(--surface-2); border: 1px solid var(--outline); border-radius: 12px; padding: 20px 24px; font-size: 14px; color: var(--text-mid);">
+            <strong style="color: var(--primary); font-family: var(--font-display); display: block; margin-bottom: 6px;">Cópia rápida</strong>
+            <pre style="background: var(--primary); color: #f5edd9; padding: 12px 16px; border-radius: 6px; font-family: var(--font-mono); font-size: 12px; overflow-x: auto; margin: 8px 0 0;"><span style="color: rgba(245,237,217,0.5);"># A partir deste acervo, ainda offline:</span>
+cp -R projetos/hackathons/milan-ai-week/deals-machine/github-snapshot ~/dev/deals-machine
+cd ~/dev/deals-machine && git init && git add . && git commit -m "Initial"</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= ARQUIVO ========= -->
+      <section class="block" id="arquivo">
+        <div class="container">
+          <p class="section-label">Arquivo local · tudo offline</p>
+          <h2 class="section-title">Tudo guardado, <em>nada depende</em> de terceiros.</h2>
+          <p class="section-lead">
+            Cópia integral em <code>projetos/hackathons/milan-ai-week/deals-machine/</code>. Mesmo que o LabLab, o GitHub ou a Vercel saiam do ar, todo o material continua acessível aqui.
+          </p>
+
+          <div class="assets-grid">
+            <a class="asset-card" href="assets/deals-machine-presentation.pdf" target="_blank">
+              <div class="ico">📄</div>
+              <div class="name">Presentation</div>
+              <div class="desc">PDF · 4.3 MB · slides submetidos ao LabLab</div>
+            </a>
+            <a class="asset-card" href="https://storage.googleapis.com/lablab-video-submissions/dk0pq00fw88uufuvi1p1u928/raw/submission-video-x-dk0pq00fw88uufuvi1p1u928-h177kix3rvsh3cw3exhl9h00_iw9pnnfbl6m7i5rlhjrfoeo1.mp4" target="_blank">
+              <div class="ico">🎬</div>
+              <div class="name">Demo video</div>
+              <div class="desc">MP4 · ~230 MB · servido do GCS · cópia local em <code style="font-size: 11px;">assets/demo-video.mp4</code></div>
+            </a>
+            <a class="asset-card" href="assets/cover.jpg" target="_blank">
+              <div class="ico">🖼️</div>
+              <div class="name">Cover image</div>
+              <div class="desc">JPG · hero da submissão</div>
+            </a>
+            <a class="asset-card" href="github-snapshot/">
+              <div class="ico">📦</div>
+              <div class="name">GitHub snapshot</div>
+              <div class="desc">Clone completo · código + 20 migrações SQL · árvore navegável</div>
+            </a>
+            <a class="asset-card" href="github-snapshot/README.md" target="_blank">
+              <div class="ico">📖</div>
+              <div class="name">README do repo</div>
+              <div class="desc">Markdown · descrição técnica detalhada</div>
+            </a>
+            <a class="asset-card" href="how-to-replicate/">
+              <div class="ico">🛠️</div>
+              <div class="name">Guia de replicação</div>
+              <div class="desc">Passo-a-passo · env vars · troubleshooting</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= LINKS EXTERNOS ========= -->
+      <section class="block" id="links">
+        <div class="container">
+          <p class="section-label">Externo</p>
+          <h2 class="section-title">Onde encontrar <em>online</em>.</h2>
+
+          <div class="assets-grid">
+            <a class="asset-card" href="https://deals-machine.vercel.app/" target="_blank" rel="noopener">
+              <div class="ico">▶</div>
+              <div class="name">Live app</div>
+              <div class="desc">deals-machine.vercel.app</div>
+            </a>
+            <a class="asset-card" href="https://github.com/kyletdow47/deals-machine" target="_blank" rel="noopener">
+              <div class="ico">⌨</div>
+              <div class="name">GitHub repo</div>
+              <div class="desc">kyletdow47/deals-machine</div>
+            </a>
+            <a class="asset-card" href="https://lablab.ai/ai-hackathons/milan-ai-week-hackathon/view-1-studio/deals-machine-the-autonomous-sales-agent" target="_blank" rel="noopener">
+              <div class="ico">🏆</div>
+              <div class="name">LabLab submission</div>
+              <div class="desc">página oficial da submissão</div>
+            </a>
+            <a class="asset-card" href="https://lablab.ai/ai-hackathons/milan-ai-week-hackathon" target="_blank" rel="noopener">
+              <div class="ico">🇮🇹</div>
+              <div class="name">Milan AI Week</div>
+              <div class="desc">página do hackathon</div>
+            </a>
+            <a class="asset-card" href="https://www.linkedin.com/posts/kyledow-ai_five-days-ago-deals-machine-was-a-half-finished-share-7462461602399748096-6Ryv" target="_blank" rel="noopener">
+              <div class="ico">in</div>
+              <div class="name">Post LinkedIn</div>
+              <div class="desc">Kyle Dow · narrativa de 5 dias</div>
+            </a>
+            <a class="asset-card" href="https://www.instagram.com/p/DYcUgajsFwm/" target="_blank" rel="noopener">
+              <div class="ico">📷</div>
+              <div class="name">Instagram</div>
+              <div class="desc">post de submissão</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div>
+            Arquivado em <strong>23/05/2026</strong> · projecto da autoria de Kyle Dow (View 1 Studio).
+          </div>
+          <div>
+            <a href="../../../../">← Voltar ao Acervo</a>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Page TOC (right rail) -->
+  <button class="page-toc-trigger" id="toc-trigger" aria-label="Mostrar índice">≡</button>
+  <aside class="page-toc" id="page-toc" aria-label="Índice da página">
+    <div class="page-toc-section">
+      <div class="page-toc-title">Nesta página</div>
+      <a href="#problema"><span class="toc-num">01</span><span class="toc-text">Problema · Solução</span></a>
+      <a href="#pipeline"><span class="toc-num">02</span><span class="toc-text">Pipeline autónomo</span></a>
+      <a href="#arquitectura"><span class="toc-num">03</span><span class="toc-text">Arquitectura</span></a>
+      <a href="#tracks"><span class="toc-num">04</span><span class="toc-text">Sponsor tracks</span></a>
+      <a href="#video"><span class="toc-num">05</span><span class="toc-text">Vídeo demo</span></a>
+      <a href="#replicar"><span class="toc-num">06</span><span class="toc-text">Replicar localmente</span></a>
+      <a href="#arquivo"><span class="toc-num">07</span><span class="toc-text">Arquivo local</span></a>
+      <a href="#links"><span class="toc-num">08</span><span class="toc-text">Links externos</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Externos</div>
+      <a href="https://deals-machine.vercel.app/" target="_blank"><span class="toc-num">→</span><span class="toc-text">Live demo</span></a>
+      <a href="https://github.com/kyletdow47/deals-machine" target="_blank"><span class="toc-num">→</span><span class="toc-text">GitHub</span></a>
+      <a href="https://lablab.ai/ai-hackathons/milan-ai-week-hackathon/view-1-studio/deals-machine-the-autonomous-sales-agent" target="_blank"><span class="toc-num">→</span><span class="toc-text">LabLab</span></a>
+    </div>
+  </aside>
+
+  <script src="../../../../_shared/sidebar.js" defer></script>
+  <script>
+    const trigger = document.getElementById('toc-trigger');
+    const toc = document.getElementById('page-toc');
+    if (trigger && toc) {
+      trigger.addEventListener('click', () => toc.classList.toggle('open'));
+      toc.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toc.classList.remove('open')));
+    }
+  </script>
+
+</body>
+</html>

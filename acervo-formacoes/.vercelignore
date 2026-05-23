@@ -3,3 +3,9 @@ formacoes/aulao-claude-code/materiais/
 
 # Materiais privados de outros cursos
 formacoes/claude-code-build-day/assets/checklist-seguranca.md
+
+# Vídeos grandes — guardados localmente, link directo ao Google Cloud Storage no HTML
+projetos/hackathons/milan-ai-week/deals-machine/assets/demo-video.mp4
+
+# node_modules e package-lock dos snapshots de github
+projetos/hackathons/milan-ai-week/deals-machine/github-snapshot/package-lock.json

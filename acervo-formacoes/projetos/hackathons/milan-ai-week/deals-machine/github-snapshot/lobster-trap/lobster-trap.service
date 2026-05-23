@@ -1,0 +1,19 @@
+[Unit]
+Description=Veea Lobster Trap (prompt-injection shield for Deals Machine)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/lobster-trap
+EnvironmentFile=/opt/lobster-trap/.env
+ExecStart=/usr/bin/node /opt/lobster-trap/src/server.js
+Restart=on-failure
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=lobster-trap
+
+[Install]
+WantedBy=multi-user.target

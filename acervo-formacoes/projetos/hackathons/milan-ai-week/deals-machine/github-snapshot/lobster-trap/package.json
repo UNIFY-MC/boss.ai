@@ -1,0 +1,18 @@
+{
+  "name": "lobster-trap",
+  "version": "0.1.0",
+  "description": "Veea Lobster Trap reference container — prompt-injection shield for Deals Machine",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "fastify": "^5.0.0"
+  }
+}

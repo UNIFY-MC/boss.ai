@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>github-snapshot · Deals Machine · Acervo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../../../_shared/sidebar.css">
+
+  <style>
+    :root {
+      --bg: #fdf8ef;
+      --surface: #fffaf2;
+      --surface-2: #f7eedb;
+      --primary: #1f1612;
+      --gold: #d4b475;
+      --gold-dim: #b89968;
+      --text: #1a140e;
+      --text-mid: #5a4f3d;
+      --text-dim: #8a7f6c;
+      --outline: #d6c9b1;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    .hero {
+      padding: 60px 0 40px;
+      background: radial-gradient(ellipse at top right, rgba(212,180,117,0.15), transparent 55%), var(--bg);
+      border-bottom: 1px solid var(--outline);
+    }
+    .crumbs {
+      display: flex; gap: 8px; font-size: 12px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .crumbs a { color: var(--text-mid); }
+    .crumbs a:hover { color: var(--primary); }
+    h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-mid);
+      max-width: 720px;
+    }
+    .subtitle code {
+      font-size: 13px;
+      background: var(--surface-2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    section.block { padding: 48px 0; border-bottom: 1px solid rgba(138,127,108,0.18); }
+    section.block.surface { background: var(--surface); }
+    .label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold-dim); margin-bottom: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    /* ========= QUICK ACTIONS ========= */
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      font-size: 13px; font-weight: 600;
+      border-radius: 100px;
+      transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--primary); color: var(--bg); }
+    .btn-primary:hover { background: #2a1f18; }
+    .btn-secondary { background: var(--surface); border-color: var(--outline); color: var(--primary); }
+    .btn-secondary:hover { border-color: var(--gold); background: var(--surface-2); }
+
+    /* ========= TREE ========= */
+    .tree {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 14px;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      overflow-x: auto;
+    }
+    .tree summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 2px 0;
+      border-radius: 4px;
+      transition: background 0.1s;
+    }
+    .tree summary::-webkit-details-marker { display: none; }
+    .tree summary:hover { background: var(--surface-2); }
+    .tree details[open] > summary { color: var(--primary); font-weight: 600; }
+    .tree details > div, .tree details > details, .tree details > a {
+      margin-left: 22px;
+      display: block;
+    }
+    .tree .folder::before { content: '📁 '; }
+    .tree details[open] > summary.folder::before { content: '📂 '; }
+    .tree a {
+      color: var(--text-mid);
+      padding: 2px 6px;
+      margin-left: 22px;
+      display: block;
+      border-radius: 4px;
+      transition: all 0.1s;
+    }
+    .tree a:hover { background: var(--surface-2); color: var(--primary); }
+    .tree a.file::before { content: '📄 '; }
+    .tree a.ts::before { content: '📘 '; }
+    .tree a.js::before { content: '📜 '; }
+    .tree a.sql::before { content: '🗄️ '; }
+    .tree a.md::before { content: '📖 '; }
+    .tree a.json::before { content: '⚙️ '; }
+    .tree a.env::before { content: '🔑 '; }
+    .tree a.sh::before { content: '💻 '; }
+    .tree a.css::before { content: '🎨 '; }
+    .tree a.svg::before, .tree a.png::before, .tree a.webp::before, .tree a.gif::before { content: '🖼️ '; }
+    .tree .count {
+      color: var(--text-dim);
+      font-weight: 400;
+      font-size: 11px;
+      margin-left: 6px;
+    }
+
+    /* ========= ENV TABLE ========= */
+    .env-card {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .env-card h3 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+    .env-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .env-table th, .env-table td {
+      text-align: left;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--outline);
+    }
+    .env-table th {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dim);
+      font-weight: 600;
+    }
+    .env-table code {
+      font-size: 11px;
+      background: var(--surface-2);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--primary);
+    }
+    .env-table .secret { color: #b3261e; }
+    .env-table .pub { color: #1b5e3c; }
+
+    footer {
+      padding: 32px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      background: var(--surface);
+    }
+    footer .container {
+      display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    footer a:hover { color: var(--gold-dim); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+      <section class="hero">
+        <div class="container">
+          <nav class="crumbs">
+            <a href="../../../../../">Acervo</a> <span>/</span>
+            <a href="../../../../">Projetos</a> <span>/</span>
+            <a href="../../">Milan AI Week</a> <span>/</span>
+            <a href="../">Deals Machine</a> <span>/</span>
+            <span style="color: var(--primary);">github-snapshot</span>
+          </nav>
+
+          <p class="label">Snapshot do repositório</p>
+          <h1>Estrutura do <code class="mono" style="font-size: 0.9em;">kyletdow47/deals-machine</code></h1>
+          <p class="subtitle">
+            Cópia local completa do repositório clonado em <strong>23/05/2026</strong>. Navega pela árvore abaixo para abrir qualquer ficheiro. Para replicar localmente segue o <a href="../how-to-replicate/" style="color: var(--gold-dim); border-bottom: 1px solid;">guia de replicação</a>.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="../how-to-replicate/">→ Como replicar (passo a passo)</a>
+            <a class="btn btn-secondary" href="README.md" target="_blank">Ler README completo</a>
+            <a class="btn btn-secondary" href="https://github.com/kyletdow47/deals-machine" target="_blank" rel="noopener">Repo original no GitHub</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= TREE ========= -->
+      <section class="block">
+        <div class="container">
+          <p class="label">Árvore navegável</p>
+          <h2 class="title">Ficheiros &amp; pastas</h2>
+          <p style="color: var(--text-mid); margin-bottom: 20px; font-size: 14px;">Clica nas pastas para expandir. Clica em ficheiros para abrir.</p>
+
+          <div class="tree">
+            <details open>
+              <summary class="folder">deals-machine / <span class="count">root</span></summary>
+
+              <a class="md" href="README.md">README.md <span class="count">230 linhas — descrição técnica completa</span></a>
+              <a class="env" href=".env.local.example">.env.local.example <span class="count">vars do cockpit Next.js</span></a>
+              <a class="file" href="LICENSE">LICENSE</a>
+              <a class="json" href="package.json">package.json <span class="count">deps do cockpit</span></a>
+              <a class="json" href="package-lock.json">package-lock.json</a>
+              <a class="js" href="next.config.js">next.config.js</a>
+              <a class="js" href="postcss.config.js">postcss.config.js</a>
+              <a class="json" href="jsconfig.json">jsconfig.json</a>
+
+              <details>
+                <summary class="folder">app/ <span class="count">cockpit Next.js · 14 rotas</span></summary>
+                <a class="css" href="app/globals.css">globals.css <span class="count">design tokens da marca (cream/gold)</span></a>
+                <a class="js" href="app/layout.js">layout.js</a>
+                <a class="js" href="app/page.js">page.js <span class="count">landing</span></a>
+                <a class="png" href="app/icon.png">icon.png</a>
+                <a class="file" href="app/agent/">agent/</a>
+                <a class="file" href="app/analytics/">analytics/</a>
+                <a class="file" href="app/dialer/">dialer/</a>
+                <a class="file" href="app/intelligence/">intelligence/</a>
+                <a class="file" href="app/knowledge/">knowledge/</a>
+                <a class="file" href="app/leads/">leads/</a>
+                <a class="file" href="app/onboarding/">onboarding/</a>
+                <a class="file" href="app/pipeline/">pipeline/</a>
+                <a class="file" href="app/pitch/">pitch/</a>
+                <a class="file" href="app/settings/">settings/</a>
+                <a class="file" href="app/verticals/">verticals/</a>
+                <a class="file" href="app/components/">components/</a>
+                <a class="file" href="app/lib/">lib/</a>
+                <details>
+                  <summary class="folder">api/ <span class="count">22 rotas API · proxies para worker</span></summary>
+                  <a class="file" href="app/api/apply-outcome/">apply-outcome/</a>
+                  <a class="file" href="app/api/auth/">auth/</a>
+                  <a class="file" href="app/api/call/">call/</a>
+                  <a class="file" href="app/api/caller-id/">caller-id/</a>
+                  <a class="file" href="app/api/chat/">chat/</a>
+                  <a class="file" href="app/api/email/">email/</a>
+                  <a class="file" href="app/api/enrich-call/">enrich-call/</a>
+                  <a class="file" href="app/api/generate-playbook/">generate-playbook/</a>
+                  <a class="file" href="app/api/generate-vertical/">generate-vertical/</a>
+                  <a class="file" href="app/api/hubspot/">hubspot/</a>
+                  <a class="file" href="app/api/knowledge/">knowledge/</a>
+                  <a class="file" href="app/api/onboard/">onboard/</a>
+                  <a class="file" href="app/api/refine-vertical/">refine-vertical/</a>
+                  <a class="file" href="app/api/run-status/">run-status/</a>
+                  <a class="file" href="app/api/runs/">runs/</a>
+                  <a class="file" href="app/api/save-vertical/">save-vertical/</a>
+                  <a class="file" href="app/api/transcripts/">transcripts/</a>
+                  <a class="file" href="app/api/verticals/">verticals/</a>
+                  <a class="file" href="app/api/worker/">worker/</a>
+                </details>
+              </details>
+
+              <details>
+                <summary class="folder">worker/ <span class="count">agente Fastify · Vultr</span></summary>
+                <a class="md" href="worker/README.md">README.md <span class="count">setup + deploy do worker</span></a>
+                <a class="env" href="worker/.env.example">.env.example <span class="count">vars do worker (15+ chaves)</span></a>
+                <a class="json" href="worker/package.json">package.json</a>
+                <a class="json" href="worker/package-lock.json">package-lock.json</a>
+                <a class="json" href="worker/tsconfig.json">tsconfig.json</a>
+                <details>
+                  <summary class="folder">src/</summary>
+                  <a class="ts" href="worker/src/index.ts">index.ts <span class="count">boot · health · auth guard</span></a>
+                  <a class="file" href="worker/src/pipeline/">pipeline/ <span class="count">10 passos do agente</span></a>
+                  <a class="file" href="worker/src/playbook/">playbook/ <span class="count">gerador de script</span></a>
+                  <a class="file" href="worker/src/coaching/">coaching/ <span class="count">live coach loop</span></a>
+                  <a class="file" href="worker/src/brain/">brain/ <span class="count">memória por lead</span></a>
+                  <a class="file" href="worker/src/audio/">audio/ <span class="count">Speechmatics + Whisper</span></a>
+                  <a class="file" href="worker/src/telephony/">telephony/ <span class="count">Twilio Media Streams</span></a>
+                  <a class="file" href="worker/src/signals/">signals/ <span class="count">scraping RSS/Reddit/HN</span></a>
+                  <a class="file" href="worker/src/apollo/">apollo/ <span class="count">sourcing de leads</span></a>
+                  <a class="file" href="worker/src/hubspot/">hubspot/ <span class="count">push para CRM</span></a>
+                  <a class="file" href="worker/src/vertical-builder/">vertical-builder/</a>
+                  <a class="file" href="worker/src/llm/">llm/ <span class="count">wrappers Claude</span></a>
+                  <a class="file" href="worker/src/lib/">lib/</a>
+                  <a class="file" href="worker/src/routes/">routes/ <span class="count">endpoints HTTP</span></a>
+                </details>
+              </details>
+
+              <details>
+                <summary class="folder">lobster-trap/ <span class="count">prompt-injection shield · Veea</span></summary>
+                <a class="md" href="lobster-trap/DEPLOY.md">DEPLOY.md</a>
+                <a class="file" href="lobster-trap/Dockerfile">Dockerfile</a>
+                <a class="file" href="lobster-trap/lobster-trap.service">lobster-trap.service <span class="count">systemd unit</span></a>
+                <a class="json" href="lobster-trap/package.json">package.json</a>
+                <a class="file" href="lobster-trap/src/">src/</a>
+              </details>
+
+              <details>
+                <summary class="folder">supabase/ <span class="count">base de dados</span></summary>
+                <details>
+                  <summary class="folder">migrations/ <span class="count">20 migrações SQL</span></summary>
+                  <a class="sql" href="supabase/migrations/001_init.sql">001_init.sql</a>
+                  <a class="sql" href="supabase/migrations/002_seed_verticals.sql">002_seed_verticals.sql</a>
+                  <a class="sql" href="supabase/migrations/003_realtime_publication.sql">003_realtime_publication.sql</a>
+                  <a class="sql" href="supabase/migrations/004_calls_and_caller_ids.sql">004_calls_and_caller_ids.sql</a>
+                  <a class="sql" href="supabase/migrations/005_calls_updated_at.sql">005_calls_updated_at.sql</a>
+                  <a class="sql" href="supabase/migrations/006_runs_result_json.sql">006_runs_result_json.sql</a>
+                  <a class="sql" href="supabase/migrations/007_rename_flyfx_aviation.sql">007_rename_flyfx_aviation.sql</a>
+                  <a class="sql" href="supabase/migrations/008_operator_credentials.sql">008_operator_credentials.sql</a>
+                  <a class="sql" href="supabase/migrations/009_email_drafts.sql">009_email_drafts.sql</a>
+                  <a class="sql" href="supabase/migrations/010_brain_entries_document_source.sql">010_brain_entries_document_source.sql</a>
+                  <a class="sql" href="supabase/migrations/011_seed_demo_verticals.sql">011_seed_demo_verticals.sql</a>
+                  <a class="sql" href="supabase/migrations/012_replace_demo_verticals.sql">012_replace_demo_verticals.sql</a>
+                  <a class="sql" href="supabase/migrations/013_add_reddit_sources.sql">013_add_reddit_sources.sql</a>
+                  <a class="sql" href="supabase/migrations/014_strip_newsapi_sources.sql">014_strip_newsapi_sources.sql</a>
+                  <a class="sql" href="supabase/migrations/015_backfill_revenue_range.sql">015_backfill_revenue_range.sql</a>
+                  <a class="sql" href="supabase/migrations/016_source_taxonomy.sql">016_source_taxonomy.sql</a>
+                  <a class="sql" href="supabase/migrations/017_crm_pipeline.sql">017_crm_pipeline.sql</a>
+                  <a class="sql" href="supabase/migrations/018_playbook_and_coaching.sql">018_playbook_and_coaching.sql</a>
+                  <a class="sql" href="supabase/migrations/019_realtime_completion.sql">019_realtime_completion.sql</a>
+                  <a class="sql" href="supabase/migrations/020_onboarding_sessions.sql">020_onboarding_sessions.sql</a>
+                </details>
+              </details>
+
+              <details>
+                <summary class="folder">scripts/ <span class="count">deploy &amp; seeds</span></summary>
+                <a class="sh" href="scripts/seed-demo.sh">seed-demo.sh</a>
+                <a class="sh" href="scripts/seed-runs.sh">seed-runs.sh</a>
+                <a class="file" href="scripts/demo-data/">demo-data/</a>
+                <a class="file" href="scripts/vultr/">vultr/ <span class="count">bootstrap/install/deploy</span></a>
+              </details>
+
+              <details>
+                <summary class="folder">packages/ <span class="count">workspaces internos</span></summary>
+                <a class="file" href="packages/verticals/">verticals/</a>
+              </details>
+
+              <details>
+                <summary class="folder">public/ <span class="count">assets estáticos</span></summary>
+                <a class="png" href="public/brand-logo.png">brand-logo.png</a>
+                <a class="webp" href="public/brand-logo-clean.webp">brand-logo-clean.webp</a>
+                <a class="gif" href="public/brand-logo.gif">brand-logo.gif</a>
+                <a class="svg" href="public/logo-anthropic.svg">logo-anthropic.svg</a>
+                <a class="svg" href="public/logo-speechmatics.svg">logo-speechmatics.svg</a>
+                <a class="svg" href="public/logo-veea.svg">logo-veea.svg</a>
+                <a class="svg" href="public/logo-vultr.svg">logo-vultr.svg</a>
+                <a class="png" href="public/problem-icon.png">problem-icon.png</a>
+              </details>
+
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= ENV VARS ========= -->
+      <section class="block surface">
+        <div class="container">
+          <p class="label">Variáveis de ambiente</p>
+          <h2 class="title">Chaves necessárias para correr localmente</h2>
+          <p style="color: var(--text-mid); font-size: 14px; max-width: 720px; margin-bottom: 28px;">
+            Cada serviço (cockpit, worker, lobster-trap) tem o seu <code style="font-size: 12px; background: var(--surface-2); padding: 2px 6px; border-radius: 4px;">.env</code> próprio. Aqui está o que precisas obter — ver <a href="../how-to-replicate/" style="color: var(--gold-dim); border-bottom: 1px solid;">guia de replicação</a> para o passo-a-passo completo.
+          </p>
+
+          <div class="env-card">
+            <h3>Cockpit (.env.local)</h3>
+            <table class="env-table">
+              <thead><tr><th>Variável</th><th>Origem</th><th>Tipo</th></tr></thead>
+              <tbody>
+                <tr><td><code>NEXT_PUBLIC_SUPABASE_URL</code></td><td>Supabase Project → Settings → API</td><td class="pub">público</td></tr>
+                <tr><td><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></td><td>Supabase → API → anon/public</td><td class="pub">público</td></tr>
+                <tr><td><code>SUPABASE_SERVICE_KEY</code></td><td>Supabase → API → service_role</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>WORKER_URL</code></td><td>URL do worker Vultr (ou localhost)</td><td>config</td></tr>
+                <tr><td><code>WORKER_PROXY_SECRET</code></td><td><code>openssl rand -hex 32</code></td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>ANTHROPIC_API_KEY</code></td><td>console.anthropic.com</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>APOLLO_API_KEY</code></td><td>app.apollo.io</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>RESEND_API_KEY</code></td><td>resend.com</td><td class="secret">SECRETO</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="env-card">
+            <h3>Worker (worker/.env)</h3>
+            <table class="env-table">
+              <thead><tr><th>Variável</th><th>Origem</th><th>Tipo</th></tr></thead>
+              <tbody>
+                <tr><td><code>SUPABASE_URL</code></td><td>Supabase → API</td><td class="pub">público</td></tr>
+                <tr><td><code>SUPABASE_SERVICE_KEY</code></td><td>Supabase → API → service_role</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>ANTHROPIC_API_KEY</code></td><td>console.anthropic.com</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>OPENAI_API_KEY</code></td><td>platform.openai.com (Whisper fallback)</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>SPEECHMATICS_API_KEY</code></td><td>portal.speechmatics.com</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>TWILIO_ACCOUNT_SID</code></td><td>console.twilio.com</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>TWILIO_AUTH_TOKEN</code></td><td>console.twilio.com</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>TWILIO_FROM_NUMBER</code></td><td>Twilio · número comprado · +E.164</td><td>config</td></tr>
+                <tr><td><code>TWILIO_WEBHOOK_BASE</code></td><td>URL pública (ngrok local ou prod)</td><td>config</td></tr>
+                <tr><td><code>APOLLO_API_KEY</code></td><td>app.apollo.io</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>HUBSPOT_API_KEY</code></td><td>app.hubspot.com (Private App)</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>GRANOLA_API_TOKEN</code></td><td>granola.ai (transcripts auto)</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>FIREFLIES_API_TOKEN</code></td><td>fireflies.ai (opcional)</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>NEWSAPI_KEY</code></td><td>newsapi.org</td><td class="secret">SECRETO</td></tr>
+                <tr><td><code>LOBSTER_TRAP_URL</code></td><td>URL local ou Vultr (default <code>127.0.0.1:8080/v1</code>)</td><td>config</td></tr>
+                <tr><td><code>WORKER_PROXY_SECRET</code></td><td>Mesma chave do cockpit</td><td class="secret">SECRETO</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div>Snapshot tirado em <strong style="color: var(--primary);">23/05/2026</strong> de <a href="https://github.com/kyletdow47/deals-machine" target="_blank" style="color: var(--gold-dim); border-bottom: 1px solid;">github.com/kyletdow47/deals-machine</a></div>
+          <div><a href="../">← Página do projecto</a></div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="../../../../../_shared/sidebar.js" defer></script>
+</body>
+</html>

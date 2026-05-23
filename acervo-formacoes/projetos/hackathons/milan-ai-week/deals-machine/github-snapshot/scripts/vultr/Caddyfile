@@ -1,0 +1,26 @@
+# Deals Machine — Caddy reverse proxy
+# /etc/caddy/Caddyfile
+#
+# Caddy auto-provisions Let's Encrypt certs for worker.kyletdow.com
+# once DNS A record points to this host.
+
+worker.kyletdow.com {
+    encode gzip
+    log {
+        output file /var/log/caddy/worker.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+        format console
+    }
+
+    # Generous timeouts so long-running /run requests don't drop.
+    # Note: /run returns 202 immediately, but /chat streams SSE.
+    reverse_proxy localhost:3000 {
+        flush_interval -1
+        transport http {
+            read_timeout 600s
+            write_timeout 600s
+        }
+    }
+}

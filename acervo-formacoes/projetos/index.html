@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projetos · Acervo de Mário Carvalho</title>
+  <meta name="description" content="Projectos de AI hackathons e outros que valem a pena guardar.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../_shared/sidebar.css">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #161616;
+      --bg-card-hover: #1c1c1c;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8e8e8;
+      --text-mid: #a8a8a8;
+      --text-dim: #6a6a6a;
+      --accent: #d1ff00;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    .hero {
+      padding: 80px 0 50px;
+      background: radial-gradient(ellipse at top right, rgba(209,255,0,0.06), transparent 60%);
+      border-bottom: 1px solid var(--border);
+    }
+    .crumbs {
+      display: flex; gap: 8px; font-size: 12px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 32px;
+    }
+    .crumbs a:hover { color: var(--accent); }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+
+    .lead { font-size: 18px; color: var(--text-mid); max-width: 720px; }
+
+    section.block { padding: 60px 0; }
+    .label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+    }
+    .title {
+      font-size: clamp(26px, 3.5vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      display: flex; flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(209,255,0,0.3);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .card .tag {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .card .desc {
+      color: var(--text-mid);
+      font-size: 14px;
+      flex-grow: 1;
+      margin-bottom: 16px;
+    }
+    .card .stats {
+      display: flex; gap: 16px;
+      font-size: 12px; color: var(--text-dim);
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+      <section class="hero">
+        <div class="container">
+          <nav class="crumbs">
+            <a href="../">Acervo</a> <span>/</span>
+            <span style="color: var(--text);">Projetos</span>
+          </nav>
+
+          <h1>Projetos que <em>vale a pena</em> guardar.</h1>
+          <p class="lead">
+            Submissões de hackathons de IA e outros projectos inspiradores. Replicados aqui para preservar o trabalho original — código, apresentações, demos.
+          </p>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="container">
+          <p class="label">Hackathons</p>
+          <h2 class="title">Por hackathon</h2>
+
+          <div class="grid">
+            <a class="card" href="hackathons/milan-ai-week/">
+              <span class="tag">🇮🇹 LabLab · Maio 2026</span>
+              <h3>Milan AI Week</h3>
+              <p class="desc">AI Agent Olympics 2026. Foco em agentes autónomos com integrações reais — Claude, Speechmatics, Veea, Vultr.</p>
+              <div class="stats">
+                <span>1 projecto arquivado</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div><a href="../">← Voltar ao Acervo</a></div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="../_shared/sidebar.js" defer></script>
+</body>
+</html>

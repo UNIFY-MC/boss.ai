@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como replicar — Deals Machine · Acervo</title>
+  <meta name="description" content="Guia passo-a-passo para clonar o repositório, configurar credenciais e correr o Deals Machine localmente.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../../../_shared/sidebar.css">
+  <link rel="stylesheet" href="../../../../../_shared/page-toc.css">
+
+  <style>
+    :root {
+      --bg: #fdf8ef;
+      --surface: #fffaf2;
+      --surface-2: #f7eedb;
+      --surface-3: #f1e7d2;
+      --primary: #1f1612;
+      --primary-2: #3a2c22;
+      --gold: #d4b475;
+      --gold-dim: #b89968;
+      --gold-soft: rgba(212,180,117,0.16);
+      --text: #1a140e;
+      --text-mid: #5a4f3d;
+      --text-dim: #8a7f6c;
+      --outline: #d6c9b1;
+      --outline-soft: rgba(138,127,108,0.18);
+      --emerald: #1b5e3c;
+      --emerald-soft: #cdebd9;
+      --danger: #b3261e;
+      --danger-soft: #f9dedc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+    /* ========= HERO ========= */
+    .hero {
+      padding: 70px 0 50px;
+      background: radial-gradient(ellipse at top right, rgba(212,180,117,0.18), transparent 55%), var(--bg);
+      border-bottom: 1px solid var(--outline);
+    }
+    .crumbs {
+      display: flex; gap: 8px; font-size: 12px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .crumbs a { color: var(--text-mid); }
+    .crumbs a:hover { color: var(--primary); }
+    h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(32px, 4.5vw, 46px);
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    h1 em { font-style: italic; color: var(--gold-dim); font-weight: 800; }
+    .subtitle {
+      font-size: 17px;
+      color: var(--text-mid);
+      max-width: 720px;
+    }
+
+    /* ========= SECTIONS ========= */
+    section.block {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--outline-soft);
+    }
+    section.block.surface { background: var(--surface); }
+    .step-num {
+      display: inline-flex;
+      width: 36px; height: 36px;
+      align-items: center; justify-content: center;
+      background: var(--primary);
+      color: var(--bg);
+      border-radius: 50%;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold-dim); margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(24px, 3.2vw, 30px);
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    h2 em { font-style: italic; color: var(--gold-dim); font-weight: 700; }
+    h3 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    p { color: var(--text-mid); margin-bottom: 12px; font-size: 15px; }
+    p strong { color: var(--primary); font-weight: 600; }
+    ul, ol { color: var(--text-mid); margin-left: 22px; margin-bottom: 16px; font-size: 15px; }
+    ul li, ol li { margin-bottom: 6px; }
+    ul li strong, ol li strong { color: var(--primary); }
+
+    /* code blocks */
+    pre {
+      background: var(--primary);
+      color: #f5edd9;
+      padding: 16px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 14px 0 20px;
+      border: 1px solid var(--primary-2);
+    }
+    pre .comment { color: rgba(245,237,217,0.5); }
+    pre .key { color: var(--gold); }
+    p code, li code {
+      background: var(--surface-3);
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--primary);
+    }
+
+    /* callouts */
+    .callout {
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin: 16px 0;
+      font-size: 14px;
+      border: 1px solid;
+    }
+    .callout strong { display: block; font-family: 'Manrope', sans-serif; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+    .callout p { margin-bottom: 0; font-size: 14px; }
+    .callout.warning { background: var(--danger-soft); border-color: rgba(179,38,30,0.3); color: #4a0f0c; }
+    .callout.warning strong { color: var(--danger); }
+    .callout.tip { background: var(--emerald-soft); border-color: rgba(27,94,60,0.3); color: #0f3923; }
+    .callout.tip strong { color: var(--emerald); }
+    .callout.info { background: var(--gold-soft); border-color: var(--gold); color: var(--primary); }
+    .callout.info strong { color: var(--gold-dim); }
+
+    /* link inline */
+    .ilink { color: var(--gold-dim); border-bottom: 1px solid var(--gold-dim); transition: color 0.15s; }
+    .ilink:hover { color: var(--primary); }
+
+    /* table */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--outline); }
+    th { background: var(--surface-2); font-family: 'Manrope', sans-serif; font-size: 12px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { color: var(--text-mid); }
+    td code { background: var(--surface-3); padding: 1px 6px; border-radius: 3px; font-size: 12px; }
+
+    footer {
+      padding: 32px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      background: var(--surface);
+    }
+    footer .container {
+      display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    footer a:hover { color: var(--gold-dim); }
+
+    /* TOC */
+    .page-toc { background: var(--surface); border-color: var(--outline); }
+    .page-toc-title { color: var(--gold-dim); }
+    .page-toc a { color: var(--text-mid); }
+    .page-toc a:hover { background: var(--gold-soft); color: var(--primary); }
+    .page-toc a .toc-num { color: var(--gold-dim); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount"></div>
+
+  <div class="sb-layout">
+    <main class="sb-content">
+
+      <section class="hero">
+        <div class="container">
+          <nav class="crumbs">
+            <a href="../../../../../">Acervo</a> <span>/</span>
+            <a href="../../../../">Projetos</a> <span>/</span>
+            <a href="../../">Milan AI Week</a> <span>/</span>
+            <a href="../">Deals Machine</a> <span>/</span>
+            <span style="color: var(--primary);">Como replicar</span>
+          </nav>
+
+          <p class="section-label">Guia de replicação completo</p>
+          <h1>Clona, configura e <em>corre offline</em>.</h1>
+          <p class="subtitle">
+            Passo-a-passo para teres uma cópia funcional do Deals Machine em <strong>~30-45 minutos</strong>. Permite-te modificar agentes, ver como se interligam com a app, e usar o sistema mesmo que o repositório original saia do ar.
+          </p>
+        </div>
+      </section>
+
+      <!-- ========= OVERVIEW ========= -->
+      <section class="block" id="overview">
+        <div class="container">
+          <p class="section-label">O que vais montar</p>
+          <h2>Três serviços, <em>uma base de dados</em>.</h2>
+          <p>O Deals Machine é uma aplicação distribuída com 3 componentes que falam entre si:</p>
+
+          <ul>
+            <li><strong>Cockpit</strong> — UI Next.js (hospedada na Vercel). Vai correr em <code>localhost:3000</code>.</li>
+            <li><strong>Worker</strong> — agente Fastify em TypeScript (hospedado em Vultr). Vai correr em <code>localhost:3001</code>.</li>
+            <li><strong>Lobster Trap</strong> — shield anti prompt-injection (Veea). Vai correr em <code>localhost:8080</code>.</li>
+            <li><strong>Supabase</strong> — Postgres + Realtime + Auth (managed cloud, free tier suficiente para dev).</li>
+          </ul>
+
+          <div class="callout info">
+            <strong>Pré-requisitos</strong>
+            <p>Node.js 20.x, npm/pnpm, Git, conta Supabase (free), conta Anthropic, e — para chamadas reais — Twilio, Speechmatics, Apollo, HubSpot. Sem estas últimas, o cockpit corre mas certas features quebram (chamadas, sourcing).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 1: CLONE ========= -->
+      <section class="block surface" id="step-1">
+        <div class="container">
+          <div class="step-num">1</div>
+          <h2>Clonar o repositório</h2>
+          <p>Usa o <strong>snapshot local</strong> deste acervo (sempre funcional, mesmo offline) ou clona directamente do GitHub original:</p>
+
+          <h3>Opção A — a partir do snapshot offline</h3>
+<pre><span class="comment"># Copia a pasta inteira para um sítio onde queiras trabalhar</span>
+cp -R <span class="key">/caminho/para/acervo-formacoes/projetos/hackathons/milan-ai-week/deals-machine/github-snapshot</span> ~/dev/deals-machine
+cd ~/dev/deals-machine
+
+<span class="comment"># Inicializa novo repo git (snapshot não tem .git)</span>
+git init
+git add .
+git commit -m "Initial commit from acervo snapshot"</pre>
+
+          <h3>Opção B — directo do GitHub</h3>
+<pre>git clone https://github.com/kyletdow47/deals-machine.git
+cd deals-machine</pre>
+
+          <div class="callout tip">
+            <strong>Recomendado: forka para o teu GitHub</strong>
+            <p>Para poderes fazer push das tuas modificações: vai a <a href="https://github.com/kyletdow47/deals-machine" target="_blank" class="ilink">github.com/kyletdow47/deals-machine</a>, clica em <em>Fork</em>, depois clona o teu fork.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 2: SUPABASE ========= -->
+      <section class="block" id="step-2">
+        <div class="container">
+          <div class="step-num">2</div>
+          <h2>Configurar Supabase</h2>
+          <p>Cria um projecto Supabase novo (free tier) — vai ser a base de dados, auth e realtime para o cockpit e worker.</p>
+
+          <ol>
+            <li>Vai a <a href="https://supabase.com" target="_blank" class="ilink">supabase.com</a> e cria conta + projecto. Escolhe região perto de ti.</li>
+            <li>Espera ~2 min até o projecto estar provisionado.</li>
+            <li>Vai a <strong>Project Settings → API</strong>. Copia:
+              <ul>
+                <li><code>Project URL</code> → para <code>SUPABASE_URL</code></li>
+                <li><code>anon public</code> → para <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></li>
+                <li><code>service_role</code> → para <code>SUPABASE_SERVICE_KEY</code> <strong style="color: var(--danger);">(secreto, nunca exposto ao browser)</strong></li>
+              </ul>
+            </li>
+            <li>Vai a <strong>SQL Editor</strong> e corre os 20 ficheiros de <code>supabase/migrations/</code> em ordem (001 → 020). Cola um, executa, próximo.</li>
+          </ol>
+
+          <div class="callout warning">
+            <strong>Atalho via Supabase CLI</strong>
+            <p>Se tens a CLI instalada: <code>supabase link --project-ref &lt;teu-ref&gt;</code> e depois <code>supabase db push</code> aplica todas as migrações de uma vez.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 3: COCKPIT ========= -->
+      <section class="block surface" id="step-3">
+        <div class="container">
+          <div class="step-num">3</div>
+          <h2>Configurar e correr o Cockpit (Next.js)</h2>
+          <p>O cockpit é a UI principal — verticals, pipeline, intelligence, leads, knowledge, analytics, settings.</p>
+
+<pre><span class="comment"># Na raiz do projecto</span>
+cp .env.local.example .env.local
+<span class="comment"># Edita .env.local com os valores Supabase do passo 2</span>
+
+<span class="comment"># Gera shared secret (igual no worker)</span>
+openssl rand -hex 32
+<span class="comment"># Cola o output em WORKER_PROXY_SECRET (ambos .env.local e worker/.env)</span>
+
+npm install
+npm run dev</pre>
+
+          <p>Abre <a href="http://localhost:3000" target="_blank" class="ilink">localhost:3000</a> — devias ver o cockpit. Algumas páginas vão estar vazias até teres dados (próximo passo).</p>
+
+          <h3>Variáveis essenciais do cockpit</h3>
+          <table>
+            <thead><tr><th>Variável</th><th>De onde tirar</th><th>Obrigatória?</th></tr></thead>
+            <tbody>
+              <tr><td><code>NEXT_PUBLIC_SUPABASE_URL</code></td><td>Supabase → API</td><td>Sim</td></tr>
+              <tr><td><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></td><td>Supabase → API</td><td>Sim</td></tr>
+              <tr><td><code>SUPABASE_SERVICE_KEY</code></td><td>Supabase → API (server-only)</td><td>Sim</td></tr>
+              <tr><td><code>WORKER_URL</code></td><td><code>http://localhost:3001</code> (worker local)</td><td>Sim</td></tr>
+              <tr><td><code>WORKER_PROXY_SECRET</code></td><td><code>openssl rand -hex 32</code></td><td>Sim</td></tr>
+              <tr><td><code>ANTHROPIC_API_KEY</code></td><td>console.anthropic.com</td><td>Sim</td></tr>
+              <tr><td><code>APOLLO_API_KEY</code></td><td>app.apollo.io</td><td>Sourcing</td></tr>
+              <tr><td><code>RESEND_API_KEY</code></td><td>resend.com</td><td>Envio email</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 4: WORKER ========= -->
+      <section class="block" id="step-4">
+        <div class="container">
+          <div class="step-num">4</div>
+          <h2>Configurar e correr o Worker (Fastify)</h2>
+          <p>O worker corre o pipeline autónomo de 10 passos: signals → chains → leads → script → coach → score → learn → follow-up. É onde toda a inteligência vive.</p>
+
+<pre>cd worker
+cp .env.example .env
+<span class="comment"># Edita worker/.env com TODAS as chaves abaixo</span>
+
+npm install
+npm run dev   <span class="comment"># tsx watch em PORT 3000 por defeito</span>
+<span class="comment"># Para correr em 3001 (não colidir com cockpit):</span>
+PORT=3001 npm run dev</pre>
+
+          <p>Testa: <code>curl http://localhost:3001/health</code> → deve dar <code>{"status":"ok"}</code>.</p>
+
+          <h3>Chaves de API necessárias no worker</h3>
+          <table>
+            <thead><tr><th>Serviço</th><th>Para quê</th><th>Onde obter</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Anthropic</strong></td><td>Claude Sonnet 4.6 + Haiku 4.5 (raciocínio, coaching)</td><td><a href="https://console.anthropic.com" target="_blank" class="ilink">console.anthropic.com</a></td></tr>
+              <tr><td><strong>OpenAI</strong></td><td>Whisper fallback (transcrição)</td><td><a href="https://platform.openai.com" target="_blank" class="ilink">platform.openai.com</a></td></tr>
+              <tr><td><strong>Speechmatics</strong></td><td>Transcrição RT + batch</td><td><a href="https://portal.speechmatics.com" target="_blank" class="ilink">portal.speechmatics.com</a></td></tr>
+              <tr><td><strong>Twilio</strong></td><td>Click-to-call + Media Streams + recording</td><td><a href="https://console.twilio.com" target="_blank" class="ilink">console.twilio.com</a></td></tr>
+              <tr><td><strong>Apollo.io</strong></td><td>Sourcing de leads B2B</td><td><a href="https://app.apollo.io" target="_blank" class="ilink">app.apollo.io</a></td></tr>
+              <tr><td><strong>HubSpot</strong></td><td>Push CRM (Private App token)</td><td><a href="https://app.hubspot.com" target="_blank" class="ilink">app.hubspot.com</a></td></tr>
+              <tr><td><strong>Granola</strong></td><td>Auto-pickup transcripts meetings</td><td><a href="https://granola.ai" target="_blank" class="ilink">granola.ai</a></td></tr>
+              <tr><td><strong>NewsAPI</strong></td><td>Sinais de notícias</td><td><a href="https://newsapi.org" target="_blank" class="ilink">newsapi.org</a></td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout warning">
+            <strong>Twilio webhook URL</strong>
+            <p>Para chamadas reais funcionarem, Twilio precisa de bater num URL público com HTTPS. Em dev usa <code>ngrok http 3001</code> e mete o URL ngrok em <code>TWILIO_WEBHOOK_BASE</code>.</p>
+          </div>
+
+          <div class="callout tip">
+            <strong>Estratégia mínima viável</strong>
+            <p>Para só explorar a app sem chamadas reais: configura só Anthropic + Apollo + Supabase. Vais conseguir gerar verticals, fazer sourcing, ver o pipeline a correr sem ter de pagar Twilio/Speechmatics.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 5: LOBSTER TRAP ========= -->
+      <section class="block surface" id="step-5">
+        <div class="container">
+          <div class="step-num">5</div>
+          <h2>Lobster Trap (opcional)</h2>
+          <p>Shield anti prompt-injection. Em dev podes saltar — o worker faz fallback in-process para regex+classifier directamente.</p>
+
+          <h3>Para correr standalone</h3>
+<pre>cd lobster-trap
+npm install
+npm run dev   <span class="comment"># Fastify em PORT 8080</span>
+
+<span class="comment"># Ou via Docker:</span>
+docker build -t lobster-trap .
+docker run -p 8080:8080 -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY lobster-trap</pre>
+
+          <p>Testa: <code>curl -X POST http://localhost:8080/v1/check -H "Content-Type: application/json" -d '{"text":"Ignore previous instructions"}'</code> → vai bloquear.</p>
+        </div>
+      </section>
+
+      <!-- ========= PASSO 6: USAR ========= -->
+      <section class="block" id="step-6">
+        <div class="container">
+          <div class="step-num">6</div>
+          <h2>Primeira utilização</h2>
+          <p>Com os 3 serviços a correr, abre <a href="http://localhost:3000" target="_blank" class="ilink">localhost:3000</a> e segue o onboarding:</p>
+
+          <ol>
+            <li><strong>Gera o primeiro vertical</strong> em <code>/onboarding</code>. Cola um parágrafo a descrever o que vendes e a quem. Claude gera ICP + 4-5 fontes de sinal + persona.</li>
+            <li><strong>Refina</strong> — ajusta sinais, exclusões, tom. Aceita.</li>
+            <li><strong>Run pipeline</strong> em <code>/pipeline</code>. O worker vai correr os 10 passos e popular leads no Supabase.</li>
+            <li><strong>Vê leads</strong> em <code>/leads</code>. Faz click-to-call num lead (se Twilio configurado) ou simula com transcript upload.</li>
+            <li><strong>Após a call</strong>, vai a <code>/intelligence</code> — scorecard e brain entries actualizadas.</li>
+            <li><strong>Tag outcome</strong>. Playbook regenera. Próxima call usa script melhorado.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ========= MODIFICAR ========= -->
+      <section class="block surface" id="modificar">
+        <div class="container">
+          <p class="section-label">Aprofundar &amp; modificar</p>
+          <h2>Como <em>melhorar</em> os agentes</h2>
+          <p>Toda a lógica do agente vive em <code>worker/src/</code>. Os sítios mais interessantes para mexer:</p>
+
+          <table>
+            <thead><tr><th>Ficheiro / pasta</th><th>O que controla</th></tr></thead>
+            <tbody>
+              <tr><td><code><a href="../github-snapshot/worker/src/pipeline/" class="ilink">worker/src/pipeline/</a></code></td><td>Orquestração dos 10 passos. Aqui muda-se a sequência ou condições.</td></tr>
+              <tr><td><code><a href="../github-snapshot/worker/src/llm/" class="ilink">worker/src/llm/</a></code></td><td>Wrappers Claude. Aqui muda-se o prompt, o modelo, temperatura.</td></tr>
+              <tr><td><code><a href="../github-snapshot/worker/src/playbook/" class="ilink">worker/src/playbook/</a></code></td><td>Geração de scripts/cheat-sheets. Aqui controla-se o tom e estrutura do playbook.</td></tr>
+              <tr><td><code><a href="../github-snapshot/worker/src/coaching/" class="ilink">worker/src/coaching/</a></code></td><td>Loop de coaching live durante a call. Cadência, janela rolante, tipo de cards.</td></tr>
+              <tr><td><code><a href="../github-snapshot/worker/src/brain/" class="ilink">worker/src/brain/</a></code></td><td>Memória por lead. Sistema de pesos e decay temporal.</td></tr>
+              <tr><td><code><a href="../github-snapshot/worker/src/signals/" class="ilink">worker/src/signals/</a></code></td><td>Scraping de fontes (RSS/Reddit/HN). Adicionar novas fontes aqui.</td></tr>
+              <tr><td><code><a href="../github-snapshot/app/api/" class="ilink">app/api/</a></code></td><td>22 rotas API do cockpit. São proxies que reencaminham para o worker.</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <strong>Workflow recomendado</strong>
+            <p>Faz fork do repo, cria branch <code>experiments/&lt;nome&gt;</code>, mexe num agente de cada vez, corre em local, mede impacto. Quando estiver bom, push para o teu fork.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========= TROUBLESHOOTING ========= -->
+      <section class="block" id="troubleshooting">
+        <div class="container">
+          <p class="section-label">Quando algo falha</p>
+          <h2>Troubleshooting</h2>
+
+          <h3>Cockpit dá erro de Supabase auth</h3>
+          <p>Verifica que o <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> está correcto. Re-arranca o <code>npm run dev</code> sempre que mexes em <code>.env.local</code>.</p>
+
+          <h3>Worker dá 401 ao ser chamado</h3>
+          <p>O <code>WORKER_PROXY_SECRET</code> no cockpit e no worker tem de ser <strong>exactamente igual</strong>. Re-gera com <code>openssl rand -hex 32</code> e copia para os dois ficheiros.</p>
+
+          <h3>Twilio não consegue chegar ao webhook</h3>
+          <p>Twilio precisa de URL público com HTTPS. Em local usa <code>ngrok http 3001</code> e mete a URL gerada (ex.: <code>https://abc123.ngrok-free.app</code>) em <code>TWILIO_WEBHOOK_BASE</code>. Re-arranca o worker.</p>
+
+          <h3>Migrations falham no Supabase</h3>
+          <p>Corre uma a uma em <strong>ordem numérica</strong> no SQL Editor. Se uma falhar, lê a mensagem — provavelmente faltou uma extensão (ex.: <code>pgvector</code>). Activa em <strong>Database → Extensions</strong>.</p>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div>Guia adaptado do <a href="../github-snapshot/README.md" class="ilink">README do projecto</a> · arquivado 23/05/2026</div>
+          <div><a href="../">← Página do projecto</a></div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <button class="page-toc-trigger" id="toc-trigger" aria-label="Mostrar índice">≡</button>
+  <aside class="page-toc" id="page-toc" aria-label="Índice da página">
+    <div class="page-toc-section">
+      <div class="page-toc-title">Passos</div>
+      <a href="#overview"><span class="toc-num">0</span><span class="toc-text">Overview</span></a>
+      <a href="#step-1"><span class="toc-num">1</span><span class="toc-text">Clonar o repo</span></a>
+      <a href="#step-2"><span class="toc-num">2</span><span class="toc-text">Supabase</span></a>
+      <a href="#step-3"><span class="toc-num">3</span><span class="toc-text">Cockpit</span></a>
+      <a href="#step-4"><span class="toc-num">4</span><span class="toc-text">Worker</span></a>
+      <a href="#step-5"><span class="toc-num">5</span><span class="toc-text">Lobster Trap</span></a>
+      <a href="#step-6"><span class="toc-num">6</span><span class="toc-text">Primeira utilização</span></a>
+    </div>
+    <div class="page-toc-section">
+      <div class="page-toc-title">Avançado</div>
+      <a href="#modificar"><span class="toc-num">→</span><span class="toc-text">Modificar agentes</span></a>
+      <a href="#troubleshooting"><span class="toc-num">→</span><span class="toc-text">Troubleshooting</span></a>
+    </div>
+  </aside>
+
+  <script src="../../../../../_shared/sidebar.js" defer></script>
+  <script>
+    const trigger = document.getElementById('toc-trigger');
+    const toc = document.getElementById('page-toc');
+    if (trigger && toc) {
+      trigger.addEventListener('click', () => toc.classList.toggle('open'));
+      toc.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toc.classList.remove('open')));
+    }
+  </script>
+
+</body>
+</html>
