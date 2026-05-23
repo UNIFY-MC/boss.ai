@@ -90,6 +90,10 @@ jobs:
       - name: Run HTMLHint
         run: |
           npm install --no-save htmlhint
-          npx htmlhint "acervo-formacoes/**/*.html" \
-            --ignore "acervo-formacoes/projetos/**/mirror/**,acervo-formacoes/projetos/**/github-snapshot/**" \
+          # Pre-filter via shell glob (htmlhint CLI ignore behavior is unreliable across versions)
+          files=$(find acervo-formacoes -name '*.html' \
+            -not -path '*/mirror/*' \
+            -not -path '*/github-snapshot/*')
+          echo "Linting $(echo "$files" | wc -l) files"
+          npx htmlhint $files \
             --rules "tagname-lowercase=true,attr-lowercase=true,doctype-first=true,id-unique=true,src-not-empty=true,alt-require=warn"
