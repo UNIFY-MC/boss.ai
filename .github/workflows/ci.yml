@@ -91,4 +91,5 @@ jobs:
         run: |
           npm install --no-save htmlhint
           npx htmlhint "acervo-formacoes/**/*.html" \
+            --ignore "acervo-formacoes/projetos/**/mirror/**,acervo-formacoes/projetos/**/github-snapshot/**" \
             --rules "tagname-lowercase=true,attr-lowercase=true,doctype-first=true,id-unique=true,src-not-empty=true,alt-require=warn"
