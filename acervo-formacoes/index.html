@@ -72,6 +72,15 @@
       font-size: 13px;
       color: var(--color-shadowstone-gray);
     }
+    .nav-meta-link {
+      color: var(--color-whisper-gray);
+      margin-right: 20px;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+    .nav-meta-link:hover {
+      color: var(--color-inkwell-black);
+    }
 
     .hero {
       background: var(--color-inkwell-black);
@@ -583,7 +592,20 @@
 </head>
 <body>
 
-  <div id="sidebar-mount"></div>
+  <div id="sidebar-mount">
+    <noscript>
+      <nav aria-label="Navegação (sem JavaScript)" style="padding:16px 24px;border-bottom:1px solid #e5e5e5;background:#fefefc;font-family:Inter,sans-serif">
+        <strong style="display:block;margin-bottom:8px">Acervo de Formações</strong>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:16px;font-size:14px">
+          <li><a href="/">Hub do acervo</a></li>
+          <li><a href="/formacoes/aiox-cohort-fundamentals/">AIOX Cohort T5</a></li>
+          <li><a href="/formacoes/reprise-masterclass-design-ia/">Masterclass Design</a></li>
+          <li><a href="/formacoes/aulao-claude-code/">Aulão Claude Code</a></li>
+          <li><a href="/formacoes/claude-code-build-day/">Build Day Porto</a></li>
+        </ul>
+      </nav>
+    </noscript>
+  </div>
 
   <div class="sb-layout">
     <main class="sb-content">
@@ -592,8 +614,8 @@
     <div class="container">
       <div class="nav-brand">Acervo <span>de Formações</span></div>
       <div class="nav-meta">
-        <a href="#" style="color: var(--color-whisper-gray); margin-right: 20px; font-size: 13px; transition: color 0.2s;" onmouseover="this.style.color='#000'" onmouseout="this.style.color=''">Formações</a>
-        <a href="#referencias" style="color: var(--color-whisper-gray); margin-right: 20px; font-size: 13px; transition: color 0.2s;" onmouseover="this.style.color='#000'" onmouseout="this.style.color=''">Referências</a>
+        <a href="#" class="nav-meta-link">Formações</a>
+        <a href="#referencias" class="nav-meta-link">Referências</a>
         <span style="color: var(--color-shadowstone-gray); font-size: 13px;">Mário Carvalho</span>
       </div>
     </div>
