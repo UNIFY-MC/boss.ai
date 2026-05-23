@@ -1,0 +1,59 @@
+/* a11y baseline — WCAG 2.1 Level A */
+
+/* Skip link — visible only when focused (2.4.1 Bypass Blocks) */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  background: #0a0a0a;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Global focus-visible — coherent across all interactive elements (2.4.7) */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Avoid drawing outline twice on focusable wrappers that already style :focus */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Active sidebar item (aria-current) — visually distinct */
+.sb-link[aria-current="page"] {
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Respect reduced motion (2.3.3 — though optional in Level A, good hygiene) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

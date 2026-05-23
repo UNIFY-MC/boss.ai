@@ -2,6 +2,24 @@
 // Each page must have <div id="sidebar-mount"></div> and link _shared/sidebar.css.
 
 (function () {
+  // Inject shared a11y stylesheet exactly once
+  if (!document.querySelector('link[data-acervo-a11y]')) {
+    const a11yLink = document.createElement('link');
+    a11yLink.rel = 'stylesheet';
+    a11yLink.href = '/_shared/a11y.css';
+    a11yLink.setAttribute('data-acervo-a11y', '');
+    document.head.appendChild(a11yLink);
+  }
+
+  // Inject skip-link as first focusable element (WCAG 2.4.1 Bypass Blocks)
+  if (!document.querySelector('.skip-link')) {
+    const skip = document.createElement('a');
+    skip.className = 'skip-link';
+    skip.href = '#content';
+    skip.textContent = 'Ir para conteúdo';
+    document.body.insertBefore(skip, document.body.firstChild);
+  }
+
   const mount = document.getElementById('sidebar-mount');
   if (!mount) return;
 
@@ -148,6 +166,17 @@
     const href = l.getAttribute('href');
     if (!href || href.startsWith('http')) return;
     const cleanHref = href.split('#')[0].replace(/\/$/, '') || '/';
-    if (cleanHref === currentPath) l.classList.add('active');
+    if (cleanHref === currentPath) {
+      l.classList.add('active');
+      l.setAttribute('aria-current', 'page');
+    }
+  });
+
+  // ESC closes the mobile drawer (WCAG 2.1.1 Keyboard accessible)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+      close();
+      toggle.focus();
+    }
   });
 })();
