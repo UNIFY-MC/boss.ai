@@ -615,6 +615,7 @@
       <div class="nav-brand">Acervo <span>de Formações</span></div>
       <div class="nav-meta">
         <a href="#" class="nav-meta-link">Formações</a>
+        <a href="#projetos" class="nav-meta-link">Projetos</a>
         <a href="#referencias" class="nav-meta-link">Referências</a>
         <span style="color: var(--color-shadowstone-gray); font-size: 13px;">Mário Carvalho</span>
       </div>
@@ -646,8 +647,8 @@
         <div class="stat-label">Páginas replicadas</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">2026</div>
-        <div class="stat-label">Ano corrente</div>
+        <div class="stat-value" id="stat-projetos">1</div>
+        <div class="stat-label">Projeto arquivado</div>
       </div>
     </div>
   </section>
@@ -817,6 +818,34 @@
 
       <div class="empty-state" id="empty">
         Nenhuma formação corresponde à pesquisa.
+      </div>
+    </div>
+  </section>
+
+  <section class="projetos" id="projetos" style="padding: 60px 0; background: #0a0a0a; color: #e8e8e8;">
+    <div class="container">
+      <p class="section-label" style="color: #d1ff00;">Projetos &amp; Hackathons</p>
+      <h2 class="section-title" style="color: #fff;">Submissões e projectos que <em style="color: #d1ff00; font-style: normal;">vale a pena</em> guardar</h2>
+      <p class="section-desc" style="color: #a8a8a8; margin-bottom: 32px;">
+        Trabalhos de hackathons de IA replicados aqui — código, apresentações, demos. Para que nada se perca.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+
+        <a href="projetos/hackathons/milan-ai-week/deals-machine/" style="display: flex; flex-direction: column; background: #161616; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.borderColor='rgba(209,255,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0)'">
+          <span style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #d1ff00; margin-bottom: 10px;">🇮🇹 Milan AI Week · 19/05</span>
+          <h3 style="font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.01em; margin-bottom: 8px;">Deals Machine</h3>
+          <p style="color: #a8a8a8; font-size: 14px; margin-bottom: 14px; flex-grow: 1;">Agente autónomo de vendas B2B. Coach em tempo real durante a call, scoring pós-chamada, follow-up auto e envio via Gmail real do operador.</p>
+          <div style="display: flex; gap: 10px; font-size: 11px; color: #6a6a6a; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span>Kyle Dow</span><span>·</span><span>View 1 Studio</span><span>·</span><span>Claude · Speechmatics</span>
+          </div>
+        </a>
+
+        <a href="projetos/" style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; border: 1px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 24px; min-height: 180px; text-decoration: none; color: #6a6a6a; font-size: 13px;" onmouseover="this.style.borderColor='#d1ff00';this.style.color='#d1ff00'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#6a6a6a'">
+          <span style="font-size: 22px; margin-bottom: 6px;">+</span>
+          Ver todos os projetos
+        </a>
+
       </div>
     </div>
   </section>
