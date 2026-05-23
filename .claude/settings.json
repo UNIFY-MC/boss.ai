@@ -17,5 +17,31 @@
       "Edit(.aiox-core/constitution.md)",
       "Write(.aiox-core/constitution.md)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/enforce-git-push-authority.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/synapse-engine.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }
+
