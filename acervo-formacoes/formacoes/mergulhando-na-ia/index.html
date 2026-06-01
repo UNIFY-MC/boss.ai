@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../../_shared/favicon.svg">
+  <title>Mergulhando na IA — Imersão · Leandro Ladeira / VTSD</title>
+  <meta name="description" content="Imersão Mergulhando na IA com Leandro Ladeira (VTSD). 60 materiais ao longo de 3 dias — PDFs, Skills para Claude, Docs, Planilhas e ferramentas.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../_shared/sidebar.css">
+  <style>
+    /* =============================================
+       OCEAN DESIGN SYSTEM — Tokens
+       (extraídos do site original mergulhando na IA)
+       ============================================= */
+    :root {
+      /* Ocean palette */
+      --ocean-deep:    #0d1e33;   /* oklch(22% .09 240) */
+      --ocean-mid:     #1d4f88;   /* oklch(42% .14 230) */
+      --ocean-surface: #3a7cbf;   /* oklch(62% .13 220) */
+      --ocean-cta:     #c8e040;   /* oklch(88% .18 95)  — lime */
+
+      /* Neutral / layout */
+      --bg:        #f0f5fa;   /* oklch(97% .01 240) — fundo geral */
+      --card:      #ffffff;
+      --fg:        #111827;   /* oklch(18% .05 250) — texto principal */
+      --muted-fg:  #6b7a8f;   /* oklch(50% .03 250) */
+      --secondary: #e8f0f8;   /* oklch(95% .02 230) */
+      --border:    #d0dce8;   /* oklch(90% .02 240) */
+
+      /* Badge colours */
+      --badge-pdf-bg:   #fef2f0; --badge-pdf-fg:   #c0392b;
+      --badge-yt-bg:    #fff3f3; --badge-yt-fg:    #cc0000;
+      --badge-doc-bg:   #eef3ff; --badge-doc-fg:   #1e4d88;
+      --badge-skill-bg: #f5f7e8; --badge-skill-fg: #5a7a10;
+      --badge-link-bg:  #edf5f5; --badge-link-fg:  #1a6060;
+      --badge-sheet-bg: #edf8f0; --badge-sheet-fg: #1a7a40;
+
+      /* Acervo system fonts */
+      --font-display: 'Playfair Display', 'Lora', Georgia, serif;
+      --font-heading: 'Lora', Georgia, serif;
+      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --radius-card: 12px;
+      --radius-btn:  4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* =============================================
+       NAV
+       ============================================= */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(240,245,250,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo img { height: 28px; width: auto; }
+    .nav-title {
+      font-family: var(--font-heading); font-weight: 300;
+      font-size: 18px; letter-spacing: -0.01em;
+      color: var(--ocean-deep);
+    }
+    .nav-title em { font-style: italic; color: var(--ocean-mid); }
+    .nav-back {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--muted-fg); transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ocean-mid); }
+
+    /* =============================================
+       HERO
+       ============================================= */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: 320px;
+      display: flex; align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/hero.webp');
+      background-size: cover; background-position: center 30%;
+      filter: brightness(0.75);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,30,51,0.3) 0%,
+        rgba(13,30,51,0.65) 60%,
+        rgba(13,30,51,0.92) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      width: 100%; padding: 48px 0 40px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ocean-cta);
+      border: 1px solid rgba(200,224,64,0.35);
+      background: rgba(200,224,64,0.08);
+      padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 1.0; letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 16px; max-width: 640px;
+    }
+    .hero h1 em { font-style: italic; color: var(--ocean-cta); }
+    .hero-sub {
+      font-size: 16px; line-height: 1.55;
+      color: rgba(255,255,255,0.72);
+      max-width: 500px; margin-bottom: 32px;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .hero-meta-label {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.35);
+    }
+    .hero-meta-value {
+      font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.88);
+    }
+    .hero-meta-value a {
+      color: var(--ocean-cta); transition: opacity 0.2s;
+    }
+    .hero-meta-value a:hover { opacity: 0.75; }
+
+    /* =============================================
+       PROGRESS STRIP
+       ============================================= */
+    .progress-strip {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .progress-strip .container {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .progress-label {
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--muted-fg); white-space: nowrap;
+    }
+    .progress-track {
+      flex: 1; height: 5px; border-radius: 3px;
+      background: var(--secondary); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--ocean-mid), var(--ocean-surface));
+      width: 29.41%; /* 5/17 */
+      transition: width 0.5s ease;
+    }
+    .progress-count {
+      font-size: 13px; font-weight: 600;
+      color: var(--ocean-mid); white-space: nowrap;
+    }
+
+    /* =============================================
+       INSTRUTOR CARD
+       ============================================= */
+    .instrutor-section {
+      padding: 48px 0 0;
+    }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted-fg); margin-bottom: 6px;
+    }
+    .section-h2 {
+      font-family: var(--font-heading); font-weight: 300;
+      font-size: clamp(22px, 3.5vw, 30px);
+      letter-spacing: -0.01em; color: var(--ocean-deep);
+      margin-bottom: 24px;
+    }
+    .section-h2 em { font-style: italic; color: var(--ocean-mid); }
+
+    .instrutor-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .instrutor-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--ocean-mid), var(--ocean-surface));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 28px; font-family: var(--font-display);
+      font-weight: 400; flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .instrutor-info {}
+    .instrutor-name {
+      font-family: var(--font-heading); font-weight: 400;
+      font-size: 22px; color: var(--ocean-deep);
+      letter-spacing: -0.01em; margin-bottom: 4px;
+    }
+    .instrutor-role {
+      font-size: 13px; color: var(--ocean-mid); font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .instrutor-bio {
+      font-size: 14px; line-height: 1.6; color: var(--muted-fg);
+      margin-bottom: 16px; max-width: 600px;
+    }
+    .instrutor-stats {
+      display: flex; flex-wrap: wrap; gap: 12px 24px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .instrutor-stat { display: flex; flex-direction: column; gap: 1px; }
+    .instrutor-stat-val {
+      font-size: 16px; font-weight: 600; color: var(--ocean-deep);
+      letter-spacing: -0.02em;
+    }
+    .instrutor-stat-lbl {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted-fg);
+    }
+    .instrutor-links {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+    }
+    .instrutor-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500;
+      color: var(--ocean-mid);
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .instrutor-link:hover {
+      background: var(--ocean-mid); color: #fff;
+      border-color: var(--ocean-mid);
+    }
+
+    /* =============================================
+       MATERIAIS
+       ============================================= */
+    .materiais-section { padding: 40px 0 72px; }
+
+    .day-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+    .day-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+    }
+    .day-pill {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ocean-cta);
+      background: rgba(200,224,64,0.12);
+      border: 1px solid rgba(200,224,64,0.3);
+      padding: 3px 12px; border-radius: 20px;
+    }
+    .day-title {
+      font-family: var(--font-heading); font-weight: 400;
+      font-size: 18px; color: #fff;
+    }
+    .day-count {
+      margin-left: auto; font-size: 12px;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
+    }
+
+    /* Material rows */
+    .material-list { list-style: none; }
+
+    .mat-row {
+      display: grid;
+      grid-template-columns: 2rem 1fr 1.4rem 6.5rem;
+      align-items: center; gap: 12px;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: default;
+    }
+    a.mat-row {
+      cursor: pointer;
+    }
+    a.mat-row:hover { background: var(--secondary); }
+    .mat-row.locked { opacity: 0.45; }
+
+    .mat-num {
+      font-size: 11px; color: var(--muted-fg);
+      font-variant-numeric: tabular-nums; text-align: right;
+      font-weight: 500;
+    }
+    .mat-title {
+      font-size: 14px; font-weight: 500; color: var(--fg);
+    }
+    .mat-row.locked .mat-title { color: var(--muted-fg); }
+
+    .mat-icon {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mat-icon svg { width: 14px; height: 14px; color: var(--muted-fg); }
+
+    .mat-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 11px; font-weight: 600;
+      justify-self: end; white-space: nowrap;
+    }
+    .mat-badge svg { width: 10px; height: 10px; flex-shrink: 0; }
+
+    .b-pdf   { background: var(--badge-pdf-bg);   color: var(--badge-pdf-fg); }
+    .b-yt    { background: var(--badge-yt-bg);    color: var(--badge-yt-fg);  }
+    .b-doc   { background: var(--badge-doc-bg);   color: var(--badge-doc-fg); }
+    .b-skill { background: var(--badge-skill-bg); color: var(--badge-skill-fg); }
+    .b-link  { background: var(--badge-link-bg);  color: var(--badge-link-fg); }
+    .b-sheet { background: var(--badge-sheet-bg); color: var(--badge-sheet-fg); }
+
+    /* Local file indicator */
+    a.mat-row[data-local="true"] .mat-title::after {
+      content: ' ↓';
+      font-size: 10px;
+      color: var(--ocean-surface);
+      font-weight: 400;
+    }
+
+    /* =============================================
+       DRIVE SECTION
+       ============================================= */
+    .drive-section {
+      background: var(--secondary);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    .drive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px; margin-top: 20px;
+    }
+    .drive-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .drive-item:hover {
+      border-color: var(--ocean-mid);
+      transform: translateY(-1px);
+    }
+    .drive-item-icon {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .drive-item-icon.pdf   { background: var(--badge-pdf-bg); color: var(--badge-pdf-fg); }
+    .drive-item-icon.video { background: #fff3f3; color: #c00; }
+    .drive-item-icon.image { background: #f3f8ff; color: #2060c0; }
+    .drive-item-body {}
+    .drive-item-name {
+      font-size: 13px; font-weight: 500; color: var(--fg);
+      line-height: 1.3; margin-bottom: 3px;
+    }
+    .drive-item-meta {
+      font-size: 11px; color: var(--muted-fg);
+    }
+
+    /* =============================================
+       FONTE / FOOTER
+       ============================================= */
+    .fonte-bar {
+      background: var(--ocean-deep);
+      padding: 28px 0;
+    }
+    .fonte-bar .container {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 12px;
+    }
+    .fonte-text {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+    }
+    .fonte-text strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+    .fonte-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      color: var(--ocean-cta);
+      border: 1px solid rgba(200,224,64,0.3);
+      padding: 6px 16px; border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .fonte-link:hover { background: rgba(200,224,64,0.1); }
+
+    footer {
+      background: #080f1a;
+      color: rgba(255,255,255,0.35);
+      padding: 32px 0; font-size: 12px;
+    }
+    footer .container {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-brand {
+      font-family: var(--font-heading); font-weight: 300;
+      color: rgba(255,255,255,0.65); font-size: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .hero { min-height: 260px; }
+      .hero-meta { gap: 12px 20px; }
+      .mat-row { grid-template-columns: 1.5rem 1fr 1.2rem 5.5rem; gap: 8px; padding: 12px 16px; }
+      .day-header { padding: 12px 16px; }
+      .instrutor-card { grid-template-columns: 1fr; }
+      .instrutor-avatar { display: none; }
+    }
+
+    /* SIDEBAR LAYOUT */
+    .sb-layout { display: flex; min-height: 100vh; align-items: flex-start; }
+    .sb-content { flex: 1 1 auto; min-width: 0; }
+  
+    .b-prompt { background: #f3eef9; color: #6b4ea8; }
+    .mat-row.is-prompt { cursor: default; }
+    .mat-row.is-prompt .mat-title { color: var(--muted-fg); }
+    .day-card + .day-card { margin-top: 20px; }
+
+  
+    a.mat-row[data-drive="true"] .mat-title::after { content: ' \2197'; font-size: 10px; color: var(--ocean-surface); font-weight: 400; }
+  
+    .mat-desc { font-size: 12.5px; line-height: 1.45; color: var(--muted-fg); padding: 2px 24px 13px 3.5rem; margin: 0; border-top: none; }
+    li:has(.mat-desc) .mat-row { border-bottom: none; }
+    .skills-flow-section { background: var(--secondary); border-top: 1px solid var(--border); padding: 48px 0; }
+    .flow-phase { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px 24px; margin-top: 14px; }
+    .flow-phase-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .flow-phase-num { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, var(--ocean-mid), var(--ocean-surface)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .flow-phase-title { font-family: var(--font-heading); font-weight: 400; font-size: 17px; color: var(--ocean-deep); }
+    .flow-phase-title small { font-size: 12px; color: var(--muted-fg); font-family: var(--font-body); }
+    .flow-steps { font-size: 13.5px; line-height: 1.65; color: var(--fg); }
+    .flow-steps b { color: var(--ocean-mid); font-weight: 600; }
+    .flow-chain { font-size: 12.5px; color: var(--muted-fg); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+    .flow-chain b { color: var(--ocean-mid); }
+    @media (max-width: 640px) { .mat-desc { padding-left: 2.6rem; } }
+
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount">
+    <noscript>
+      <nav aria-label="Navegação (sem JavaScript)" style="padding:16px 24px;border-bottom:1px solid #dde5ef;background:#f0f5fa;font-family:Inter,sans-serif">
+        <strong style="display:block;margin-bottom:8px;color:#0d1e33">Acervo de Formações</strong>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:16px;font-size:14px">
+          <li><a href="../../">Hub do acervo</a></li>
+          <li><a href="../aiox-cohort-fundamentals/">AIOX Cohort T5</a></li>
+          <li><a href="../reprise-masterclass-design-ia/">Masterclass Design</a></li>
+          <li><a href="../aulao-claude-code/">Aulão Claude Code</a></li>
+          <li><a href="../claude-code-build-day/">Build Day Porto</a></li>
+          <li><a href="./" aria-current="page">Mergulhando na IA</a></li>
+        </ul>
+      </nav>
+    </noscript>
+  </div>
+
+  <div class="sb-layout">
+    <main id="content" class="sb-content">
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="nav-logo">
+        <img src="assets/logo.svg" alt="Mergulhando na IA" onerror="this.style.display='none'">
+        <span class="nav-title">Mergulhando <em>na IA</em></span>
+      </div>
+      <a href="../../" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Acervo
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" role="img" aria-label="Imagem hero da imersão Mergulhando na IA"></div>
+    <div class="hero-content">
+      <div class="container">
+        <div class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          Concluída · Imersão IA · VTSD
+        </div>
+        <h1>Mergulhando <em>na IA</em></h1>
+        <p class="hero-sub">
+          Imersão de 3 dias com 60 materiais — PDFs, Skills para Claude, Docs, Planilhas e ferramentas práticas para criar e vender infoprodutos com IA. Todos os materiais arquivados.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Formador</span>
+            <span class="hero-meta-value">
+              <a href="https://www.instagram.com/leandroladeiran/" target="_blank" rel="noopener">Leandro Ladeira</a>
+            </span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Plataforma</span>
+            <span class="hero-meta-value">vendatodosantodia.com.br</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Formato</span>
+            <span class="hero-meta-value">Imersão 3 dias (Zoom)</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Datas</span>
+            <span class="hero-meta-value">28–30 Maio 2026</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Materiais</span>
+            <span class="hero-meta-value" id="hero-progress">60 materiais · concluída</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS STRIP -->
+  <div class="progress-strip" role="region" aria-label="Estado dos materiais">
+    <div class="container">
+      <span class="progress-label">Concluída</span>
+      <div class="progress-track" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="60" aria-label="60 de 60 materiais disponíveis">
+        <div class="progress-fill" style="width:100%"></div>
+      </div>
+      <span class="progress-count">60 / 60</span>
+    </div>
+  </div>
+
+  <!-- INSTRUTOR -->
+  <section class="instrutor-section">
+    <div class="container">
+      <p class="section-eyebrow">Formador</p>
+      <h2 class="section-h2">Leandro <em>Ladeira</em></h2>
+
+      <div class="instrutor-card">
+        <div class="instrutor-avatar" aria-hidden="true">LL</div>
+        <div class="instrutor-info">
+          <div class="instrutor-name">Leandro Ladeira</div>
+          <div class="instrutor-role">Fundador VTSD · "Ladeirinha"</div>
+          <p class="instrutor-bio">
+            Especialista em vendas perpétuas e infoprodutos digitais. Criou o método <strong>Venda Todo Santo Dia (VTSD)</strong> — a estratégia de funis contínuos que vende todos os dias, sem depender exclusivamente de lançamentos pontuais. Mais de 90.000 alunos e R$&nbsp;300M+ em faturamento combinado entre VTSD e Mulheres Bem Resolvidas. Top 25 Hotmart Galaxy. Prémio iBest 2023 e 2024 — Influenciador de Marketing Digital.
+          </p>
+          <p class="instrutor-bio" style="margin-top:-4px">
+            Nesta imersão ensinou a criar e lançar infoprodutos de raiz usando IA — desde a concepção do produto, funil de vendas, copywriting, anúncios e automações. Cada sessão libertou novos materiais e Skills para Claude.
+          </p>
+          <div class="instrutor-stats">
+            <div class="instrutor-stat">
+              <span class="instrutor-stat-val">90 000+</span>
+              <span class="instrutor-stat-lbl">Alunos VTSD</span>
+            </div>
+            <div class="instrutor-stat">
+              <span class="instrutor-stat-val">~2M</span>
+              <span class="instrutor-stat-lbl">Seguidores Instagram</span>
+            </div>
+            <div class="instrutor-stat">
+              <span class="instrutor-stat-val">~1M</span>
+              <span class="instrutor-stat-lbl">Subscritores YouTube</span>
+            </div>
+            <div class="instrutor-stat">
+              <span class="instrutor-stat-val">Top 25</span>
+              <span class="instrutor-stat-lbl">Hotmart Galaxy</span>
+            </div>
+          </div>
+          <div class="instrutor-links">
+            <a class="instrutor-link" href="https://www.instagram.com/leandroladeiran/" target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @leandroladeiran
+            </a>
+            <a class="instrutor-link" href="https://www.youtube.com/@VTSD" target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+              YouTube VTSD
+            </a>
+            <a class="instrutor-link" href="https://www.vendatodosantodia.com.br" target="_blank" rel="noopener">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              vendatodosantodia.com.br
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIAIS -->
+  <section class="materiais-section">
+    <div class="container">
+      <p class="section-eyebrow" style="margin-top:40px">Trilha de materiais</p>
+      <h2 class="section-h2">Programa <em>completo</em> — 3 dias</h2>
+      <p style="font-size:13px;color:var(--muted-fg);margin:-12px 0 24px">
+        Todos os materiais alojados no <strong style="color:var(--ocean-mid)">Google Drive</strong> (acervo permanente). Cada link abre o ficheiro no Drive.
+      </p>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-pill">Dia 01</span><span class="day-title">Preparação</span><span class="day-count">26 materiais</span></div>
+        <ul class="material-list">
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/13h2oPR3PE40pQRYFNBOZMN5L3okzts-p/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Plano Inicial"><span class="mat-num">01</span><span class="mat-title">PDF | Plano Inicial</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Documento de arranque da imersão: o plano geral e o que preparar antes de começar a criar o infoproduto.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.youtube.com/watch?v=3XoOOP-LBss&amp;t=5s" target="_blank" rel="noopener" aria-label="Aula | Professora Luciana Helena Galvão"><span class="mat-num">02</span><span class="mat-title">Aula | Professora Luciana Helena Galvão</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-yt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</span></a>
+            <p class="mat-desc">Aula convidada em vídeo, complementar aos fundamentos do percurso.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://docs.google.com/document/d/1fxnSE9AfZ3pbv8oSELFLCwdpVL168jpNxi4Nqg3smzc/edit?usp=sharing" target="_blank" rel="noopener" aria-label="Doc | Os 7 Passos do Perpétuo"><span class="mat-num">03</span><span class="mat-title">Doc | Os 7 Passos do Perpétuo</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8M16 13H8M16 17H8"/></svg>Google Doc</span></a>
+            <p class="mat-desc">O método de vendas perpétuas da VTSD em 7 passos. É a base estratégica de todo o funil.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1LKIDefy_5Va6k-0wKioss0-HYHQes1Wr/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Produto"><span class="mat-num">04</span><span class="mat-title">PDF | Produto</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material da aula de produto: como definir e estruturar a oferta que vais vender.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1dIiJUnp5rvOOrFhj1PrvMDSmuGq1Po1c/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Funil de Vendas"><span class="mat-num">05</span><span class="mat-title">PDF | Funil de Vendas</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material sobre a estrutura do funil perpétuo e a lógica de conversão por etapa.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/15wvDPBU6NDrcLjPOKxF2miN0tAMkxy7x/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Claude"><span class="mat-num">06</span><span class="mat-title">PDF | Claude</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Guia de utilização do Claude aplicado às tarefas e skills da imersão.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://claude.ai/" target="_blank" rel="noopener" aria-label="Site | Claude"><span class="mat-num">07</span><span class="mat-title">Site | Claude</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Acesso ao Claude (Anthropic), a IA onde corres todas as skills da imersão.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1XNI1xvIqSxevmunGkbmQzW9_YCVTzSBI/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Ideias de Produto"><span class="mat-num">08</span><span class="mat-title">Skill | Ideias de Produto</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: a partir da tua especialidade, pesquisa o nicho e devolve 50 ideias de infoproduto em 15 formatos. Escolhes uma e segues para a concepção.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://wisprflow.ai/" target="_blank" rel="noopener" aria-label="Site | Wisprflow"><span class="mat-num">09</span><span class="mat-title">Site | Wisprflow</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Wispr Flow: ditado por voz para escreveres prompts e conteúdos muito mais depressa.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/18pyb-BtYgTbpNW89DOPXor3LVV6adpFd/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | CPA"><span class="mat-num">10</span><span class="mat-title">PDF | CPA</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material de apoio sobre CPA (custo por aquisição) apresentado na imersão.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://docs.google.com/spreadsheets/u/1/d/17t2FlDI31JqfU1XTo7fq18Bz4_u4-yGi/copy" target="_blank" rel="noopener" aria-label="Planilha | Projeção Financeira"><span class="mat-num">11</span><span class="mat-title">Planilha | Projeção Financeira</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Planilha</span></a>
+            <p class="mat-desc">Folha de cálculo (cópia) para projetares receitas, custos e metas do produto.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1T_xf5YXXv66MEsLPMmYtuwZxh7yKRu-r/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Projeção Financeira com IA"><span class="mat-num">12</span><span class="mat-title">Skill | Projeção Financeira com IA</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: sugere 4 produtos por faixa de preço e gera uma projeção financeira interativa de 12 meses para o teu nicho.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/12T6fb56c_hjmQE3PvBq9Dgn5Wv0OZ_u-/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Pesquisa de Mercado Detalhada"><span class="mat-num">13</span><span class="mat-title">Skill | Pesquisa de Mercado Detalhada</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: pesquisa de mercado profunda em 9 eixos (concorrentes, preço, público, objeções, anúncios) com busca real na web. Base das skills seguintes.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/15F7o23ENlqKKV88V6vqeK1XIjN5jzFGB/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Concepção de Produto"><span class="mat-num">14</span><span class="mat-title">Skill | Concepção de Produto</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: define o produto — Promessa, Benefícios, Para Quem É e Identidade do Consumidor (com objeções e 7 quebras). Entrega um .md.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1s1CVf2gdkMoxqy_orjl3pzy4SiTBO48D/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Anúncios"><span class="mat-num">15</span><span class="mat-title">PDF | Anúncios</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material da aula sobre criação e estrutura de anúncios.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/11qIe0THlMLz3cX-14pkymDKhMnkW2pi3/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Problema Solução"><span class="mat-num">16</span><span class="mat-title">Skill | Problema Solução</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: gera o prompt para o ChatGPT criar criativos &quot;problema/solução&quot; (antes-e-depois) em estética UGC brasileira.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1da29LclDAJUqxbPDIImo_3GqwPBNzx2E/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Criativo Surreal"><span class="mat-num">17</span><span class="mat-title">Skill | Criativo Surreal</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: gera prompts para criativos surreais de forte impacto visual (escalas impossíveis, metáforas), estética editorial.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1Hw9_OzIHP-q6ecIFCTM-beIpQ9ZJ5wPk/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | UGC Rotina Real"><span class="mat-num">18</span><span class="mat-title">Skill | UGC Rotina Real</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: gera prompts para anúncios UGC &quot;rotina real&quot; (foto realista de pessoa comum) e a animação no Freepik.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://chatgpt.com/" target="_blank" rel="noopener" aria-label="Site | Chat GPT"><span class="mat-num">19</span><span class="mat-title">Site | Chat GPT</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Acesso ao ChatGPT (OpenAI), usado para gerar as imagens dos criativos.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.magnific.com/br" target="_blank" rel="noopener" aria-label="Site | Magnific"><span class="mat-num">20</span><span class="mat-title">Site | Magnific</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Magnific: geração e upscaling de imagem por IA.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1j0-SLIRBKtXhpCTe5_8uV0GFTb9KsIPb/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Mandala de Anúncios"><span class="mat-num">21</span><span class="mat-title">Skill | Mandala de Anúncios</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: escreve a copy de anúncios pela Mandala VTSD (4 tipos), com gancho, corpo e 4 CTAs por fase do funil.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1_9Qje4alTyWoOLNp4L037tpqcOsF04gb/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Carrossel Editorial"><span class="mat-num">22</span><span class="mat-title">Skill | Carrossel Editorial</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: cria carrosséis de 6 slides estilo newsletter/editorial, baseados em dados e notícias reais do nicho.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1TP_GCM8JMEs3LArsQ4B7-evgiWZ53EdU/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Carrossel Curiosidade"><span class="mat-num">23</span><span class="mat-title">Skill | Carrossel Curiosidade</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill (prompt): cria carrosséis de curiosidade atemporal ligados ao nicho, para puxar seguidores ao perfil.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener" aria-label="Site | Claude Chrome"><span class="mat-num">24</span><span class="mat-title">Site | Claude Chrome</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Extensão do Claude para o Chrome.</p>
+          </li>
+          <li>
+            <div class="mat-row is-prompt" title="Prompt — disponível no site original"><span class="mat-num">25</span><span class="mat-title">Prompt | Automação Carrossel</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>Prompt</span></div>
+            <p class="mat-desc">Prompt de automação para produzir carrosséis em série.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1q8y8S-DA-_0d4DoBsuGsHRYWx-AdtjIA/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Dever de Casa — Dia 1"><span class="mat-num">26</span><span class="mat-title">PDF | Dever de Casa — Dia 1</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Exercícios práticos para consolidar o Dia 1.</p>
+          </li>
+        </ul>
+      </div><!-- /day-card -->
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-pill">Dia 02</span><span class="day-title">Elementos de Comunicação</span><span class="day-count">23 materiais</span></div>
+        <ul class="material-list">
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1tfml8kJclFyZbJecel1VswCOhR2JiNm5/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Página de Vendas"><span class="mat-num">01</span><span class="mat-title">PDF | Página de Vendas</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material da aula sobre estrutura e copy da página de vendas.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1zvj5hpLmHHLjSFR72evxv9Czp1S9q9KX/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Página de Vendas"><span class="mat-num">02</span><span class="mat-title">Skill | Página de Vendas</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: escreve a copy completa da página de vendas em 15 blocos (Light Copy). Só texto, pronto a colar num template.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://lovable.dev/projects/6368bf54-fda4-45e1-abf0-5801abd5219a?magic_link=mc_66107450-6c97-427b-a47d-c0627642c086" target="_blank" rel="noopener" aria-label="Site | Template de Página 01 — Audiovisual"><span class="mat-num">03</span><span class="mat-title">Site | Template de Página 01 — Audiovisual</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Projeto Lovable: template de página de vendas para o nicho audiovisual, pronto a adaptar.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://lovable.dev/projects/8a1b75d3-ec62-4787-8656-5839a9196192?magic_link=mc_2ec25d67-be09-44c8-a1ef-21fae8c1b992" target="_blank" rel="noopener" aria-label="Site | Template de Página 02 — Skin Care"><span class="mat-num">04</span><span class="mat-title">Site | Template de Página 02 — Skin Care</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Projeto Lovable: template de página de vendas para o nicho skin care, pronto a adaptar.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://lovable.dev/projects/9feb1f4a-07b6-440c-9259-60ae344eef9d?magic_link=mc_9464c782-5773-43df-aaaa-c9888d68058b" target="_blank" rel="noopener" aria-label="Site | Template de Página 03 — Marmitas"><span class="mat-num">05</span><span class="mat-title">Site | Template de Página 03 — Marmitas</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Projeto Lovable: template de página de vendas para o nicho marmitas, pronto a adaptar.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://lovable.dev/projects/11e9bf2a-9058-445f-9915-71007f7e831f?magic_link=mc_cf175b05-25d2-4cf1-927c-2e242ab04750" target="_blank" rel="noopener" aria-label="Site | Template de Página 04 — Criação de Filhos"><span class="mat-num">06</span><span class="mat-title">Site | Template de Página 04 — Criação de Filhos</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Projeto Lovable: template de página de vendas para o nicho criação de filhos, pronto a adaptar.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://lovable.dev/projects/201323a6-a31b-4fba-b13d-1247ce5e0d33?magic_link=mc_753f4de4-e15c-456e-99df-b7f69159d6f4" target="_blank" rel="noopener" aria-label="Site | Template de Página 05 — Café"><span class="mat-num">07</span><span class="mat-title">Site | Template de Página 05 — Café</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Projeto Lovable: template de página de vendas para o nicho café/cafeteria, pronto a adaptar.</p>
+          </li>
+          <li>
+            <div class="mat-row is-prompt" title="Prompt — disponível no site original"><span class="mat-num">08</span><span class="mat-title">Prompt | Adequação de Template de Página</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>Prompt</span></div>
+            <p class="mat-desc">Prompt para adaptares qualquer um dos templates de página ao teu produto.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1Wya5rRQlVW42fnDtRBx438PFIkUo4u4A/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Vídeo de Vendas (VSL)"><span class="mat-num">09</span><span class="mat-title">PDF | Vídeo de Vendas (VSL)</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material sobre a criação do vídeo de vendas (VSL): estrutura e guião.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.youtube.com/watch?v=THGckyAxai0" target="_blank" rel="noopener" aria-label="Aula | História da Giovanna"><span class="mat-num">10</span><span class="mat-title">Aula | História da Giovanna</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-yt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</span></a>
+            <p class="mat-desc">Vídeo de estudo de caso/storytelling como referência para a VSL.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1r7MplvW1dS7uWDmygzUIHk_jwAPCNLrB/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Quebra de Objeções [PRESENTE]"><span class="mat-num">11</span><span class="mat-title">PDF | Quebra de Objeções [PRESENTE]</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material sobre identificar e quebrar as objeções de compra do público.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1A0poDEu70gSoaU97og2BDxGlScbfnste/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Objeções [PRESENTE]"><span class="mat-num">12</span><span class="mat-title">Skill | Objeções [PRESENTE]</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: mapeia as objeções reais do público e gera os 7 argumentos de quebra (framework VTSD). Alimenta a copy e a VSL.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1a26rh-o9zcTpsP-ZbDlNR_RVpV46m9jY/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Depoimentos Fluxo"><span class="mat-num">13</span><span class="mat-title">PDF | Depoimentos Fluxo</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material sobre recolher e usar depoimentos ao longo do fluxo de vendas.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1rza9gkmf3jvPkkkC_V2UpPVCJ2oxdHBW/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Criação de Personagem"><span class="mat-num">14</span><span class="mat-title">PDF | Criação de Personagem</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material da aula sobre criar o personagem/porta-voz da marca.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1YcF9_RNXImpCMY1WFui__HbqO32n7Vl_/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Criação de Personagem"><span class="mat-num">15</span><span class="mat-title">Skill | Criação de Personagem</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: cria personagens UGC ultra-realistas brasileiros, com 2 prompts por cena (imagem no ChatGPT + animação no Magnific).</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.heygen.com/" target="_blank" rel="noopener" aria-label="Site | Heygen"><span class="mat-num">16</span><span class="mat-title">Site | Heygen</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">HeyGen: avatares e vídeos com IA.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://chatgpt.com/pt-BR/" target="_blank" rel="noopener" aria-label="Site | GPT"><span class="mat-num">17</span><span class="mat-title">Site | GPT</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Acesso ao ChatGPT (pt-BR).</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://elevenlabs.io/" target="_blank" rel="noopener" aria-label="Site | Eleven Labs"><span class="mat-num">18</span><span class="mat-title">Site | Eleven Labs</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">ElevenLabs: vozes e narração por IA.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.capcut.com/pt-br/" target="_blank" rel="noopener" aria-label="Site | CapCut"><span class="mat-num">19</span><span class="mat-title">Site | CapCut</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">CapCut: editor de vídeo.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://www.magnific.com/" target="_blank" rel="noopener" aria-label="Site | Magnific"><span class="mat-num">20</span><span class="mat-title">Site | Magnific</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Magnific: imagem e animação por IA.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1iPO42B5-b6QHB9pADi486ZQkgqVWQCKd/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Dever de Casa — Dia 2"><span class="mat-num">21</span><span class="mat-title">PDF | Dever de Casa — Dia 2</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Exercícios práticos do Dia 2.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://exemplos-que-inspiram.vercel.app/" target="_blank" rel="noopener" aria-label="Site | Hacks do Sucesso [PRESENTE]"><span class="mat-num">22</span><span class="mat-title">Site | Hacks do Sucesso [PRESENTE]</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Página com exemplos inspiradores de páginas e funis.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/drive/folders/1z2-r2lsmKifT51ojowCqyMYMrAkRd8Vu?usp=sharing" target="_blank" rel="noopener" aria-label="Link | Apresentação do Fluxo"><span class="mat-num">23</span><span class="mat-title">Link | Apresentação do Fluxo</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Pasta no Drive com a apresentação do fluxo completo.</p>
+          </li>
+        </ul>
+      </div><!-- /day-card -->
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-pill">Dia 03</span><span class="day-title">Tráfego e Vendas 1:1</span><span class="day-count">11 materiais</span></div>
+        <ul class="material-list">
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/15CKJZr2iBR6R-Ues97IzVzF_EOoSqpIy/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Texto de Material Didático e SaaS"><span class="mat-num">01</span><span class="mat-title">Skill | Texto de Material Didático e SaaS</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: cria o ebook low-ticket — curto, prático e acionável, focado numa vitória rápida. É o conteúdo do produto.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1xqmDbMlSC8uLIHuah00FzNqjlBbIL25k/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Imagem de Material Didático e Design SaaS"><span class="mat-num">02</span><span class="mat-title">Skill | Imagem de Material Didático e Design SaaS</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: transforma conteúdo bruto em material didático visual premium (slides, ebook, dashboard de progresso).</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1qM86BVvmurpGw13dttAvPAkou7uixWuI/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Integrar com a Hotmart"><span class="mat-num">03</span><span class="mat-title">PDF | Integrar com a Hotmart</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Tutorial para integrar e publicar o produto na plataforma Hotmart.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1hfPaqqHTTVBwofAtnL4XzNAIfXSZRGre/view" target="_blank" rel="noopener" data-drive="true" aria-label="Doc | Passo a Passo Mastigado — Dia 3"><span class="mat-num">04</span><span class="mat-title">Doc | Passo a Passo Mastigado — Dia 3</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Guia detalhado, passo-a-passo, das tarefas do Dia 3.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="http://vtsd.com.br/desafio-mergulhando" target="_blank" rel="noopener" aria-label="Site | Desafio do Instagram"><span class="mat-num">05</span><span class="mat-title">Site | Desafio do Instagram</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Página do desafio de Instagram da VTSD.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1xvdZrgXOZ9EbLbS4QKPnh-6P_V_IcuPp/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Vendas e Método Spin"><span class="mat-num">06</span><span class="mat-title">PDF | Vendas e Método Spin</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Material sobre vendas 1:1 e o método SPIN de perguntas.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1Boa8I09Yjzz6D-MwVeFP6HiazNsf_kuV/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Método Spin"><span class="mat-num">07</span><span class="mat-title">Skill | Método Spin</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill: simula conversas de venda no WhatsApp/DM com o método SPIN, com marcações didáticas para treinares o fecho.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1-LQUX0k0uh3-QdscDs2kLVtUPjGKzDU5/view" target="_blank" rel="noopener" data-drive="true" aria-label="PDF | Dever de Casa — Dia 3"><span class="mat-num">08</span><span class="mat-title">PDF | Dever de Casa — Dia 3</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>PDF</span></a>
+            <p class="mat-desc">Exercícios práticos do Dia 3.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://tutorial-instalar-claude.vercel.app/#sistema" target="_blank" rel="noopener" aria-label="Site | Instale o Claude"><span class="mat-num">09</span><span class="mat-title">Site | Instale o Claude</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Tutorial de instalação do Claude no teu sistema.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1XfEyso8VcaiPTkWvlz0o_qMEkoGcTU-C/view" target="_blank" rel="noopener" data-drive="true" aria-label="Skill | Tráfego"><span class="mat-num">10</span><span class="mat-title">Skill | Tráfego</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>Skill</span></a>
+            <p class="mat-desc">Skill (pacote + MCP): liga a tua conta Meta Ads ao Claude e sobe campanhas de venda/leads direto pelo chat.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/drive/folders/1RllYsW40_Jb__dTIwn-TDm9K5uhperaW?usp=drive_link" target="_blank" rel="noopener" aria-label="Link | Tutoriais de Tráfego"><span class="mat-num">11</span><span class="mat-title">Link | Tutoriais de Tráfego</span><span class="mat-icon" aria-hidden="true"></span><span class="mat-badge b-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span></a>
+            <p class="mat-desc">Pasta no Drive com tutoriais de tráfego.</p>
+          </li>
+        </ul>
+      </div><!-- /day-card -->
+
+    </div>
+  </section>
+
+  <!-- SEQUÊNCIA DAS SKILLS -->
+  <section class="skills-flow-section">
+    <div class="container">
+      <p class="section-eyebrow">Guia prático</p>
+      <h2 class="section-h2">Sequência das <em>skills</em> — como encadeiam</h2>
+      <p style="font-size:14px;color:var(--muted-fg);max-width:640px;margin-bottom:8px">
+        As 17 skills formam um funil: <strong style="color:var(--ocean-mid)">pesquisar → criar produto → montar a oferta → gerar criativos → vender</strong>. Esta é a ordem de uso e como uma alimenta a outra.
+      </p>
+
+      <div class="flow-phase">
+        <div class="flow-phase-head"><span class="flow-phase-num">1</span><span class="flow-phase-title">Pesquisa &amp; definição do produto <small>· Dia 1</small></span></div>
+        <div class="flow-steps">
+          <b>Pesquisa de Mercado Detalhada</b> — analisa o nicho em 9 eixos. Base de tudo; corre sozinha ou é chamada pelas seguintes.<br>
+          <b>Ideias de Produto</b> — usa a pesquisa e devolve 50 ideias em 15 formatos. Escolhes 1.<br>
+          <b>Projeção Financeira com IA</b> — sugere 4 produtos por faixa de preço e projeta 12 meses. Define produto + preço.<br>
+          <b>Concepção de Produto</b> — blueprint: Promessa, Benefícios, Para Quem É, Identidade do Consumidor (com objeções + 7 quebras).
+        </div>
+        <p class="flow-chain">Encadeamento: <b>Pesquisa → Ideias → Projeção → Concepção</b>. A Concepção não pesquisa, consome o que vem antes.</p>
+      </div>
+
+      <div class="flow-phase">
+        <div class="flow-phase-head"><span class="flow-phase-num">2</span><span class="flow-phase-title">Conteúdo do produto <small>· o "fabrico"</small></span></div>
+        <div class="flow-steps">
+          <b>Texto de Material Didático / SaaS</b> — gera o ebook low-ticket (curto e acionável).<br>
+          <b>Imagem de Material Didático / Design SaaS</b> — pega no texto e transforma em material visual premium (slides, ebook, dashboard).
+        </div>
+        <p class="flow-chain">Encadeamento: <b>Texto → Imagem/Design</b>.</p>
+      </div>
+
+      <div class="flow-phase">
+        <div class="flow-phase-head"><span class="flow-phase-num">3</span><span class="flow-phase-title">A oferta <small>· Dia 2</small></span></div>
+        <div class="flow-steps">
+          <b>Objeções</b> — mapeia objeções reais + 7 argumentos de quebra. Alimenta a Concepção e a página/VSL.<br>
+          <b>Página de Vendas</b> — copy completa em 15 blocos (Light Copy), só texto, para colar num dos templates Lovable.
+        </div>
+      </div>
+
+      <div class="flow-phase">
+        <div class="flow-phase-head"><span class="flow-phase-num">4</span><span class="flow-phase-title">Criativos &amp; conteúdo <small>· Dia 1 fim / Dia 2</small></span></div>
+        <div class="flow-steps">
+          <b>Criação de Personagem</b> — cria o avatar UGC brasileiro e dá 2 prompts por cena: imagem (ChatGPT) + animação (Magnific). Base dos criativos.<br>
+          <b>Mandala de Anúncios</b> — escreve a <em>copy</em> do anúncio (4 tipos, gancho + corpo + 4 CTAs por fase).<br>
+          <b>Problema-Solução · Criativo Surreal · UGC Rotina Real</b> — geram os prompts da <em>imagem</em> do anúncio.<br>
+          <b>Carrossel Editorial · Carrossel Curiosidade</b> — conteúdo orgânico de Instagram (6 slides).
+        </div>
+        <p class="flow-chain">Encadeamento: <b>Personagem → (Mandala = texto) + (Problema-Solução / Surreal / UGC = imagem)</b>. Juntam-se no anúncio.</p>
+      </div>
+
+      <div class="flow-phase">
+        <div class="flow-phase-head"><span class="flow-phase-num">5</span><span class="flow-phase-title">Tráfego &amp; vendas <small>· Dia 3</small></span></div>
+        <div class="flow-steps">
+          <b>Tráfego</b> — liga a conta Meta Ads ao Claude (MCP) e sobe a campanha (copy da Mandala + imagem dos criativos).<br>
+          <b>Método Spin</b> — simula conversas de venda no WhatsApp/DM (SPIN Selling) para o fecho 1:1.
+        </div>
+        <p class="flow-chain">Ferramentas que as skills alimentam: <b>ChatGPT/DALL·E</b> e <b>Freepik</b> (imagens), <b>Magnific</b> (animação), <b>Claude</b> (corre tudo), <b>Meta Ads</b> via MCP (tráfego).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONTE BAR -->
+  <div class="fonte-bar">
+    <div class="container">
+      <p class="fonte-text">
+        Fonte: <strong>mergulhandonaia.vendatodosantodia.com.br</strong> ·
+        Formação concluída · Arquivado em <strong>01/06/2026</strong> · 60 materiais (3 dias) no Google Drive
+      </p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <a class="fonte-link" href="https://mergulhandonaia.vendatodosantodia.com.br/evento/mergulhando-na-ia/faq" target="_blank" rel="noopener">
+          FAQ · perguntas frequentes
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a class="fonte-link"
+           href="https://mergulhandonaia.vendatodosantodia.com.br/evento/mergulhando-na-ia?conversion=mni-pico-flx-l1-maio26"
+           target="_blank" rel="noopener">
+          Ver original
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">Acervo pessoal</div>
+      <div>© 2026 Mário Carvalho · Property 007, Lda.</div>
+    </div>
+  </footer>
+
+    </main>
+  </div>
+
+  <script src="../../_shared/sidebar.js" defer></script>
+</body>
+</html>
