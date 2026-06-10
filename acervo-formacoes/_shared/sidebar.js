@@ -70,6 +70,20 @@
             <span class="sb-link-text">Build Day Porto</span>
             <span class="sb-link-badge done">09/05</span>
           </a>
+          <a class="sb-link" href="${ROOT}formacoes/mergulhando-na-ia/">
+            <span class="sb-link-icon">●</span>
+            <span class="sb-link-text">Mergulhando na IA</span>
+            <span class="sb-link-badge live">live</span>
+          </a>
+          <a class="sb-link" href="${ROOT}formacoes/mergulhando-na-ia/faq/" style="padding-left:42px;font-size:12px;">
+            <span class="sb-link-icon">↳</span>
+            <span class="sb-link-text">FAQ (227)</span>
+          </a>
+          <a class="sb-link" href="${ROOT}formacoes/workshop-estudio-ia/">
+            <span class="sb-link-icon">●</span>
+            <span class="sb-link-text">Workshop Estúdio IA</span>
+            <span class="sb-link-badge live">live</span>
+          </a>
         </div>
 
         <div class="sb-group">

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../../_shared/favicon.svg">
+  <title>Workshop Estúdio IA — Fotos & Vídeos com IA · Eduardo Gaurink</title>
+  <meta name="description" content="Workshop de IA para Fotos e Vídeos com Eduardo Gaurink (Um Estúdio no Bolso). 2 dias ao vivo — 6 e 7 de junho 2026. Arquivo de materiais, ferramentas e agenda.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../_shared/sidebar.css">
+  <style>
+    /* =============================================
+       STUDIO IA — Dark Cinematic Design System
+       ============================================= */
+    :root {
+      --bg:        #09090b;
+      --bg-2:      #0f0f12;
+      --card:      #161619;
+      --card-2:    #1d1d21;
+      --border:    #2a2a30;
+      --border-2:  #35353c;
+      --fg:        #fafafa;
+      --muted:     #a1a1aa;
+      --muted-2:   #71717a;
+      --accent:    #f97316;   /* orange */
+      --accent-2:  #ef4444;   /* red */
+      --accent-soft: rgba(249,115,22,0.12);
+      --accent-line: rgba(249,115,22,0.35);
+
+      --badge-video-bg:#2a1410; --badge-video-fg:#fb923c;
+      --badge-drive-bg:#10231f; --badge-drive-fg:#34d399;
+      --badge-gpt-bg:#1a1228;   --badge-gpt-fg:#c084fc;
+      --badge-pdf-bg:#2a1410;   --badge-pdf-fg:#f87171;
+      --badge-link-bg:#102030;  --badge-link-fg:#60a5fa;
+      --badge-tool-bg:#221a08;  --badge-tool-fg:#fbbf24;
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font); color: var(--fg);
+      background: var(--bg); line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(9,9,11,0.82); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border); padding: 14px 0;
+    }
+    nav.topbar .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-mark {
+      width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 13px;
+    }
+    .nav-title { font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+    .nav-title em { font-style: normal; color: var(--accent); }
+    .nav-back { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); transition: color .2s; }
+    .nav-back:hover { color: var(--fg); }
+
+    /* HERO */
+    .hero { position: relative; overflow: hidden; min-height: 400px; display: flex; align-items: flex-end; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/hero-bg.webp');
+      background-size: cover; background-position: center;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(9,9,11,0.45) 0%, rgba(9,9,11,0.8) 55%, var(--bg) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; width: 100%; padding: 64px 0 44px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent-line);
+      background: var(--accent-soft); padding: 6px 14px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(249,115,22,.5)} 70%{box-shadow:0 0 0 8px rgba(249,115,22,0)} 100%{box-shadow:0 0 0 0 rgba(249,115,22,0)} }
+    .hero h1 {
+      font-weight: 800; font-size: clamp(32px, 5vw, 56px); line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 16px; max-width: 720px;
+    }
+    .hero h1 em { font-style: normal; background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-sub { font-size: 16px; color: var(--muted); max-width: 540px; margin-bottom: 30px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 18px 32px; padding-top: 22px; border-top: 1px solid var(--border); }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .hero-meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); }
+    .hero-meta-value { font-size: 14px; font-weight: 600; }
+    .hero-meta-value a { color: var(--accent); }
+
+    /* LIVE / ZOOM BAR */
+    .live-bar { background: var(--bg-2); border-bottom: 1px solid var(--border); padding: 22px 0; }
+    .live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .live-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+    .live-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); margin-bottom: 12px; display:flex; align-items:center; gap:7px; }
+    .zoom-btn {
+      display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff;
+      padding: 10px 18px; border-radius: var(--radius-sm); transition: opacity .2s;
+    }
+    .zoom-btn:hover { opacity: .9; }
+    .zoom-id { margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .zoom-id b { color: var(--fg); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+    .agenda { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; }
+    .agenda li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: baseline; }
+    .agenda li b { color: var(--fg); font-variant-numeric: tabular-nums; font-weight: 600; min-width: 46px; }
+
+    /* SECTION */
+    section.block { padding: 48px 0 0; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .h2 { font-weight: 700; font-size: clamp(22px, 3.2vw, 30px); letter-spacing: -0.02em; margin-bottom: 22px; }
+
+    /* INSTRUTOR */
+    .instrutor-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 28px; display: grid; grid-template-columns: 84px 1fr; gap: 22px; align-items: start; }
+    .instrutor-avatar { width: 84px; height: 84px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent-line); }
+    .instrutor-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .instrutor-name { font-size: 20px; font-weight: 700; }
+    .instrutor-role { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .instrutor-bio { font-size: 14px; color: var(--muted); max-width: 620px; }
+    .instrutor-stats { display: flex; flex-wrap: wrap; gap: 12px 26px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .stat { display: flex; flex-direction: column; }
+    .stat-v { font-size: 16px; font-weight: 700; }
+    .stat-l { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted-2); }
+
+    /* TOOLS GRID */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .tool {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 12px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 9px;
+      transition: border-color .2s, transform .12s;
+    }
+    .tool:hover { border-color: var(--accent-line); transform: translateY(-1px); }
+    .tool .tdot { width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); flex-shrink: 0; }
+
+    /* MODULES */
+    .mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .mod { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+    .mod-n { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .mod-t { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .mod-d { font-size: 13px; color: var(--muted); }
+
+    /* DAY CARDS / MATERIALS */
+    .day-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .day-card + .day-card { margin-top: 16px; }
+    .day-header { display: flex; align-items: center; gap: 14px; padding: 16px 22px; background: linear-gradient(135deg, #1a1a1f, #121214); border-bottom: 1px solid var(--border); }
+    .day-pill { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 4px 12px; border-radius: 20px; }
+    .day-title { font-weight: 700; font-size: 17px; }
+    .day-date { margin-left: auto; font-size: 12px; color: var(--muted-2); }
+
+    .day-agenda { padding: 14px 22px; border-bottom: 1px dashed var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; }
+    .day-agenda span { font-size: 12.5px; color: var(--muted); }
+    .day-agenda span b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    .mat-list { list-style: none; }
+    .mat-row { display: grid; grid-template-columns: 1.8rem 1fr auto; align-items: center; gap: 12px; padding: 13px 22px; border-top: 1px solid var(--border); transition: background .15s; }
+    a.mat-row { cursor: pointer; } a.mat-row:hover { background: var(--card-2); }
+    .mat-row.pending { opacity: .5; }
+    .mat-num { font-size: 11px; color: var(--muted-2); text-align: right; font-variant-numeric: tabular-nums; }
+    .mat-title { font-size: 14px; font-weight: 500; }
+    .mat-badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 20px; padding: 3px 11px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .b-video { background: var(--badge-video-bg); color: var(--badge-video-fg); }
+    .b-drive { background: var(--badge-drive-bg); color: var(--badge-drive-fg); }
+    .b-gpt   { background: var(--badge-gpt-bg);   color: var(--badge-gpt-fg); }
+    .b-pdf   { background: var(--badge-pdf-bg);   color: var(--badge-pdf-fg); }
+    .b-link  { background: var(--badge-link-bg);  color: var(--badge-link-fg); }
+    .b-tool  { background: var(--badge-tool-bg);  color: var(--badge-tool-fg); }
+    .mat-note { padding: 13px 22px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted-2); font-style: italic; }
+    .mat-desc { padding: 1px 22px 12px 3.4rem; margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted-2); }
+    li:has(.mat-desc) .mat-row { border-bottom: none; }
+    a.mat-row[data-drive] .mat-title::after { content: ' ↗'; font-size: 10px; color: var(--accent); }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .gallery figure { position: relative; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .gallery figure:hover img { transform: scale(1.05); }
+    .gallery figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 10px 7px; font-size: 11px; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.7)); }
+
+    /* FOOTER */
+    .fonte-bar { margin-top: 56px; background: var(--bg-2); border-top: 1px solid var(--border); padding: 26px 0; }
+    .fonte-bar .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .fonte-text { font-size: 13px; color: var(--muted-2); }
+    .fonte-text strong { color: var(--muted); }
+    .fonte-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--accent); border: 1px solid var(--accent-line); padding: 6px 16px; border-radius: 20px; }
+    footer { background: #050507; color: var(--muted-2); padding: 30px 0; font-size: 12px; }
+    footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .footer-brand { font-weight: 700; color: var(--muted); font-size: 15px; }
+
+    @media (max-width: 720px) {
+      .live-grid, .agenda, .day-agenda { grid-template-columns: 1fr; }
+      .instrutor-card { grid-template-columns: 1fr; }
+      .instrutor-avatar { width: 64px; height: 64px; }
+    }
+
+    /* MENTORIA */
+    .mentoria-card { background: linear-gradient(180deg, var(--card-2), var(--card)); border: 1px solid var(--accent-line); border-radius: var(--radius); padding: 28px; position: relative; overflow: hidden; }
+    .mentoria-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .mentoria-lead { color: var(--muted); font-size: 14.5px; max-width: 640px; }
+    .mentoria-lead strong { color: var(--fg); }
+    .pillars { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .pillar { font-size: 12px; font-weight: 600; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent); padding: 4px 12px; border-radius: 20px; }
+    .incl { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin: 16px 0; }
+    .incl li { font-size: 13.5px; color: var(--muted); display: flex; gap: 9px; align-items: baseline; }
+    .incl li::before { content: '✓'; color: var(--accent); font-weight: 800; flex-shrink: 0; }
+    .mentoria-price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 18px 0 16px; }
+    .mentoria-price .now { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+    .mentoria-price .split { font-size: 13px; color: var(--muted); }
+    .mentoria-price .was { font-size: 13px; color: var(--muted-2); text-decoration: line-through; }
+    @media (max-width: 720px) { .incl { grid-template-columns: 1fr; } }
+
+    /* SIDEBAR LAYOUT */
+    .sb-layout { display: flex; min-height: 100vh; align-items: flex-start; }
+    .sb-content { flex: 1 1 auto; min-width: 0; background: var(--bg); }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-mount">
+    <noscript>
+      <nav aria-label="Navegação (sem JavaScript)" style="padding:16px 24px;border-bottom:1px solid #2a2a30;background:#0f0f12;font-family:Inter,sans-serif;color:#fafafa">
+        <strong style="display:block;margin-bottom:8px">Acervo de Formações</strong>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:16px;font-size:14px">
+          <li><a href="../../" style="color:#f97316">Hub do acervo</a></li>
+          <li><a href="../mergulhando-na-ia/" style="color:#f97316">Mergulhando na IA</a></li>
+          <li><a href="./" aria-current="page" style="color:#f97316">Workshop Estúdio IA</a></li>
+        </ul>
+      </nav>
+    </noscript>
+  </div>
+
+  <div class="sb-layout">
+    <main id="content" class="sb-content">
+
+  <!-- NAV -->
+  <nav class="topbar">
+    <div class="container">
+      <div class="nav-logo">
+        <span class="nav-mark">IA</span>
+        <span class="nav-title">Workshop <em>Estúdio IA</em></span>
+      </div>
+      <a href="../../" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Acervo
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" role="img" aria-label="Imagem cinematográfica gerada por IA"></div>
+    <div class="hero-content">
+      <div class="container">
+        <div class="hero-badge"><span class="dot"></span> Workshop ao vivo · 6–7 Junho 2026</div>
+        <h1>Fotos realistas e vídeos de <em>cinema com IA</em></h1>
+        <p class="hero-sub">
+          Imersão prática de 2 dias com Eduardo Gaurink — criar imagens ultra-realistas, vídeos cinematográficos e avatares com IA, sem equipamento caro. Arquivo da formação: agenda, ferramentas e materiais.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><span class="hero-meta-label">Formador</span><span class="hero-meta-value">Eduardo Gaurink</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-label">Marca</span><span class="hero-meta-value">Um Estúdio no Bolso</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-label">Formato</span><span class="hero-meta-value">2 dias ao vivo (Zoom)</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-label">Datas</span><span class="hero-meta-value">6 e 7 Junho 2026</span></div>
+          <div class="hero-meta-item"><span class="hero-meta-label">Horário</span><span class="hero-meta-value">09h30 – 17h30</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRONOGRAMA -->
+  <div class="live-bar">
+    <div class="container">
+      <div class="live-card">
+        <h3><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Cronograma · 2 dias ao vivo (ambos os dias)</h3>
+        <ul class="agenda">
+          <li><b>09h30</b> Início</li>
+          <li><b>12h00</b> Pausa almoço</li>
+          <li><b>13h30</b> Retorno</li>
+          <li><b>16h00</b> Pausa café</li>
+          <li><b>16h30</b> Retorno</li>
+          <li><b>17h30</b> Encerramento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUTOR -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Formador</p>
+      <h2 class="h2">Eduardo Gaurink</h2>
+      <div class="instrutor-card">
+        <div class="instrutor-avatar"><img src="assets/eduardo-gaurink.webp" alt="Eduardo Gaurink" loading="lazy"></div>
+        <div>
+          <div class="instrutor-name">Eduardo Gaurink</div>
+          <div class="instrutor-role">Filmmaker · Especialista em IA · "Um Estúdio no Bolso"</div>
+          <p class="instrutor-bio">
+            Filmmaker e especialista em IA com mais de 20 anos de experiência em produção audiovisual. Ensina a criar fotografia ultra-realista, cinematografia, avatares digitais e conteúdo monetizável usando ferramentas de IA, operando sozinho e sem equipamento caro.
+          </p>
+          <div class="instrutor-stats">
+            <div class="stat"><span class="stat-v">1M+</span><span class="stat-l">Seguidores</span></div>
+            <div class="stat"><span class="stat-v">20 anos</span><span class="stat-l">Audiovisual</span></div>
+            <div class="stat"><span class="stat-v">2 dias</span><span class="stat-l">Imersão prática</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FERRAMENTAS -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Stack do workshop</p>
+      <h2 class="h2">Ferramentas de IA abordadas</h2>
+      <div class="tools-grid">
+        <div class="tool"><span class="tdot"></span> Seedance 2.0</div>
+        <div class="tool"><span class="tdot"></span> Kling 3.0</div>
+        <div class="tool"><span class="tdot"></span> Veo 3.1</div>
+        <div class="tool"><span class="tdot"></span> Sora 2</div>
+        <div class="tool"><span class="tdot"></span> Wan 2.7</div>
+        <div class="tool"><span class="tdot"></span> Nano Banana 2</div>
+        <div class="tool"><span class="tdot"></span> Flux 2</div>
+        <div class="tool"><span class="tdot"></span> Midjourney</div>
+        <div class="tool"><span class="tdot"></span> HeyGen</div>
+        <div class="tool"><span class="tdot"></span> Claude</div>
+        <div class="tool"><span class="tdot"></span> Gemini 3.0</div>
+        <div class="tool"><span class="tdot"></span> Lovable</div>
+        <div class="tool"><span class="tdot"></span> Influencer Studio</div>
+        <div class="tool"><span class="tdot"></span> Cinema Creator Studio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Programa</p>
+      <h2 class="h2">O que vais aprender</h2>
+      <div class="mods">
+        <div class="mod"><div class="mod-n">01</div><div class="mod-t">Fotografia ultra-realista</div><div class="mod-d">Imagens fotorrealistas indistinguíveis de fotografia real.</div></div>
+        <div class="mod"><div class="mod-n">02</div><div class="mod-t">Cinematografia & comerciais</div><div class="mod-d">Vídeos de cinema e anúncios com qualidade de produção.</div></div>
+        <div class="mod"><div class="mod-n">03</div><div class="mod-t">Avatares & clonagem de voz</div><div class="mod-d">Avatares digitais e clonagem de voz para conteúdo.</div></div>
+        <div class="mod"><div class="mod-n">04</div><div class="mod-t">Automação de conteúdo</div><div class="mod-d">Produção em escala com fluxos automatizados.</div></div>
+        <div class="mod"><div class="mod-n">05</div><div class="mod-t">Monetização</div><div class="mod-d">Modelos de negócio e como rentabilizar o que crias.</div></div>
+        <div class="mod"><div class="mod-n">06</div><div class="mod-t">Conteúdo viral</div><div class="mod-d">Estratégia para alcance e crescimento orgânico.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIAIS -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Arquivo</p>
+      <h2 class="h2">Materiais por dia</h2>
+      <p style="font-size:13px;color:var(--muted-2);margin:-12px 0 22px">
+        Kit de preparação já disponível no Google Drive. Os materiais de cada dia são adicionados à medida que são partilhados durante o workshop.
+      </p>
+
+      <!-- KIT DE PREPARAÇÃO -->
+      <div class="day-card">
+        <div class="day-header"><span class="day-pill">Kit</span><span class="day-title">Preparação — guias e prompts</span><span class="day-date">10 materiais · Drive</span></div>
+        <ul class="mat-list">
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1517Bdj0FCuNgQOFtLr-R1L0xx93MPtph/view" target="_blank" rel="noopener" data-drive aria-label="Kit Completo de Ferramentas de IA para Criadores">
+              <span class="mat-num">01</span><span class="mat-title">Kit Completo de Ferramentas de IA para Criadores</span><span class="mat-badge b-tool">PDF</span>
+            </a>
+            <p class="mat-desc">Lista das ferramentas de IA usadas no workshop, organizadas por uso.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1MZYU1JRrfLtysRoVU7guqWWrTDXMSFin/view" target="_blank" rel="noopener" data-drive aria-label="Links do Workshop IA">
+              <span class="mat-num">02</span><span class="mat-title">Links do Workshop IA</span><span class="mat-badge b-link">TXT</span>
+            </a>
+            <p class="mat-desc">Lista de links úteis das ferramentas e recursos do workshop.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1d05uwLZe4Hk7P3fa08B2l9twNo74ug8h/view" target="_blank" rel="noopener" data-drive aria-label="Construindo o Prompt Perfeito">
+              <span class="mat-num">03</span><span class="mat-title">Construindo o Prompt Perfeito</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Guia para estruturar prompts eficazes para imagem e vídeo.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1Hr_qGkYoEf6IWlPRwKLY5DimoewCl1hE/view" target="_blank" rel="noopener" data-drive aria-label="LUZ — Guia de Prompts de Iluminação">
+              <span class="mat-num">04</span><span class="mat-title">LUZ — Guia de Prompts de Iluminação</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Prompts de iluminação para imagens realistas e cinematográficas.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/17-WlG0sLDGSC5ddzLlp3yL1QzgmujK3f/view" target="_blank" rel="noopener" data-drive aria-label="Relighting Cinematográfico com IA">
+              <span class="mat-num">05</span><span class="mat-title">Relighting Cinematográfico com IA</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Reiluminar cenas e fotos para um aspeto de cinema.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1fdwsAFzU5jsgzWTaNuS-QxLk-M4ffsgA/view" target="_blank" rel="noopener" data-drive aria-label="Melhore Seus Retratos com IA">
+              <span class="mat-num">06</span><span class="mat-title">Melhore os Seus Retratos com IA</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Técnicas e prompts para retratos mais realistas.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1l9eXBVF0s31n289dBGdcnvwzSRTff2at/view" target="_blank" rel="noopener" data-drive aria-label="Seedance 2 Prompts">
+              <span class="mat-num">07</span><span class="mat-title">Seedance 2 — Prompts</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Prompts para geração de vídeo com o Seedance 2.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1hqTVLM0YLGh_QwbrsPmqGCLmrU3OCxuB/view" target="_blank" rel="noopener" data-drive aria-label="Design com IA">
+              <span class="mat-num">08</span><span class="mat-title">Design com IA</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Guia de design assistido por IA.</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1Njz-rG2lAmrypY-RXlnLeenrHauQ05Tu/view" target="_blank" rel="noopener" data-drive aria-label="AivanaLabs">
+              <span class="mat-num">09</span><span class="mat-title">AivanaLabs</span><span class="mat-badge b-pdf">PDF</span>
+            </a>
+            <p class="mat-desc">Material de referência (AivanaLabs).</p>
+          </li>
+          <li>
+            <a class="mat-row" href="https://drive.google.com/file/d/1cfyQ3KeFYBvtoxhncu4pn2DncRrArU_9/view" target="_blank" rel="noopener" data-drive aria-label="Prompts e exemplos">
+              <span class="mat-num">10</span><span class="mat-title">Prompts e exemplos</span><span class="mat-badge b-link">TXT</span>
+            </a>
+            <p class="mat-desc">Coletânea de prompts e exemplos prontos a usar.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="day-card" style="margin-top:16px">
+        <div class="day-header"><span class="day-pill">Dia 01</span><span class="day-title">Fundamentos & Fotografia com IA</span><span class="day-date">6 Junho · Sáb</span></div>
+        <div class="day-agenda">
+          <span><b>09h30</b> Início</span><span><b>13h30</b> Retorno (tarde)</span>
+          <span><b>12h00</b> Almoço</span><span><b>17h30</b> Encerramento</span>
+        </div>
+        <ul class="mat-list">
+          <li><div class="mat-row pending"><span class="mat-num">—</span><span class="mat-title">Materiais do Dia 1 (a adicionar durante a sessão)</span><span class="mat-badge b-link">pendente</span></div></li>
+        </ul>
+        <div class="mat-note">Cola aqui PDFs, prompts, links e recortes à medida que o Eduardo os partilha.</div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-pill">Dia 02</span><span class="day-title">Vídeo, Avatares & Monetização</span><span class="day-date">7 Junho · Dom</span></div>
+        <div class="day-agenda">
+          <span><b>09h30</b> Início</span><span><b>13h30</b> Retorno (tarde)</span>
+          <span><b>12h00</b> Almoço</span><span><b>17h30</b> Encerramento</span>
+        </div>
+        <ul class="mat-list">
+          <li><div class="mat-row pending"><span class="mat-num">—</span><span class="mat-title">Materiais do Dia 2 (a adicionar durante a sessão)</span><span class="mat-badge b-link">pendente</span></div></li>
+        </ul>
+        <div class="mat-note">Cola aqui PDFs, prompts, links e recortes à medida que o Eduardo os partilha.</div>
+      </div>
+
+      <!-- BÓNUS -->
+      <div class="day-card" style="margin-top:16px">
+        <div class="day-header"><span class="day-pill">Bónus</span><span class="day-title">Incluídos no workshop</span></div>
+        <ul class="mat-list">
+          <li>
+            <a class="mat-row" href="https://drive.google.com/drive/folders/1ufngmTGp5EiN_13HuPJ7c7BWdPDZ0Yej" target="_blank" rel="noopener" data-drive aria-label="Pasta completa do workshop no Google Drive">
+              <span class="mat-num">01</span><span class="mat-title">Pasta completa no Google Drive</span><span class="mat-badge b-drive">abrir</span>
+            </a>
+            <p class="mat-desc">Acervo do workshop — kit de materiais, imagens e vídeos.</p>
+          </li>
+          <li><div class="mat-row pending"><span class="mat-num">02</span><span class="mat-title">2 agentes GPT personalizados</span><span class="mat-badge b-gpt">a receber</span></div></li>
+          <li><div class="mat-row pending"><span class="mat-num">03</span><span class="mat-title">Gravação do workshop (se adquirida)</span><span class="mat-badge b-video">a receber</span></div></li>
+        </ul>
+        <div class="mat-note">Substituir "a receber" pelo link real quando cada bónus for disponibilizado.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Resultados</p>
+      <h2 class="h2">Exemplos criados com IA</h2>
+      <div class="gallery">
+        <figure><img src="assets/showcase-helmet.webp" alt="Capacete cinematográfico" loading="lazy"><figcaption>Cinematográfico</figcaption></figure>
+        <figure><img src="assets/showcase-astronaut.webp" alt="Astronauta" loading="lazy"><figcaption>Conceptual</figcaption></figure>
+        <figure><img src="assets/showcase-woman-portrait.webp" alt="Retrato realista" loading="lazy"><figcaption>Retrato</figcaption></figure>
+        <figure><img src="assets/showcase-fish-dish.webp" alt="Prato gastronómico" loading="lazy"><figcaption>Food</figcaption></figure>
+        <figure><img src="assets/showcase-fashion.webp" alt="Moda editorial" loading="lazy"><figcaption>Moda</figcaption></figure>
+        <figure><img src="assets/showcase-rio.webp" alt="Cena no Rio" loading="lazy"><figcaption>Cena urbana</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENTORIA -->
+  <section class="block">
+    <div class="container">
+      <p class="eyebrow">Continuação</p>
+      <h2 class="h2">Mentoria — Aceleração Digital</h2>
+      <div class="mentoria-card">
+        <p class="mentoria-lead">
+          Programa de mentoria de <strong>12 meses</strong> com Eduardo (Um Estúdio no Bolso), para quem quer <strong>monetizar</strong> a IA e não só aprender. Acompanhamento mensal, gravações vitalícias e plataforma com IA própria.
+        </p>
+        <div class="pillars">
+          <span class="pillar">Inteligência Artificial</span>
+          <span class="pillar">Instagram</span>
+          <span class="pillar">Criação de Conteúdo</span>
+          <span class="pillar">Tráfego Pago</span>
+        </div>
+        <ul class="incl">
+          <li>12 mentorias mensais ao vivo (09h30–16h00)</li>
+          <li>Gravações completas dos workshops (vitalício)</li>
+          <li>Todos os workshops/cursos/masterclasses de 2024 + lançamentos</li>
+          <li>Gravações das mentorias (acesso 24/7)</li>
+          <li>Mentor Digital — IA treinada nos métodos do Eduardo</li>
+          <li>Escola Estúdio no Bolso (plataforma de membros)</li>
+          <li>1.000 créditos AivanaLabs (vídeo, imagem, voz, UGC)</li>
+          <li>Aula de boas-vindas + 3 sorteios de consultoria 1:1 (90 min)</li>
+        </ul>
+        <div class="mentoria-price">
+          <span class="now">R$ 947</span>
+          <span class="split">ou 12× R$ 97,94</span>
+          <span class="was">valor avulso R$ 9.997</span>
+        </div>
+        <a class="zoom-btn" href="https://estudionobolso.com/aceleracao" target="_blank" rel="noopener">
+          Ver detalhes da mentoria
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <p style="font-size:12px;color:var(--muted-2);margin-top:10px">Garantia de 7 dias · preço de participante do workshop</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONTE -->
+  <div class="fonte-bar">
+    <div class="container">
+      <p class="fonte-text">Fonte: <strong>workshopestudioia.com</strong> · Eduardo Gaurink / Um Estúdio no Bolso · Arquivado em <strong>06/06/2026</strong> · A preencher durante a formação</p>
+      <a class="fonte-link" href="https://workshopestudioia.com/" target="_blank" rel="noopener">
+        Ver original
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">Acervo pessoal</div>
+      <div>© 2026 Mário Carvalho · Property 007, Lda.</div>
+    </div>
+  </footer>
+
+    </main>
+  </div>
+
+  <script src="../../_shared/sidebar.js" defer></script>
+</body>
+</html>
